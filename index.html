@@ -507,13 +507,6 @@ html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans
   15% { opacity:1; }
   100% { transform:translateY(-12vh) scale(1); opacity:0; }
 }
-/* transition name toast */
-.tlabel {
-  position:fixed; top:6%; right:2.5%; z-index:60; color:rgba(255,255,255,.5);
-  font-size:.8vw; letter-spacing:2px; opacity:0; pointer-events:none;
-  transition:opacity .4s ease;
-}
-.tlabel.show { opacity:1; }
 
 /* ---------- SLIDES 16-30 : suite du cours ---------- */
 .slide16 { background:linear-gradient(120deg,#1e2d50 0%,#2c3e70 100%); flex-direction:column; }
@@ -637,7 +630,6 @@ html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans
 <body>
 
 <div class="progress" id="progress"></div>
-<div class="tlabel" id="tlabel"></div>
 
 <div class="deck" id="deck">
 
@@ -1671,16 +1663,6 @@ function updateDots(){
   document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on', i===current));
 }
 
-/* Label de transition (petit toast discret en haut à droite) */
-const tlabel = document.getElementById('tlabel');
-let tlabelTimer = null;
-function showTlabel(txt){
-  tlabel.textContent = '⟲ ' + txt;
-  tlabel.classList.add('show');
-  clearTimeout(tlabelTimer);
-  tlabelTimer = setTimeout(()=>tlabel.classList.remove('show'), 1400);
-}
-
 /* Révélation par étapes (slides avec .step, ex. 9 & 10) */
 function updateStepCue(){
   const s = slides[current];
@@ -1745,7 +1727,6 @@ function go(n){
   document.getElementById('progress').style.width = ((current+1)/total*100)+'%';
   updateDots();
   updateStepCue();
-  if(target.dataset.t) showTlabel(target.dataset.t);
 }
 
 slides[0].classList.add('active');
@@ -1779,7 +1760,7 @@ document.addEventListener('touchend', e=>{
 /* Avance au clic n'importe où — sauf sur les éléments interactifs
    (boutons, dots, cartes du quiz qui ont leur propre comportement) */
 document.addEventListener('click', e=>{
-  if(e.target.closest('.controls, .dots, .quiz-item, .tlabel')) return;
+  if(e.target.closest('.controls, .dots, .quiz-item')) return;
   next();
 });
 
