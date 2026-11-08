@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestion de Production — Présentation animée (v9)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --primary:#1e2d50;
+  --accent:#f39c12;
+  --accent2:#e74c3c;
+  --light:#ecf0f1;
+  --dark:#1e2d50;
+}
+html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans-serif; background:#0b1225; }
+
+/* ---------- SLIDES ---------- */
+.deck { position:relative; width:100%; height:100%; }
+.slide {
+  position:absolute; inset:0; width:100%; height:100%;
+  display:none; align-items:center; justify-content:center;
+  padding:3% 5%;
+  opacity:0; transform:translateX(100px) scale(.98);
+  transition:opacity .8s ease, transform .8s ease;
+  overflow:hidden;
+}
+.slide.active { display:flex; opacity:1; transform:translateX(0) scale(1); z-index:2; }
+.slide.prev-slide { display:flex; opacity:0; transform:translateX(-100px) scale(.98); z-index:1; }
+
+/* ---------- TRANSITIONS entre diapositives (variées, sans flip 3D) ---------- */
+.slide.t-insert {
+  transform:translateY(90px) scale(.94);
+  transition:opacity .75s ease, transform .75s cubic-bezier(.22,1,.36,1);
+}
+.slide.t-zoom { transform:scale(1.35); }
+.slide.t-zoom { transition:opacity .7s ease, transform .7s cubic-bezier(.22,1,.36,1); }
+.slide.t-zoom.prev-slide { transform:scale(.85); }
+.slide.t-up { transform:translateY(120px); }
+.slide.t-up.prev-slide { transform:translateY(-120px); }
+.slide.t-rise { transform:translateY(100%); }
+.slide.t-rise { transition:opacity .75s ease, transform .75s cubic-bezier(.22,1,.36,1); }
+.slide.t-rise.prev-slide { transform:translateY(-110px); }
+.slide.t-push { transform:translateX(110%); }
+.slide.t-push { transition:opacity .65s ease, transform .75s cubic-bezier(.22,1,.36,1); }
+.slide.t-push.prev-slide { transform:translateX(-45px) scale(.97); }
+.slide.t-blur {
+  transform:scale(1.08); filter:blur(14px);
+  transition:opacity .8s ease, transform .8s ease, filter .8s ease;
+}
+.slide.t-blur.prev-slide { transform:scale(.92); }
+.slide.t-rotate {
+  transform:rotate(5deg) translateY(110px) scale(.96);
+  transition:opacity .8s ease, transform .8s cubic-bezier(.22,1,.36,1);
+}
+.slide.t-rotate.prev-slide { transform:rotate(-5deg) translateY(-110px) scale(.96); }
+/* État final actif — déclaré APRÈS les variantes pour bien les écraser */
+.slide.active { display:flex; opacity:1; transform:none; filter:none; z-index:2; }
+
+/* ---------- ANIMATION d'entrée des éléments ---------- */
+.anim { opacity:0; transform:translateY(40px); }
+.slide.active .anim {
+  animation:slideInUp .8s cubic-bezier(.22,1,.36,1) forwards;
+}
+.slide.active .anim.d1 { animation-delay:.2s;}
+.slide.active .anim.d2 { animation-delay:.45s;}
+.slide.active .anim.d3 { animation-delay:.7s;}
+.slide.active .anim.d4 { animation-delay:.95s;}
+.slide.active .anim.d5 { animation-delay:1.2s;}
+.slide.active .anim.d6 { animation-delay:1.45s;}
+.slide.active .anim.d7 { animation-delay:1.7s;}
+@keyframes slideInUp {
+  to { opacity:1; transform:translateY(0); }
+}
+.slide.active .anim.zoom { animation:zoomIn .8s cubic-bezier(.22,1,.36,1) forwards; }
+@keyframes zoomIn {
+  from { opacity:0; transform:scale(.6);}
+  to { opacity:1; transform:scale(1);}
+}
+
+/* ---------- SLIDE 1 : Titre ---------- */
+.bgimg { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; }
+.slide1 .bgimg { filter:brightness(.55) saturate(1.1); }
+.slide1 .content { position:relative; z-index:2; text-align:center; width:100%; }
+.slide1 h1 {
+  font-size:5.5vw; font-weight:900; color:#fff;
+  letter-spacing:4px; text-transform:uppercase;
+  text-shadow:0 4px 30px rgba(0,0,0,.6);
+}
+.slide1 h1 span {
+  background:linear-gradient(90deg,#f39c12,#e74c3c);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.slide1 .subtitle {
+  margin-top:1.5%; font-size:2vw; font-weight:300; color:#ecf0f1; letter-spacing:6px;
+  text-transform:uppercase;
+}
+.slide1 .author {
+  margin-top:4%; display:inline-block; padding:.8% 2.5%;
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.3);
+  border-radius:60px; color:#fff; font-size:1.3vw; font-weight:600; letter-spacing:2px;
+  backdrop-filter:blur(10px);
+}
+.slide1 .line {
+  width:0; height:4px; margin:2.5% auto 0;
+  background:linear-gradient(90deg,#f39c12,#e74c3c);
+  border-radius:10px; animation:lineGrow 1s .6s cubic-bezier(.22,1,.36,1) forwards;
+}
+@keyframes lineGrow { to { width:18%; } }
+
+/* ---------- SLIDE 2 : Plan du cours ---------- */
+.slide2 { background:linear-gradient(135deg,#0f1b3d 0%,#1e2d50 60%,#24356b 100%); flex-direction:column; }
+.slide2 h2, .slide3 h2, .slide6 h2, .slide7 h2, .slide8 h2, .slide9 h2 {
+  font-size:3.2vw; color:#fff; font-weight:700; margin-bottom:.5%; align-self:flex-start;
+}
+.slide2 .ribbon, .slide3 .ribbon, .slide6 .ribbon, .slide7 .ribbon, .slide8 .ribbon, .slide9 .ribbon {
+  width:8%; height:5px; background:linear-gradient(90deg,#f39c12,#e74c3c);
+  border-radius:5px; margin-bottom:3%; align-self:flex-start;
+}
+.slide2 .plan-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  grid-auto-flow:column; grid-template-rows:repeat(4,1fr);
+  gap:2.5% 4%; width:100%; height:70%; align-items:stretch;
+}
+.plan-item {
+  display:flex; align-items:center; gap:3%;
+  background:rgba(255,255,255,.06); border-left:5px solid #f39c12;
+  border-radius:10px; padding:1% 2.5%;
+  transition:all .35s ease;
+}
+.plan-item:nth-child(even) { border-left-color:#e74c3c; }
+.plan-item:hover { background:rgba(255,255,255,.14); transform:translateX(12px); box-shadow:0 8px 25px rgba(0,0,0,.35); }
+.plan-num {
+  font-size:2.5vw; font-weight:900; color:#f39c12; min-width:9%;
+  text-align:center; line-height:1;
+}
+.plan-item:nth-child(even) .plan-num { color:#e74c3c; }
+.plan-txt { font-size:1.55vw; color:#ecf0f1; font-weight:600; }
+
+/* ---------- SLIDE 3 : intercalaire ---------- */
+.slide3 { background:linear-gradient(135deg,#e74c3c 0%,#c0392b 55%,#8e2418 100%); flex-direction:column; }
+.slide3 h2 { font-size:4.5vw; font-weight:900; color:#fff; letter-spacing:2px; margin-bottom:0; align-self:flex-start; }
+.slide3 .confetti { position:absolute; z-index:1; opacity:.25; }
+.slide3 .picto {
+  font-size:10vw; position:absolute; right:6%; bottom:5%;
+  animation:floaty 3.5s ease-in-out infinite; opacity:.5;
+}
+@keyframes floaty { 0%,100% { transform:translateY(0);} 50% { transform:translateY(-20px);} }
+
+/* ---------- SLIDE 4 ---------- */
+.slide4 {
+  background:linear-gradient(120deg,#1e2d50 0%,#2c3e70 100%);
+  flex-direction:column;
+}
+.slide4 h2, .slide5 h2 { font-size:3vw; color:#fff; font-weight:700; align-self:flex-start; }
+.slide4 .ribbon, .slide5 .ribbon {
+  width:8%; height:5px; background:linear-gradient(90deg,#f39c12,#e74c3c);
+  border-radius:5px; margin:0.5% 0 2.5%; align-self:flex-start;
+}
+.equation {
+  display:flex; align-items:center; gap:2%; width:100%; height:34%;
+  margin-bottom:2%;
+}
+.eq-box {
+  flex:1; height:100%; border-radius:16px; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center; padding:1.5%;
+  transition:transform .3s ease, box-shadow .3s ease;
+  cursor:pointer;
+}
+.eq-box:hover { transform:translateY(-8px) scale(1.03); box-shadow:0 15px 40px rgba(0,0,0,.45); }
+.eq-box .ico { font-size:3.2vw; margin-bottom:.5%; }
+.eq-box .title-sm { font-size:1.35vw; font-weight:700; color:#fff; letter-spacing:1px; }
+.eq-box p { font-size:1.05vw; color:#e6ebff; font-weight:300; margin-top:.7%; line-height:1.5; }
+.eq-prod { background:linear-gradient(135deg,#f39c12,#e67e22); }
+.eq-def { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.2); }
+.operator { font-size:3.5vw; font-weight:900; color:#f39c12; }
+.twin {
+  display:flex; gap:2.5%; width:100%; height:44%;
+}
+.twin-card {
+  flex:1; border-radius:16px; padding:2%; position:relative; overflow:hidden;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.15);
+  transition:all .3s ease;
+}
+.twin-card:hover { background:rgba(255,255,255,.12); transform:translateY(-6px); }
+.twin-card h3 { font-size:1.5vw; color:#f39c12; font-weight:700; display:flex; align-items:center; gap:2.5%; }
+.twin-card ul { margin-top:1.2%; list-style:none; }
+.twin-card li {
+  font-size:1.1vw; color:#e6ebff; font-weight:300; padding:.5% 0 .5% 2%;
+  position:relative;
+}
+.twin-card li::before { content:'▸'; color:#e74c3c; position:absolute; left:0; }
+.twin-card .big-ico { position:absolute; right:-3%; bottom:-8%; font-size:7vw; opacity:.1; }
+
+/* ---------- SLIDE 5 ---------- */
+.slide5 { background:linear-gradient(120deg,#24356b 0%,#1e2d50 100%); flex-direction:column; }
+.flow {
+  display:flex; align-items:stretch; gap:1.5%; width:100%; height:52%;
+  margin-bottom:3%;
+}
+.flow-box {
+  flex:1; border-radius:18px; padding:1.8% 1.4%;
+  display:flex; flex-direction:column; justify-content:flex-start;
+  background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.18);
+  transition:all .3s ease; position:relative; overflow:hidden;
+}
+.flow-box:hover { transform:translateY(-10px); background:rgba(255,255,255,.13); box-shadow:0 18px 45px rgba(0,0,0,.4); }
+.flow-box .f-ico { font-size:2.6vw; margin-bottom:4%; }
+.flow-box h3 { font-size:1.4vw; color:#f39c12; font-weight:700; margin-bottom:1%; }
+.flow-box ul { list-style:none; }
+.flow-box li { font-size:1.05vw; color:#e6ebff; font-weight:300; padding:.35% 0 .35% 1.8%; position:relative; line-height:1.45;}
+.flow-box li::before { content:'•'; color:#e74c3c; position:absolute; left:0; }
+.flow-arrow {
+  display:flex; align-items:center; justify-content:center;
+  font-size:2.2vw; color:#f39c12; font-weight:900; min-width:2.5%;
+  animation:pulseArrow 2s infinite;
+}
+@keyframes pulseArrow { 0%,100% { transform:scaleX(1); opacity:.8;} 50% { transform:scaleX(1.25); opacity:1; } }
+
+/* ---------- SLIDE 6 : schéma Produire ---------- */
+.slide6 { background:linear-gradient(135deg,#0f1b3d,#1e2d50 70%); flex-direction:column; }
+.end-wrap { display:flex; align-items:center; gap:4%; width:100%; height:78%; }
+.end-chart { flex:1.4; display:flex; align-items:center; justify-content:center; height:100%; }
+.end-chart img { max-width:80%; max-height:80%; border-radius:14px; box-shadow:0 12px 40px rgba(0,0,0,.5); }
+.end-text { flex:1; }
+.end-text .big {
+  font-size:2.6vw; font-weight:700; color:#fff; line-height:1.35;
+}
+.end-text .big em { font-style:normal; color:#f39c12; }
+.end-tags { display:flex; flex-wrap:wrap; gap:2.5% 1.5%; margin-top:6%; }
+.tag {
+  padding:.55% 1.8%; border-radius:40px; font-size:1.1vw; font-weight:600;
+  color:#fff; background:linear-gradient(90deg,rgba(243,156,18,.25),rgba(231,76,60,.25));
+  border:1px solid rgba(255,255,255,.25);
+  transition:all .3s ease;
+}
+.tag:hover { background:linear-gradient(90deg,#f39c12,#e74c3c); transform:translateY(-4px) scale(1.05); }
+
+/* ---------- SLIDE 7 : Fonction production (3) — liens & organigramme ---------- */
+.slide7 { background:linear-gradient(120deg,#16224a 0%,#2c3e70 100%); flex-direction:column; }
+.slide7 .sub { font-size:1.5vw; color:#f39c12; font-weight:600; letter-spacing:1px; align-self:flex-start; margin-bottom:1.5%; }
+.org-wrap { display:flex; align-items:center; gap:3.5%; width:100%; height:72%; }
+.org-chart { flex:1.1; display:flex; align-items:center; justify-content:center; height:100%; }
+.org-chart img {
+  max-width:92%; max-height:92%; border-radius:14px; padding:2.5%;
+  background:rgba(255,255,255,.92); box-shadow:0 14px 45px rgba(0,0,0,.5);
+  transition:transform .35s ease, box-shadow .35s ease;
+}
+.org-chart img:hover { transform:scale(1.04) rotate(-.5deg); box-shadow:0 20px 60px rgba(0,0,0,.6); }
+.org-links { flex:1; display:grid; grid-template-columns:1fr 1fr; gap:1.1% 1.5%; align-content:center; height:100%; }
+.link-chip {
+  display:flex; align-items:center; gap:1.2%;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14);
+  border-left:4px solid #f39c12; border-radius:10px; padding:1% 1.4%;
+  transition:all .3s ease;
+}
+.link-chip:nth-child(even) { border-left-color:#e74c3c; }
+.link-chip:hover { background:rgba(255,255,255,.14); transform:translateX(8px); box-shadow:0 8px 25px rgba(0,0,0,.35); }
+.link-chip .lc-ico { font-size:1.6vw; min-width:1.8vw; text-align:center; }
+.link-chip .lc-txt { font-size:1vw; color:#e6ebff; font-weight:300; line-height:1.35; }
+.link-chip .lc-txt b { color:#fff; font-weight:600; }
+
+/* ---------- SLIDE 8 : L'environnement de l'entreprise ---------- */
+.slide8 { background:linear-gradient(120deg,#0f1b3d 0%,#24356b 100%); flex-direction:column; }
+.env-grid { display:flex; gap:2.5%; width:100%; height:68%; }
+.env-card {
+  flex:1; border-radius:18px; padding:2% 2.5%; position:relative; overflow:hidden;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.15);
+  transition:all .35s ease;
+}
+.env-card:hover { background:rgba(255,255,255,.12); transform:translateY(-8px) scale(1.01); box-shadow:0 18px 45px rgba(0,0,0,.45); }
+.env-card.global { border-top:5px solid #f39c12; }
+.env-card.local { border-top:5px solid #e74c3c; }
+.env-head { display:flex; align-items:center; gap:2%; margin-bottom:1.5%; }
+.env-head .env-ico { font-size:2.6vw; }
+.env-head h3 { font-size:1.8vw; color:#fff; font-weight:700; }
+.env-head .env-badge {
+  margin-left:auto; font-size:1vw; font-weight:600; letter-spacing:1px;
+  padding:.4% 1.4%; border-radius:30px; color:#fff;
+}
+.env-card.global .env-badge { background:linear-gradient(90deg,#f39c12,#e67e22); }
+.env-card.local .env-badge { background:linear-gradient(90deg,#e74c3c,#c0392b); }
+.env-items { display:grid; grid-template-columns:1fr 1fr; gap:4% 6%; margin-top:2%; }
+.env-item { display:flex; align-items:center; gap:3%; padding:1.2% 0; }
+.env-item .ei-num {
+  font-size:1.6vw; font-weight:900; color:#f39c12; min-width:6%;
+  text-align:center;
+}
+.env-card.local .env-item .ei-num { color:#e74c3c; }
+.env-item .ei-txt { font-size:1.15vw; color:#e6ebff; font-weight:300; }
+.env-item:hover .ei-txt { color:#fff; }
+.env-card .big-ico { position:absolute; right:-3%; bottom:-10%; font-size:8vw; opacity:.08; }
+
+/* ---------- SLIDE 9 : Évolution du marché ---------- */
+.slide9 { background:linear-gradient(135deg,#15224a 0%,#1e2d50 60%,#24356b 100%); flex-direction:column; }
+.evo-wrap { display:flex; align-items:stretch; gap:1.5%; width:100%; height:66%; margin-top:1%; }
+.evo-card {
+  flex:1; border-radius:18px; padding:2% 2.2%; position:relative; overflow:hidden;
+  background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.16);
+  transition:all .35s ease;
+}
+.evo-card:hover { transform:translateY(-10px); box-shadow:0 20px 50px rgba(0,0,0,.45); }
+.evo-card .evo-era {
+  display:flex; align-items:center; gap:3%; margin-bottom:1.5%;
+}
+.evo-card .evo-era .ee-ico { font-size:2.8vw; }
+.evo-card .evo-era h3 { font-size:1.7vw; font-weight:900; color:#fff; line-height:1.3; }
+.evo-card .evo-badge {
+  display:inline-block; margin-bottom:1.5%; padding:.35% 1.4%;
+  border-radius:30px; font-size:1vw; font-weight:700; letter-spacing:1px; color:#fff;
+}
+.evo-card.old { border-top:5px solid #e74c3c; }
+.evo-card.old .evo-badge { background:linear-gradient(90deg,#e74c3c,#c0392b); }
+.evo-card.new { border-top:5px solid #f39c12; background:rgba(243,156,18,.12); border-color:#f39c12; }
+.evo-card.new .evo-badge { background:linear-gradient(90deg,#f39c12,#e67e22); }
+.evo-card ul { list-style:none; margin-top:.5%; }
+.evo-card li {
+  font-size:1.12vw; color:#e6ebff; font-weight:300; padding:.6% 0 .6% 2%;
+  position:relative; line-height:1.45;
+}
+.evo-card li::before { content:'▸'; color:#f39c12; position:absolute; left:0; }
+.evo-card.old li::before { color:#e74c3c; }
+.evo-arrow {
+  display:flex; align-items:center; justify-content:center;
+  font-size:2.4vw; color:#f39c12; font-weight:900; min-width:3%;
+  animation:pulseArrow 2s infinite;
+}
+.evo-foot { margin-top:1.5%; font-size:1.05vw; color:rgba(255,255,255,.55); font-weight:300; letter-spacing:1px; }
+.evo-foot b { color:#f39c12; font-weight:600; }
+
+/* ---------- SLIDE 10 : Évolution du marché (2) — 3 ères ---------- */
+.slide10 { background:linear-gradient(135deg,#15224a 0%,#1e2d50 60%,#24356b 100%); flex-direction:column; }
+.slide10 h2, .slide11 h2, .slide12 h2, .slide13 h2 {
+  font-size:3.2vw; color:#fff; font-weight:700; margin-bottom:.5%; align-self:flex-start;
+}
+.slide10 .ribbon, .slide11 .ribbon, .slide12 .ribbon, .slide13 .ribbon {
+  width:8%; height:5px; background:linear-gradient(90deg,#f39c12,#e74c3c);
+  border-radius:5px; margin-bottom:3%; align-self:flex-start;
+}
+.evo-trio .evo-card { padding:1.5% 1.3%; }
+.evo-card.realtime {
+  border-top:5px solid #f39c12;
+  background:linear-gradient(135deg, rgba(243,156,18,.16), rgba(231,76,60,.14));
+  border-color:#f39c12;
+}
+.evo-card.realtime .evo-badge { background:linear-gradient(90deg,#f39c12,#e74c3c); }
+.evo-card.realtime .ee-ico { font-size:3vw; }
+
+/* ---------- SLIDE 11 : Types de production (intercalaire) ---------- */
+.slide11 { background:linear-gradient(135deg,#e74c3c 0%,#c0392b 55%,#8e2418 100%); flex-direction:column; }
+.slide11 h2 { font-size:4.2vw; font-weight:900; letter-spacing:2px; margin-bottom:0; }
+.slide11 .sub-big {
+  font-size:1.5vw; color:rgba(255,255,255,.75); font-weight:300; letter-spacing:1px;
+  margin-top:.8%; align-self:flex-start;
+}
+.axe-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:2.5% 3%;
+  width:100%; height:56%; margin-top:2.5%;
+}
+.axe-item {
+  display:flex; align-items:center; gap:4%;
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.28);
+  border-radius:14px; padding:1.5% 2.5%;
+  backdrop-filter:blur(6px); transition:all .3s ease;
+}
+.axe-item:hover {
+  background:rgba(255,255,255,.22); transform:translateY(-6px) scale(1.02);
+  box-shadow:0 15px 40px rgba(0,0,0,.35);
+}
+.axe-item .ax-ico { font-size:3vw; min-width:2.6vw; }
+.axe-item .ax-num { font-size:1.6vw; font-weight:900; color:#ffe9c4; min-width:9%; text-align:center; }
+.axe-item .ax-txt { font-size:1.5vw; color:#fff; font-weight:600; line-height:1.3; }
+
+/* ---------- SLIDES 12 & 13 : Autonomie de conception et commande ---------- */
+.slide12 { background:linear-gradient(120deg,#1e2d50 0%,#2c3e70 100%); flex-direction:column; }
+.slide13 { background:linear-gradient(120deg,#16224a 0%,#24356b 100%); flex-direction:column; }
+.roles { display:flex; gap:2.5%; width:100%; height:66%; margin-top:1%; }
+.role-card {
+  flex:1; border-radius:18px; padding:2% 2.4%; position:relative; overflow:hidden;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16);
+  border-top:5px solid #f39c12;
+  transition:all .35s ease;
+}
+.role-card.blue { border-top-color:#f39c12; }
+.role-card.red { border-top-color:#e74c3c; }
+.role-card:hover {
+  background:rgba(255,255,255,.12); transform:translateY(-8px);
+  box-shadow:0 18px 45px rgba(0,0,0,.45);
+}
+.role-head { display:flex; align-items:center; gap:2.5%; margin-bottom:1.5%; }
+.role-head .r-ico { font-size:2.6vw; }
+.role-head h3 { font-size:1.7vw; color:#fff; font-weight:700; }
+.role-card ul { list-style:none; }
+.role-card li {
+  font-size:1.12vw; color:#e6ebff; font-weight:300; padding:.65% 0 .65% 2%;
+  position:relative; line-height:1.5;
+}
+.role-card li::before { content:'▸'; color:#f39c12; position:absolute; left:0; }
+.role-card.red li::before { color:#e74c3c; }
+.role-foot {
+  display:inline-flex; align-items:center; gap:1%;
+  margin-top:1.2%; padding:.45% 1.4%; border-radius:30px;
+  font-size:1vw; font-weight:600; letter-spacing:1px; color:#fff;
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.2);
+}
+.role-card .big-ico { position:absolute; right:-3%; bottom:-10%; font-size:8vw; opacity:.08; }
+
+/* ---------- SLIDE 13 : Façonnier ---------- */
+.fac-wrap { width:100%; height:66%; margin-top:1%; display:flex; align-items:stretch; gap:2.5%; }
+.fac-card {
+  flex:2.2; border-radius:18px; padding:2.2% 2.8%; position:relative; overflow:hidden;
+  background:rgba(243,156,18,.10); border:1px solid rgba(243,156,18,.45);
+  border-top:5px solid #f39c12;
+  transition:all .35s ease;
+}
+.fac-card:hover { background:rgba(243,156,18,.18); transform:translateY(-8px); box-shadow:0 18px 45px rgba(0,0,0,.45); }
+.fac-side {
+  flex:1; border-radius:18px; padding:2.2% 1.8%; position:relative; overflow:hidden;
+  background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.15);
+  display:flex; flex-direction:column; justify-content:center; gap:8%;
+}
+.fac-side .mini-note {
+  display:flex; align-items:center; gap:3%;
+  font-size:1.05vw; color:#e6ebff; font-weight:300;
+  padding:1% 1.5%; border-radius:12px; background:rgba(255,255,255,.07);
+  border-left:4px solid #e74c3c;
+}
+.fac-side .mini-note.m2 { border-left-color:#f39c12; }
+.fac-head { display:flex; align-items:center; gap:2.5%; margin-bottom:1.5%; }
+.fac-head .r-ico { font-size:2.8vw; }
+.fac-head h3 { font-size:1.8vw; color:#fff; font-weight:700; }
+.fac-card ul { list-style:none; margin-top:1%; }
+.fac-card li {
+  font-size:1.18vw; color:#e6ebff; font-weight:300; padding:.8% 0 .8% 2%;
+  position:relative; line-height:1.55;
+}
+.fac-card li::before { content:'▸'; color:#f39c12; position:absolute; left:0; }
+.fac-card .big-ico { position:absolute; right:-3%; bottom:-10%; font-size:9vw; opacity:.1; }
+
+/* ---------- RÉVÉLATION PAR CLIC (slides 9 & 10) ---------- */
+.step {
+  opacity:0; transform:translateY(34px) scale(.95);
+  transition:opacity .55s ease, transform .55s cubic-bezier(.22,1,.36,1);
+}
+.slide.active .step.on { opacity:1; transform:none; }
+.step-cue {
+  position:absolute; bottom:2.5%; left:50%; transform:translateX(-50%);
+  z-index:5; color:rgba(255,255,255,.65); font-size:.85vw; letter-spacing:1px;
+  white-space:nowrap; display:none;
+  animation:cuePulse 1.8s ease-in-out infinite;
+}
+@keyframes cuePulse { 0%,100% { opacity:.4; } 50% { opacity:.95; } }
+
+/* ---------- SLIDES 14 & 15 : Réponses au marché ---------- */
+.slide14 { background:linear-gradient(120deg,#0f1b3d 0%,#24356b 100%); flex-direction:column; }
+.slide15 { background:linear-gradient(120deg,#16224a 0%,#2c3e70 100%); flex-direction:column; }
+.slide14 h2, .slide15 h2 {
+  font-size:3vw; color:#fff; font-weight:700; align-self:flex-start;
+}
+.slide14 .ribbon, .slide15 .ribbon {
+  width:8%; height:5px; background:linear-gradient(90deg,#f39c12,#e74c3c);
+  border-radius:5px; margin:0.5% 0 2.5%; align-self:flex-start;
+}
+
+/* ---------- NAVIGATION UI ---------- */
+.progress {
+  position:fixed; top:0; left:0; height:5px; width:0%; z-index:50;
+  background:linear-gradient(90deg,#f39c12,#e74c3c);
+  transition:width .6s cubic-bezier(.22,1,.36,1);
+}
+.controls {
+  position:fixed; bottom:2.2%; right:2.5%; z-index:50;
+  display:flex; gap:12px; align-items:center;
+}
+.ctrl-btn {
+  width:52px; height:52px; border-radius:50%; border:1px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.1); color:#fff; font-size:22px;
+  cursor:pointer; backdrop-filter:blur(8px);
+  transition:all .25s ease; display:flex; align-items:center; justify-content:center;
+}
+.ctrl-btn:hover { background:#f39c12; transform:scale(1.15); border-color:transparent; }
+.counter {
+  position:fixed; bottom:2.8%; left:2.5%; z-index:50; color:#ecf0f1;
+  font-size:1vw; font-weight:600; letter-spacing:3px;
+}
+.counter b { color:#f39c12; font-size:1.4vw; }
+.dots { position:fixed; bottom:3%; left:50%; transform:translateX(-50%); z-index:50; display:flex; gap:10px; }
+.dot { width:11px; height:11px; border-radius:50%; background:rgba(255,255,255,.3); cursor:pointer; transition:all .3s; }
+.dot.on { background:#f39c12; width:32px; border-radius:6px; }
+.hint {
+  position:fixed; bottom:9%; left:50%; transform:translateX(-50%); z-index:50;
+  color:rgba(255,255,255,.55); font-size:.85vw; letter-spacing:1px;
+  animation:hintFade 1s 2.5s forwards;
+}
+@keyframes hintFade { to { opacity:0; visibility:hidden; } }
+.particles {
+  position:absolute; inset:0; z-index:1; overflow:hidden; pointer-events:none;
+}
+.particles span {
+  position:absolute; display:block; width:8px; height:8px; border-radius:50%;
+  background:rgba(243,156,18,.15); animation:float 9s linear infinite;
+}
+.particles span:nth-child(even) { background:rgba(231,76,60,.18); }
+@keyframes float {
+  0% { transform:translateY(110vh) scale(.5); opacity:0; }
+  15% { opacity:1; }
+  100% { transform:translateY(-12vh) scale(1); opacity:0; }
+}
+/* transition name toast */
+.tlabel {
+  position:fixed; top:6%; right:2.5%; z-index:60; color:rgba(255,255,255,.5);
+  font-size:.8vw; letter-spacing:2px; opacity:0; pointer-events:none;
+  transition:opacity .4s ease;
+}
+.tlabel.show { opacity:1; }
+
+/* ---------- SLIDES 16-30 : suite du cours ---------- */
+.slide16 { background:linear-gradient(120deg,#1e2d50 0%,#2c3e70 100%); flex-direction:column; }
+.slide17 { background:linear-gradient(120deg,#16224a 0%,#24356b 100%); flex-direction:column; }
+.slide18 { background:linear-gradient(135deg,#0f1b3d 0%,#1e2d50 60%,#24356b 100%); flex-direction:column; }
+.slide19 { background:linear-gradient(120deg,#24356b 0%,#1e2d50 100%); flex-direction:column; }
+.slide20 { background:linear-gradient(120deg,#16224a 0%,#2c3e70 100%); flex-direction:column; }
+.slide21 { background:linear-gradient(120deg,#0f1b3d 0%,#24356b 100%); flex-direction:column; }
+.slide22 { background:linear-gradient(120deg,#16224a 0%,#1e2d50 100%); flex-direction:column; }
+.slide23 { background:linear-gradient(120deg,#1e2d50 0%,#2c3e70 100%); flex-direction:column; }
+.slide24 { background:linear-gradient(135deg,#15224a 0%,#1e2d50 60%,#24356b 100%); flex-direction:column; }
+.slide25 { background:linear-gradient(120deg,#16224a 0%,#24356b 100%); flex-direction:column; }
+.slide26 { background:linear-gradient(135deg,#0f1b3d,#1e2d50 70%); flex-direction:column; }
+.slide27 { background:linear-gradient(120deg,#1e2d50 0%,#2c3e70 100%); flex-direction:column; }
+.slide28 { background:linear-gradient(120deg,#16224a 0%,#24356b 100%); flex-direction:column; }
+.slide29 { background:linear-gradient(120deg,#0f1b3d 0%,#1e2d50 60%,#24356b 100%); flex-direction:column; }
+.slide30 { background:linear-gradient(120deg,#1e2d50 0%,#2c3e70 100%); flex-direction:column; }
+.slide16 h2,.slide17 h2,.slide18 h2,.slide19 h2,.slide20 h2,.slide21 h2,.slide22 h2,.slide23 h2,
+.slide24 h2,.slide25 h2,.slide26 h2,.slide27 h2,.slide28 h2,.slide29 h2,.slide30 h2 {
+  font-size:3vw; color:#fff; font-weight:700; align-self:flex-start;
+}
+.slide16 .ribbon,.slide17 .ribbon,.slide18 .ribbon,.slide19 .ribbon,.slide20 .ribbon,.slide21 .ribbon,.slide22 .ribbon,.slide23 .ribbon,
+.slide24 .ribbon,.slide25 .ribbon,.slide26 .ribbon,.slide27 .ribbon,.slide28 .ribbon,.slide29 .ribbon,.slide30 .ribbon {
+  width:8%; height:5px; background:linear-gradient(90deg,#f39c12,#e74c3c);
+  border-radius:5px; margin:0.5% 0 2.5%; align-self:flex-start;
+}
+/* images dans les cartes (agrandies — slide 16) */
+.role-card .card-img {
+  display:block; width:96%; height:54%; object-fit:contain;
+  margin:1.5% auto 1%; background:rgba(255,255,255,.92);
+  border-radius:10px; padding:2%;
+  transition:transform .3s ease, box-shadow .3s ease;
+}
+.role-card .card-img:hover { transform:scale(1.06); box-shadow:0 10px 30px rgba(0,0,0,.4); }
+
+/* tuiles définitions / fonctions */
+.def-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); grid-auto-rows:1fr;
+  gap:2.5% 2%; width:100%; height:64%; margin-top:1.5%;
+}
+.def-item {
+  display:flex; align-items:center; gap:4%;
+  background:rgba(255,255,255,.06); border-left:5px solid #f39c12;
+  border-radius:14px; padding:1% 2%;
+  transition:all .3s ease;
+}
+.def-item:nth-child(even) { border-left-color:#e74c3c; }
+.def-item:hover { background:rgba(255,255,255,.14); transform:translateX(10px); box-shadow:0 8px 25px rgba(0,0,0,.35); }
+.def-item .d-ico { font-size:2.2vw; min-width:2.2vw; text-align:center; }
+.def-item .d-txt { font-size:1.4vw; color:#ecf0f1; font-weight:600; line-height:1.3; }
+.def-item.wide { grid-column:1 / -1; }
+
+/* bandeau contexte / mots-clés */
+.slide-banner {
+  margin-top:2%; width:100%; padding:1.1% 0; border-radius:14px;
+  display:flex; align-items:center; justify-content:center; gap:1.5%;
+  background:linear-gradient(90deg,#f39c12,#e74c3c); color:#fff;
+  font-size:1.55vw; font-weight:700; letter-spacing:1px;
+  box-shadow:0 12px 35px rgba(231,76,60,.35);
+  transition:transform .3s ease;
+}
+.slide-banner:hover { transform:translateY(-5px) scale(1.01); }
+
+/* ---------- agrandissement des schémas (slides 17, 21, 22, 23, 26) ---------- */
+.slide17 .end-chart,.slide21 .end-chart,.slide22 .end-chart,.slide23 .end-chart,.slide26 .end-chart { flex:1.75; }
+.slide17 .end-chart img,.slide21 .end-chart img,.slide22 .end-chart img,.slide23 .end-chart img,.slide26 .end-chart img {
+  max-width:100%; max-height:100%;
+}
+
+/* ---------- QUIZ (slides 29 & 30) ---------- */
+.quiz-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); grid-auto-rows:1fr;
+  gap:2% 2%; width:100%; height:70%; margin-top:1%;
+}
+.quiz-item {
+  position:relative; border-radius:14px; overflow:hidden;
+  background:rgba(255,255,255,.06); border-left:5px solid #f39c12;
+  transition:background .3s ease, box-shadow .3s ease;
+}
+.quiz-item:nth-child(even) { border-left-color:#e74c3c; }
+.quiz-item:hover { background:rgba(255,255,255,.12); box-shadow:0 8px 25px rgba(0,0,0,.35); }
+.quiz-face {
+  position:absolute; inset:0; padding:4% 8%;
+  display:flex; flex-direction:column; justify-content:center; gap:5%;
+  transition:opacity .4s ease;
+}
+.quiz-front { cursor:pointer; }
+.quiz-front .q-ico { font-size:2.4vw; text-align:center; }
+.quiz-front .q-wd { font-size:1.35vw; font-weight:700; color:#fff; text-align:center; }
+.quiz-front .q-hint { font-size:.9vw; color:rgba(255,255,255,.6); font-weight:300; text-align:center; letter-spacing:1px; }
+.quiz-item.flip .quiz-front { opacity:0; pointer-events:none; }
+.quiz-back { opacity:0; pointer-events:none; overflow:auto; }
+.quiz-item.flip .quiz-back { opacity:1; pointer-events:auto; }
+.q-quest { font-size:1vw; font-weight:600; color:#f39c12; line-height:1.3; }
+.q-opt {
+  font-size:.92vw; color:#e6ebff; font-weight:300; line-height:1.3;
+  padding:.7% 1.4%; border-radius:8px; cursor:pointer; user-select:none;
+  background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.15);
+  transition:all .25s ease;
+}
+.q-opt:hover { background:rgba(255,255,255,.16); transform:translateX(6px); }
+.q-opt.good { background:rgba(46,204,113,.3); border-color:#2ecc71; color:#fff; font-weight:600; }
+.q-opt.bad { background:rgba(231,76,60,.3); border-color:#e74c3c; opacity:.65; }
+.q-opt.locked { pointer-events:none; }
+.q-verdict { font-size:.85vw; font-weight:600; color:#fff; min-height:1.1vw; }
+.q-def {
+  display:none; font-size:.85vw; color:#ffe9c4; font-weight:300; line-height:1.35;
+  padding:1.5% 2%; border-radius:8px; background:rgba(243,156,18,.14);
+  border:1px dashed rgba(243,156,18,.5);
+}
+.q-def.show { display:block; }
+.q-back {
+  align-self:flex-start; font-size:.75vw; color:rgba(255,255,255,.55);
+  cursor:pointer; letter-spacing:1px; transition:color .3s ease;
+}
+.q-back:hover { color:#f39c12; }
+.quiz-foot { margin-top:1%; font-size:1vw; color:rgba(255,255,255,.55); font-weight:300; letter-spacing:1px; }
+.quiz-foot b { color:#f39c12; font-weight:600; }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+<div class="tlabel" id="tlabel"></div>
+
+<div class="deck" id="deck">
+
+  <!-- ============ SLIDE 1 : TITRE (transition zoom) ============ -->
+  <section class="slide slide1 t-zoom" data-i="0" data-t="Zoom">
+    <img class="bgimg zoom" src="assets/assets_image15.png" alt="Fond usine">
+    <div class="content">
+      <h1 class="anim">Gestion de <span>Production</span></h1>
+      <div class="line"></div>
+      <p class="subtitle anim d2">Optimiser · Planifier · Produire</p>
+      <div class="author anim d3">👤 Fehmi ben njima</div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 2 : PLAN DU COURS (transition ça pousse) ============ -->
+  <section class="slide slide2 t-insert" data-i="1" data-t="Insertion">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Plan du cours</h2>
+    <div class="plan-grid">
+      <div class="plan-item anim d1"><div class="plan-num">01</div><div class="plan-txt">Fonction production dans l'entreprise</div></div>
+      <div class="plan-item anim d2"><div class="plan-num">02</div><div class="plan-txt">Planification</div></div>
+      <div class="plan-item anim d3"><div class="plan-num">03</div><div class="plan-txt">MRP / MRP2</div></div>
+      <div class="plan-item anim d4"><div class="plan-num">04</div><div class="plan-txt">Données techniques, GPAO, ERP</div></div>
+      <div class="plan-item anim d5"><div class="plan-num">05</div><div class="plan-txt">Gestion des stocks</div></div>
+      <div class="plan-item anim d6"><div class="plan-num">06</div><div class="plan-txt">Prévisions</div></div>
+      <div class="plan-item anim d7"><div class="plan-num">07</div><div class="plan-txt">Logistique</div></div>
+      <div class="plan-item anim d7"><div class="plan-num">→</div><div class="plan-txt">Et bien plus…</div></div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 3 : INTERCALAIRE (transition flip 3D) ============ -->
+  <section class="slide slide3 t-rise" data-i="2" data-t="Ascension">
+    <div class="particles">
+      <span style="left:8%; animation-delay:0s;"></span><span style="left:18%; animation-delay:1s;"></span>
+      <span style="left:30%; animation-delay:2s;"></span><span style="left:44%; animation-delay:3s;"></span>
+      <span style="left:58%; animation-delay:4s;"></span><span style="left:70%; animation-delay:5s;"></span>
+      <span style="left:82%; animation-delay:6s;"></span><span style="left:92%; animation-delay:7s;"></span>
+    </div>
+    <h2 class="anim" style="font-size:4.5vw;">Chapitre 1</h2>
+    <h2 class="anim d2" style="font-size:4.5vw; font-weight:900;">Fonction production dans l'entreprise</h2>
+    <div class="picto anim d3">🏭</div>
+  </section>
+
+  <!-- ============ SLIDE 4 : ENTREPRISE (transition slide latérale) ============ -->
+  <section class="slide slide4" data-i="3" data-t="Glissement">
+    <h2 class="anim">Entreprise = unité de production</h2>
+    <div class="ribbon anim d1"></div>
+    <div class="equation">
+      <div class="eq-box eq-prod anim d1">
+        <div class="ico">🏭</div>
+        <div class="title-sm">ENTREPRISE</div>
+        <p>Organisation combinant des hommes, des moyens financiers et matériels</p>
+      </div>
+      <div class="operator anim d2">+</div>
+      <div class="eq-box eq-def anim d2">
+        <div class="ico">🎯</div>
+        <div class="title-sm">OBJECTIF</div>
+        <p>Satisfaire les besoins (produits / services) des clients</p>
+      </div>
+      <div class="operator anim d3">=</div>
+      <div class="eq-box eq-prod anim d3">
+        <div class="ico">💰</div>
+        <div class="title-sm">PROFIT</div>
+        <p>Réaliser des produits et services en générant du profit</p>
+      </div>
+    </div>
+    <div class="twin">
+      <div class="twin-card anim d4">
+        <h3>💼 L'entreprise est aussi un centre de répartition des revenus</h3>
+        <ul>
+          <li>Salaires &amp; achats</li>
+          <li>Impôts &amp; charges sociales</li>
+          <li>Intérêts &amp; dividendes</li>
+          <li>Bénéfices non distribués</li>
+        </ul>
+        <div class="big-ico">💸</div>
+      </div>
+      <div class="twin-card anim d5">
+        <h3>👥 Un groupement humain</h3>
+        <ul>
+          <li>Personnes aux compétences diverses</li>
+          <li>Sources propres de motivation</li>
+          <li>Réalisations &amp; satisfaction</li>
+        </ul>
+        <div class="big-ico">🤝</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 5 : FONCTION PRODUCTION (transition flou) ============ -->
+  <section class="slide slide5 t-blur" data-i="4" data-t="Flou">
+    <h2 class="anim">Fonction production</h2>
+    <div class="ribbon anim d1"></div>
+    <div class="flow">
+      <div class="flow-box anim d1">
+        <div class="f-ico">📦</div>
+        <h3>ENTRÉE</h3>
+        <ul><li>Matières premières</li><li>Composants</li><li>Énergie</li></ul>
+      </div>
+      <div class="flow-arrow anim d2">➜</div>
+      <div class="flow-box anim d2" style="border-color:#f39c12; background:rgba(243,156,18,.15);">
+        <div class="f-ico">⚙️</div>
+        <h3 style="color:#fff;">PROCESSUS</h3>
+        <ul>
+          <li><b style="color:#f39c12;">Moyens</b> : humains, techniques, organisationnels</li>
+          <li><b style="color:#f39c12;">Décisions</b> de production : liées aux commandes (fermes ou prévues)</li>
+          <li>Objectif : réaliser des produits / services</li>
+        </ul>
+      </div>
+      <div class="flow-arrow anim d3">➜</div>
+      <div class="flow-box anim d3">
+        <div class="f-ico">🚚</div>
+        <h3 style="color:#e74c3c;">SORTIE</h3>
+        <ul><li>Produits finis</li><li>Services rendus</li><li>Satisfaction client</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 6 : FONCTION PRODUCTION (2) — schéma (transition verticale) ============ -->
+  <section class="slide slide6 t-up" data-i="5" data-t="Verticale">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Fonction production (2)</h2>
+    <div class="end-wrap">
+      <div class="end-chart anim d1"><img src="assets/assets_image16.png" alt="Schéma Produire"></div>
+      <div class="end-text">
+        <p class="big anim d2">La fonction production transforme des <em>matières premières</em> et des <em>commandes</em> en <em>produits finis</em>, grâce aux <em>moyens</em> humains, techniques et organisationnels.</p>
+        <div class="end-tags">
+          <span class="tag anim d3">📦 Matière première</span>
+          <span class="tag anim d3">🧾 Commandes</span>
+          <span class="tag anim d4">⚙️ Moyens</span>
+          <span class="tag anim d4">🏭 Finis</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 7 : FONCTION PRODUCTION (3) — liens & organigramme (transition flip 3D) ============ -->
+  <section class="slide slide7 t-push" data-i="6" data-t="Poussée">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Fonction production (3)</h2>
+    <p class="sub anim d1">🔗 Liens avec les autres fonctions</p>
+    <div class="org-wrap">
+      <div class="org-chart anim d2"><img src="assets/assets_image17.png" alt="Organigramme des fonctions"></div>
+      <div class="org-links">
+        <div class="link-chip anim d2"><div class="lc-ico">🛒</div><div class="lc-txt"><b>Achats</b> — matières, outillages</div></div>
+        <div class="link-chip anim d2"><div class="lc-ico">🔧</div><div class="lc-txt"><b>Maintenance</b> — investissements, travaux neufs</div></div>
+        <div class="link-chip anim d3"><div class="lc-ico">🚛</div><div class="lc-txt"><b>Logistique</b> — ordonnancement</div></div>
+        <div class="link-chip anim d3"><div class="lc-ico">🧑‍💼</div><div class="lc-txt"><b>Ressources humaines</b></div></div>
+        <div class="link-chip anim d4"><div class="lc-ico">📐</div><div class="lc-txt"><b>Conception</b> — concurrent engineering</div></div>
+        <div class="link-chip anim d4"><div class="lc-ico">📋</div><div class="lc-txt"><b>Méthodes</b> — industrialisation</div></div>
+        <div class="link-chip anim d5"><div class="lc-ico">✅</div><div class="lc-txt"><b>Qualité</b></div></div>
+        <div class="link-chip anim d5"><div class="lc-ico">📣</div><div class="lc-txt"><b>Commercial &amp; marketing</b> — commandes</div></div>
+        <div class="link-chip anim d6"><div class="lc-ico">🔬</div><div class="lc-txt"><b>R&amp;D</b> — nouveaux produits, nouveaux procédés</div></div>
+        <div class="link-chip anim d6"><div class="lc-ico">💰</div><div class="lc-txt"><b>Comptabilité, finance</b> — contrôle de gestion</div></div>
+        <div class="link-chip anim d7" style="grid-column:1 / -1; border-left-color:#f39c12;"><div class="lc-ico">👔</div><div class="lc-txt"><b>Direction générale</b></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 8 : L'ENVIRONNEMENT DE L'ENTREPRISE (transition zoom) ============ -->
+  <section class="slide slide8 t-zoom" data-i="7" data-t="Zoom">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">L'environnement de l'entreprise</h2>
+    <div class="env-grid" style="margin-top:1.5%;">
+      <div class="env-card global anim d1">
+        <div class="env-head">
+          <div class="env-ico">🌍</div>
+          <h3>Environnement global</h3>
+          <span class="env-badge">MACRO</span>
+        </div>
+        <div class="env-items">
+          <div class="env-item"><div class="ei-num">01</div><div class="ei-txt">Cadre juridique</div></div>
+          <div class="env-item"><div class="ei-num">02</div><div class="ei-txt">Conjoncture économique</div></div>
+          <div class="env-item"><div class="ei-num">03</div><div class="ei-txt">Cadre international</div></div>
+          <div class="env-item"><div class="ei-num">04</div><div class="ei-txt">Évolutions techniques</div></div>
+        </div>
+        <div class="big-ico">🌐</div>
+      </div>
+      <div class="env-card local anim d3">
+        <div class="env-head">
+          <div class="env-ico">📍</div>
+          <h3>Environnement local</h3>
+          <span class="env-badge">MICRO</span>
+        </div>
+        <div class="env-items">
+          <div class="env-item"><div class="ei-num">01</div><div class="ei-txt">Clients</div></div>
+          <div class="env-item"><div class="ei-num">02</div><div class="ei-txt">Réseaux de distribution</div></div>
+          <div class="env-item"><div class="ei-num">03</div><div class="ei-txt">Concurrents</div></div>
+          <div class="env-item"><div class="ei-num">04</div><div class="ei-txt">Fournisseurs</div></div>
+          <div class="env-item"><div class="ei-num">05</div><div class="ei-txt">Banquier</div></div>
+          <div class="env-item"><div class="ei-num">06</div><div class="ei-txt">Actionnaires</div></div>
+        </div>
+        <div class="big-ico">🤝</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 9 : ÉVOLUTION DU MARCHÉ (transition rotation) ============ -->
+  <section class="slide slide9 t-rotate" data-i="8" data-t="Rotation">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Évolution du marché</h2>
+    <div class="evo-wrap">
+      <div class="evo-card old step" data-step="1">
+        <div class="evo-era">
+          <div class="ee-ico">🏭</div>
+          <h3>Produire puis vendre</h3>
+        </div>
+        <span class="evo-badge">📜 Gestion manuelle</span>
+        <ul>
+          <li>Produits identiques, grandes séries</li>
+          <li>Importants stocks et encours</li>
+          <li>Délais fixés par le cycle de production</li>
+        </ul>
+      </div>
+      <div class="evo-arrow step" data-step="2">➜</div>
+      <div class="evo-card new step" data-step="2">
+        <div class="evo-era">
+          <div class="ee-ico">💻</div>
+          <h3>Produire ce qui sera vendu</h3>
+        </div>
+        <span class="evo-badge">⚡ Gestion informatisée</span>
+        <ul>
+          <li>Diversité limitée</li>
+          <li>Prévisions de ventes</li>
+          <li>Production programmée (délais maîtrisés)</li>
+          <li>Gestion des stocks et des approvisionnements</li>
+        </ul>
+      </div>
+    </div>
+    <p class="evo-foot step" data-step="2">De la production « au plus juste »… <b>vers une stratégie tirée par la demande</b></p>
+    <div class="step-cue">🖱️ Cliquez pour révéler les étapes</div>
+  </section>
+
+  <!-- ============ SLIDE 10 : ÉVOLUTION DU MARCHÉ (2) — les 3 ères (transition verticale) ============ -->
+  <section class="slide slide10 t-up" data-i="9" data-t="Verticale">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Évolution du marché (2)</h2>
+    <div class="evo-wrap evo-trio" style="height:60%;">
+      <div class="evo-card old step" data-step="1">
+        <div class="evo-era">
+          <div class="ee-ico">🕰️</div>
+          <h3 style="font-size:1.4vw;">Produire puis vendre</h3>
+        </div>
+        <span class="evo-badge">📜 Gestion manuelle</span>
+        <ul style="margin-top:1%;">
+          <li>Produits identiques, grandes séries</li>
+          <li>Importants stocks et encours</li>
+          <li>Délais fixés par le cycle de production</li>
+        </ul>
+      </div>
+      <div class="evo-arrow step" data-step="2">➜</div>
+      <div class="evo-card new step" data-step="2">
+        <div class="evo-era">
+          <div class="ee-ico">🤝</div>
+          <h3 style="font-size:1.4vw;">Produire ce qui sera vendu</h3>
+        </div>
+        <span class="evo-badge">⚡ Gestion informatisée</span>
+        <ul style="margin-top:1%;">
+          <li>Diversité limitée</li>
+          <li>Prévisions de ventes</li>
+          <li>Production programmée (délais maîtrisés)</li>
+        </ul>
+      </div>
+      <div class="evo-arrow step" data-step="3">➜</div>
+      <div class="evo-card new realtime step" data-step="3">
+        <div class="evo-era">
+          <div class="ee-ico">⚡</div>
+          <h3 style="font-size:1.4vw;">Produire ce qui est vendu</h3>
+        </div>
+        <span class="evo-badge">🛰️ Suivi temps réel</span>
+        <ul style="margin-top:1%;">
+          <li><b style="color:#f39c12;">Produit personnalisé</b> (faible durée de vie)</li>
+          <li>Petites séries</li>
+          <li>Flexibilité &amp; réactivité</li>
+          <li>Gestion informatisée : <b style="color:#f39c12;">suivi temps réel</b> et <b style="color:#f39c12;">coopération</b></li>
+        </ul>
+      </div>
+    </div>
+    <p class="evo-foot step" data-step="3">Trois ères : <b>manuelle</b> → <b>informatisée</b> → <b>temps réel &amp; coopération</b></p>
+    <div class="step-cue">🖱️ Cliquez pour révéler les étapes</div>
+  </section>
+
+  <!-- ============ SLIDE 11 : TYPES DE PRODUCTION — intercalaire (transition rotation) ============ -->
+  <section class="slide slide11 t-rotate" data-i="10" data-t="Rotation">
+    <div class="particles">
+      <span style="left:8%; animation-delay:0s;"></span><span style="left:18%; animation-delay:1s;"></span>
+      <span style="left:30%; animation-delay:2s;"></span><span style="left:44%; animation-delay:3s;"></span>
+      <span style="left:58%; animation-delay:4s;"></span><span style="left:70%; animation-delay:5s;"></span>
+      <span style="left:82%; animation-delay:6s;"></span><span style="left:92%; animation-delay:7s;"></span>
+    </div>
+    <h2 class="anim">Types de production</h2>
+    <p class="sub-big anim d1">Comment classer les systèmes de production ?</p>
+    <div class="axe-grid">
+      <div class="axe-item anim d2"><div class="ax-ico">🧠</div><div class="ax-num">01</div><div class="ax-txt">Autonomie de conception et commande</div></div>
+      <div class="axe-item anim d3"><div class="ax-ico">🗣️</div><div class="ax-num">02</div><div class="ax-txt">Réponses au marché</div></div>
+      <div class="axe-item anim d4"><div class="ax-ico">🧩</div><div class="ax-num">03</div><div class="ax-txt">Structures des produits</div></div>
+      <div class="axe-item anim d5"><div class="ax-ico">🔁</div><div class="ax-num">04</div><div class="ax-txt">Quantité de produits et répétitivité</div></div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 12 : AUTONOMIE — Concepteur / Sous-traitant (transition flou) ============ -->
+  <section class="slide slide12 t-blur" data-i="11" data-t="Flou">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Autonomie de conception et commande</h2>
+    <div class="roles">
+      <div class="role-card blue anim d2">
+        <div class="role-head">
+          <div class="r-ico">🏗️</div>
+          <h3>Concepteur et fabricant</h3>
+        </div>
+        <ul>
+          <li>Conçoit, industrialise et produit <b style="color:#f39c12;">ses produits propres</b></li>
+          <li>Modification possible du produit</li>
+          <li>Choix de la gamme, des fournisseurs, des outillages</li>
+        </ul>
+        <span class="role-foot">🎯 Autonomie complète</span>
+        <div class="big-ico">🏗️</div>
+      </div>
+      <div class="role-card red anim d4">
+        <div class="role-head">
+          <div class="r-ico">🏭</div>
+          <h3>Sous-traitant</h3>
+        </div>
+        <ul>
+          <li>Réalise le programme (<b style="color:#e74c3c;">prévisionnel et ferme</b>) de production imposé par le donneur d'ordres</li>
+          <li>Choix de la gamme, des fournisseurs <b style="color:#e74c3c;">( ?)</b>, des outillages</li>
+        </ul>
+        <span class="role-foot">📌 Programme imposé</span>
+        <div class="big-ico">🏭</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 13 : AUTONOMIE (2) — Façonnier (transition poussée) ============ -->
+  <section class="slide slide13 t-push" data-i="12" data-t="Poussée">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Autonomie de conception et commande (2)</h2>
+    <div class="fac-wrap">
+      <div class="fac-card anim d2">
+        <div class="fac-head">
+          <div class="r-ico">🧰</div>
+          <h3>Façonnier</h3>
+        </div>
+        <ul>
+          <li>Réalise le programme (<b style="color:#f39c12;">ferme</b>) de production imposé par le donneur d'ordres</li>
+          <li>Matières premières, outillages et gammes <b style="color:#f39c12;">( ?)</b> sont imposés par le donneur d'ordre</li>
+          <li>Ordonnancement <b style="color:#f39c12;">selon la charge</b> du Façonnier</li>
+        </ul>
+        <div class="big-ico">🧰</div>
+      </div>
+      <div class="fac-side anim d4">
+        <div class="mini-note">🏗️ Concepteur : conçoit &amp; produit ses produits</div>
+        <div class="mini-note m2">🏭 Sous-traitant : programme imposé</div>
+        <div class="mini-note">🧰 Façonnier : tout est imposé</div>
+        <div class="mini-note m2">⚖️ Autonomie croissante → décroissante</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 14 : RÉPONSES AU MARCHÉ (transition verticale) ============ -->
+  <section class="slide slide14 t-up" data-i="13" data-t="Verticale">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Réponses au marché</h2>
+    <div class="roles">
+      <div class="role-card blue anim d1">
+        <div class="role-head">
+          <div class="r-ico">📦</div>
+          <h3>Production à la commande</h3>
+        </div>
+        <ul>
+          <li>La <b style="color:#f39c12;">commande ferme</b> déclenche la production</li>
+          <li>Pas de stocks de produits finis</li>
+          <li>Délais de livraison <b style="color:#f39c12;">&gt;</b> délai de production</li>
+        </ul>
+        <span class="role-foot">🏗️ ex. usine clés en main</span>
+        <div class="big-ico">📦</div>
+      </div>
+      <div class="role-card red anim d3">
+        <div class="role-head">
+          <div class="r-ico">📋</div>
+          <h3>Production par programme</h3>
+        </div>
+        <ul>
+          <li>Les commandes <b style="color:#e74c3c;">fermes et prévisionnelles</b> déterminent le programme</li>
+          <li>Prévisions fiables</li>
+          <li>Délais de livraison réduits</li>
+        </ul>
+        <span class="role-foot">🚗 ex. fournisseur industrie automobile</span>
+        <div class="big-ico">📋</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 15 : RÉPONSES AU MARCHÉ (2) (transition insertion) ============ -->
+  <section class="slide slide15 t-insert" data-i="14" data-t="Insertion">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Réponses au marché (2)</h2>
+    <div class="roles">
+      <div class="role-card blue anim d1">
+        <div class="role-head">
+          <div class="r-ico">📚</div>
+          <h3>Production pour le stock</h3>
+        </div>
+        <ul>
+          <li>Le <b style="color:#f39c12;">niveau de stock</b> de produits finis déclenche la production</li>
+          <li>Il y a des stocks de produits finis dans l'entreprise</li>
+          <li>Délais de livraison réduits</li>
+        </ul>
+        <span class="role-foot">📖 ex. livres</span>
+        <div class="big-ico">📚</div>
+      </div>
+      <div class="role-card red anim d3">
+        <div class="role-head">
+          <div class="r-ico">✈️</div>
+          <h3>Assemblage à la commande</h3>
+        </div>
+        <ul>
+          <li>Les commandes fermes déclenchent l'<b style="color:#e74c3c;">assemblage</b> de sous-ensembles réalisés sur programme</li>
+          <li>Pas de stock de produits finis</li>
+          <li>Délais de livraison réduits</li>
+        </ul>
+        <span class="role-foot">🛩️ ex. constructeur d'avions</span>
+        <div class="big-ico">✈️</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 16 : STRUCTURES DES PRODUITS (transition zoom) ============ -->
+  <section class="slide slide16 t-zoom" data-i="15" data-t="Zoom">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Structures des produits</h2>
+    <div class="roles" style="height:76%;">
+      <div class="role-card blue anim d2">
+        <div class="role-head">
+          <div class="r-ico">🔌</div>
+          <h3>Structure convergente</h3>
+        </div>
+        <ul>
+          <li><b style="color:#f39c12;">Peu de produits</b></li>
+          <li>Beaucoup de composants</li>
+        </ul>
+        <img class="card-img anim d3" src="assets/assets_image18.png" alt="Structure convergente">
+        <span class="role-foot">⚡ ex. ensembles électroniques</span>
+        <div class="big-ico">🔌</div>
+      </div>
+      <div class="role-card red anim d4">
+        <div class="role-head">
+          <div class="r-ico">🥛</div>
+          <h3>Structure divergente</h3>
+        </div>
+        <ul>
+          <li><b style="color:#e74c3c;">Beaucoup de produits</b></li>
+          <li>Peu de composants</li>
+        </ul>
+        <img class="card-img anim d5" src="assets/assets_image19.png" alt="Structure divergente">
+        <span class="role-foot">🧀 ex. produits laitiers</span>
+        <div class="big-ico">🥛</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 17 : STRUCTURES DES PRODUITS (2) (transition poussée) ============ -->
+  <section class="slide slide17 t-push" data-i="16" data-t="Poussée">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Structures des produits (2)</h2>
+    <div class="end-wrap">
+      <div class="end-chart anim d1"><img src="assets/assets_image20.png" alt="Structure à points de regroupement"></div>
+      <div class="end-text">
+        <p class="big anim d2">Structure <em>à points de regroupement</em> : les sous-ensembles standards sont assemblés en plusieurs produits finis.</p>
+        <div class="end-tags">
+          <span class="tag anim d3">🧩 Beaucoup de produits finis</span>
+          <span class="tag anim d3">🔩 Beaucoup de composants</span>
+          <span class="tag anim d4">📦 Sous-ensembles standards</span>
+          <span class="tag anim d4">🚗 ex. automobile</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 18 : QUANTITÉ DE PRODUITS ET RÉPÉTITIVITÉ (transition rotation) ============ -->
+  <section class="slide slide18 t-rotate" data-i="17" data-t="Rotation">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Quantité de produits et répétitivité</h2>
+    <div class="roles">
+      <div class="role-card blue anim d1">
+        <div class="role-head">
+          <div class="r-ico">🏗️</div>
+          <h3>Production unitaire</h3>
+        </div>
+        <ul>
+          <li><b style="color:#f39c12;">1 seul produit</b> est à réaliser (projet)</li>
+        </ul>
+        <span class="role-foot">🌉 ex. pont, navire</span>
+        <div class="big-ico">🏗️</div>
+      </div>
+      <div class="role-card blue anim d2" style="border-top-color:#f4a835;">
+        <div class="role-head">
+          <div class="r-ico">✈️</div>
+          <h3>Petite et moyenne série</h3>
+        </div>
+        <ul>
+          <li>&lt; <b style="color:#f39c12;">1 000</b> unités</li>
+        </ul>
+        <span class="role-foot">🚆 ex. avions, trains</span>
+        <div class="big-ico">✈️</div>
+      </div>
+      <div class="role-card red anim d3">
+        <div class="role-head">
+          <div class="r-ico">🚗</div>
+          <h3>Grande série</h3>
+        </div>
+        <ul>
+          <li>&gt; <b style="color:#e74c3c;">1 000</b> unités</li>
+        </ul>
+        <span class="role-foot">🧺 ex. automobile, électroménager</span>
+        <div class="big-ico">🚗</div>
+      </div>
+    </div>
+    <p class="evo-foot anim d5">🔁 Lancement <b>répétitif ou non</b> — ex. production unitaire répétitive : <b>moteur fusée</b></p>
+  </section>
+
+  <!-- ============ SLIDE 19 : TYPES DE PRODUCTION (1) (transition flou) ============ -->
+  <section class="slide slide19 t-blur" data-i="18" data-t="Flou">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Types de production (1)</h2>
+    <div class="roles">
+      <div class="role-card blue anim d2">
+        <div class="role-head">
+          <div class="r-ico">🎯</div>
+          <h3>Production par projet</h3>
+        </div>
+        <ul>
+          <li>Productions <b style="color:#f39c12;">unitaires</b></li>
+          <li>Flux limité (voire nul pour certains ouvrages)</li>
+          <li><b style="color:#f39c12;">Objectif :</b> minimiser le délai de livraison</li>
+        </ul>
+        <span class="role-foot">⏱️ Objectif : délai</span>
+        <div class="big-ico">🎯</div>
+      </div>
+      <div class="role-card red anim d4">
+        <div class="role-head">
+          <div class="r-ico">🌊</div>
+          <h3>Production discontinue</h3>
+        </div>
+        <ul>
+          <li>Par lot ou <b style="color:#e74c3c;">« Job Shop », « batch »</b></li>
+          <li>Grande diversité de produits</li>
+          <li>Moyens de production nombreux et flexibles (non dédiés à un produit)</li>
+          <li>Flux de produits dépendent de la gamme de fabrication</li>
+          <li><b style="color:#e74c3c;">Objectif :</b> respecter les délais pour l'ensemble !</li>
+        </ul>
+        <span class="role-foot">⏳ Objectif : délais d'ensemble</span>
+        <div class="big-ico">🌊</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 20 : TYPES DE PRODUCTION (2) (transition ascension) ============ -->
+  <section class="slide slide20 t-rise" data-i="19" data-t="Ascension">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Types de production (2)</h2>
+    <div class="roles">
+      <div class="role-card blue anim d2" style="border-top-color:#f39c12;">
+        <div class="role-head">
+          <div class="r-ico">🚀</div>
+          <h3>Production continue</h3>
+        </div>
+        <ul>
+          <li><b style="color:#f39c12;">« Flow-shop »</b></li>
+          <li>Famille de produits</li>
+          <li>Moyens de production <b style="color:#f39c12;">dédiés</b> au produit</li>
+          <li><b style="color:#f39c12;">Objectif :</b> fiabilité pour assurer la productivité</li>
+        </ul>
+        <span class="role-foot">🛤️ Objectif : fiabilité → productivité</span>
+        <div class="big-ico" style="font-size:14vw; opacity:.1;">🚀</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 21 : ORGANISATION DES FLUX (1) (transition verticale) ============ -->
+  <section class="slide slide21 t-up" data-i="20" data-t="Verticale">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Organisation des flux de production (1)</h2>
+    <div class="end-wrap">
+      <div class="end-chart anim d1"><img src="assets/assets_image21.png" alt="Sections homogènes"></div>
+      <div class="end-text">
+        <p class="big anim d2"><em>Sections homogènes</em> : les ressources de production sont regroupées <em>par type</em>.</p>
+        <div class="end-tags">
+          <span class="tag anim d3">🔁 Production discontinue</span>
+          <span class="tag anim d4">📉 Productivité faible</span>
+          <span class="tag anim d5">🧘 Flexibilité importante</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 22 : ORGANISATION DES FLUX (2) (transition poussée) ============ -->
+  <section class="slide slide22 t-push" data-i="21" data-t="Poussée">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Organisation des flux de production (2)</h2>
+    <div class="end-wrap">
+      <div class="end-chart anim d1"><img src="assets/assets_image22.png" alt="Lignes de fabrication"></div>
+      <div class="end-text">
+        <p class="big anim d2"><em>Lignes de fabrication</em> : les ressources sont <em>alignées suivant la gamme</em> du produit.</p>
+        <div class="end-tags">
+          <span class="tag anim d3">➡️ Production continue</span>
+          <span class="tag anim d4">📈 Productivité importante</span>
+          <span class="tag anim d5">🔒 Flexibilité faible</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 23 : ORGANISATION DES FLUX (3) (transition zoom) ============ -->
+  <section class="slide slide23 t-zoom" data-i="22" data-t="Zoom">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Organisation des flux de production (3)</h2>
+    <div class="end-wrap">
+      <div class="end-chart anim d1"><img src="assets/assets_image23.png" alt="Îlots de fabrication"></div>
+      <div class="end-text">
+        <p class="big anim d2"><em>Îlots de fabrication</em> : les ressources sont regroupées en <em>îlots</em> pour une <em>famille de produits</em>.</p>
+        <div class="end-tags">
+          <span class="tag anim d3">⚖️ Compromis</span>
+          <span class="tag anim d4">📊 Productivité moyenne</span>
+          <span class="tag anim d5">🧘 Flexibilité moyenne</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 24 : OBJECTIFS DE LA GESTION DE PRODUCTION (transition rotation) ============ -->
+  <section class="slide slide24 t-rotate" data-i="23" data-t="Rotation">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Objectifs de la gestion de production</h2>
+    <div class="roles" style="height:52%;">
+      <div class="role-card blue anim d1">
+        <div class="role-head">
+          <div class="r-ico">📦</div>
+          <h3>Mettre à disposition</h3>
+        </div>
+        <ul>
+          <li>Les produits, au bon niveau de :</li>
+          <li><b style="color:#f39c12;">Qualité</b></li>
+          <li><b style="color:#f39c12;">Coût</b></li>
+          <li><b style="color:#f39c12;">Délai</b></li>
+        </ul>
+        <div class="big-ico">📦</div>
+      </div>
+      <div class="role-card blue anim d2" style="border-top-color:#f4a835;">
+        <div class="role-head">
+          <div class="r-ico">⚙️</div>
+          <h3>Optimiser</h3>
+        </div>
+        <ul>
+          <li>L'utilisation des ressources :</li>
+          <li><b style="color:#f39c12;">Humaines</b></li>
+          <li><b style="color:#f39c12;">Techniques</b></li>
+        </ul>
+        <div class="big-ico">⚙️</div>
+      </div>
+      <div class="role-card red anim d3">
+        <div class="role-head">
+          <div class="r-ico">📈</div>
+          <h3>Améliorer</h3>
+        </div>
+        <ul>
+          <li><b style="color:#e74c3c;">Qualité</b> : personnel, « SPC » (MSP), …</li>
+          <li><b style="color:#e74c3c;">Productivité</b> : SMED, automatisation réfléchie, …</li>
+        </ul>
+        <div class="big-ico">📈</div>
+      </div>
+    </div>
+    <div class="slide-banner anim d5">⏱️ Contexte : délais courts · coûts faibles · capacité réduite d'investissement · demandes changeantes</div>
+  </section>
+
+  <!-- ============ SLIDE 25 : FONCTIONS DE LA GESTION DE PRODUCTION (transition insertion) ============ -->
+  <section class="slide slide25 t-insert" data-i="24" data-t="Insertion">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Fonctions de la gestion de production</h2>
+    <div class="def-grid">
+      <div class="def-item anim d1"><div class="d-ico">📅</div><div class="d-txt">Planifier la production</div></div>
+      <div class="def-item anim d2"><div class="d-ico">📦</div><div class="d-txt">Gérer les matières premières</div></div>
+      <div class="def-item anim d3"><div class="d-ico">⚙️</div><div class="d-txt">Gérer les ressources</div></div>
+      <div class="def-item anim d4"><div class="d-ico">🏭</div><div class="d-txt">Réaliser la production</div></div>
+      <div class="def-item wide anim d5" style="border-left-color:#e74c3c;"><div class="d-ico">⚡</div><div class="d-txt">Réagir aux aléas</div></div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 26 : MODÈLE DU SYSTÈME DE PRODUCTION (transition flou) ============ -->
+  <section class="slide slide26 t-blur" data-i="25" data-t="Flou">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Modèle du système de production</h2>
+    <div class="end-wrap">
+      <div class="end-chart anim d1"><img src="assets/assets_image24.png" alt="Modèle du système de production"></div>
+      <div class="end-text">
+        <p class="big anim d2">Le système de production est un système <em>hiérarchisé de décision</em> articulé autour d'un système <em>d'information</em> et d'un système <em>physique</em>.</p>
+        <div class="end-tags">
+          <span class="tag anim d3">🏔️ Système de décision</span>
+          <span class="tag anim d4">💾 Système d'information</span>
+          <span class="tag anim d5">⚙️ Système physique</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 27 : DONNÉES NÉCESSAIRES (transition verticale) ============ -->
+  <section class="slide slide27 t-up" data-i="26" data-t="Verticale">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Données nécessaires à la gestion de production</h2>
+    <div class="roles" style="height:52%;">
+      <div class="role-card blue anim d1">
+        <div class="role-head">
+          <div class="r-ico">📣</div>
+          <h3>Données commerciales</h3>
+        </div>
+        <ul>
+          <li>Ventes <b style="color:#f39c12;">fermes</b> ou <b style="color:#f39c12;">prévisionnelles</b></li>
+        </ul>
+        <div class="big-ico">📣</div>
+      </div>
+      <div class="role-card blue anim d2" style="border-top-color:#f4a835;">
+        <div class="role-head">
+          <div class="r-ico">📐</div>
+          <h3>Données techniques</h3>
+        </div>
+        <ul>
+          <li>Nomenclature</li>
+          <li>Gamme de fabrication</li>
+          <li>Identification (produit, machine)</li>
+        </ul>
+        <div class="big-ico">📐</div>
+      </div>
+      <div class="role-card red anim d3">
+        <div class="role-head">
+          <div class="r-ico">📊</div>
+          <h3>Données de suivi</h3>
+        </div>
+        <ul>
+          <li>État du système physique</li>
+          <li>Calcul des coûts</li>
+        </ul>
+        <div class="big-ico">📊</div>
+      </div>
+    </div>
+    <div class="slide-banner anim d5">✅ Données FIABLES !!!</div>
+  </section>
+
+  <!-- ============ SLIDE 28 : CONCLUSION PARTIELLE (transition poussée) ============ -->
+  <section class="slide slide28 t-push" data-i="27" data-t="Poussée">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Conclusion partielle</h2>
+    <div class="roles">
+      <div class="role-card blue anim d2">
+        <div class="role-head">
+          <div class="r-ico">🧭</div>
+          <h3>Gestion de production aujourd'hui</h3>
+        </div>
+        <ul>
+          <li>Petites séries</li>
+          <li>Produits personnalisés</li>
+          <li>Pas de stocks</li>
+          <li>Produits évoluant dans le temps</li>
+          <li><b style="color:#f39c12;">Informatisation</b> (GPAO, ERP)</li>
+        </ul>
+        <div class="big-ico">🧭</div>
+      </div>
+      <div class="role-card red anim d4">
+        <div class="role-head">
+          <div class="r-ico">⚠️</div>
+          <h3>Défis &amp; contraintes</h3>
+        </div>
+        <ul>
+          <li>Charge variable</li>
+          <li>Ressources humaines (<b style="color:#e74c3c;">capacité variable ?</b>)</li>
+          <li>Ressources techniques (<b style="color:#e74c3c;">fiabilité, rentabilité ?</b>)</li>
+        </ul>
+        <div class="big-ico">⚠️</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 29 : DÉFINITIONS — QUIZ (transition ascension) ============ -->
+  <section class="slide slide29 t-rise" data-i="28" data-t="Ascension">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Définitions — Quiz : trouvez la bonne définition</h2>
+    <div class="quiz-grid">
+      <div class="quiz-item anim d1">
+        <div class="quiz-face quiz-front">
+          <div class="q-ico">📈</div>
+          <div class="q-wd">Productivité</div>
+          <div class="q-hint">🖱️ cliquez pour le quiz</div>
+        </div>
+        <div class="quiz-face quiz-back">
+          <div class="q-back">↩︎ retour</div>
+          <div class="q-quest">La productivité, c'est le rapport entre…</div>
+          <div class="q-opt">A. les ventes et les achats</div>
+          <div class="q-opt" data-ok="1">B. la production réalisée et les ressources employées</div>
+          <div class="q-opt">C. le stock et la demande</div>
+          <div class="q-opt">D. le délai et le coût</div>
+          <div class="q-verdict"></div>
+          <div class="q-def">📉 Définition : production obtenue ÷ ressources consommées. Elle mesure l'efficacité de l'utilisation des moyens humains et techniques.</div>
+        </div>
+      </div>
+      <div class="quiz-item anim d2">
+        <div class="quiz-face quiz-front">
+          <div class="q-ico">🤸</div>
+          <div class="q-wd">Flexibilité</div>
+          <div class="q-hint">🖱️ cliquez pour le quiz</div>
+        </div>
+        <div class="quiz-face quiz-back">
+          <div class="q-back">↩︎ retour</div>
+          <div class="q-quest">La flexibilité, c'est :</div>
+          <div class="q-opt">A. la capacité à produire plus vite</div>
+          <div class="q-opt">B. la réduction maximale des stocks</div>
+          <div class="q-opt" data-ok="1">C. l'aptitude du système de production à s'adapter aux changements</div>
+          <div class="q-opt">D. le respect strict du planning</div>
+          <div class="q-verdict"></div>
+          <div class="q-def">🤸 Définition : aptitude du système de production à s'adapter aux variations (produits, volumes, délais) sans modification lourde des moyens.</div>
+        </div>
+      </div>
+      <div class="quiz-item anim d3">
+        <div class="quiz-face quiz-front">
+          <div class="q-ico">⚡</div>
+          <div class="q-wd">Réactivité</div>
+          <div class="q-hint">🖱️ cliquez pour le quiz</div>
+        </div>
+        <div class="quiz-face quiz-back">
+          <div class="q-back">↩︎ retour</div>
+          <div class="q-quest">La réactivité, c'est :</div>
+          <div class="q-opt">A. anticiper la demande par les prévisions</div>
+          <div class="q-opt" data-ok="1">B. la capacité à répondre vite aux événements et à la demande</div>
+          <div class="q-opt">C. produire en grandes séries</div>
+          <div class="q-opt">D. stocker pour éviter les ruptures</div>
+          <div class="q-verdict"></div>
+          <div class="q-def">⚡ Définition : aptitude à déclencher et adapter rapidement la production face à la demande ou aux aléas (délais de réponse courts).</div>
+        </div>
+      </div>
+      <div class="quiz-item anim d4">
+        <div class="quiz-face quiz-front">
+          <div class="q-ico">📦</div>
+          <div class="q-wd">Produit</div>
+          <div class="q-hint">🖱️ cliquez pour le quiz</div>
+        </div>
+        <div class="quiz-face quiz-back">
+          <div class="q-back">↩︎ retour</div>
+          <div class="q-quest">Un produit, c'est :</div>
+          <div class="q-opt">A. uniquement un bien tangible</div>
+          <div class="q-opt">B. un document de planification</div>
+          <div class="q-opt">C. toute pièce stockée dans l'entrepôt</div>
+          <div class="q-opt" data-ok="1">D. un bien ou un service issu de la production, destiné à satisfaire un besoin</div>
+          <div class="q-verdict"></div>
+          <div class="q-def">📦 Définition : résultat du processus de production — bien ou service — destiné à satisfaire les besoins des clients.</div>
+        </div>
+      </div>
+      <div class="quiz-item anim d5">
+        <div class="quiz-face quiz-front">
+          <div class="q-ico">🏷️</div>
+          <div class="q-wd">Article</div>
+          <div class="q-hint">🖱️ cliquez pour le quiz</div>
+        </div>
+        <div class="quiz-face quiz-back">
+          <div class="q-back">↩︎ retour</div>
+          <div class="q-quest">En gestion de production, un article désigne :</div>
+          <div class="q-opt">A. un texte de publicité</div>
+          <div class="q-opt">B. une commande client</div>
+          <div class="q-opt" data-ok="1">C. toute référence gérée : matière, composant, produit fini…</div>
+          <div class="q-opt">D. uniquement un produit fini</div>
+          <div class="q-verdict"></div>
+          <div class="q-def">🏷️ Définition : tout élément identifié par une référence et géré en quantité dans le système (stocks, achats, production).</div>
+        </div>
+      </div>
+      <div class="quiz-item anim d6">
+        <div class="quiz-face quiz-front">
+          <div class="q-ico">📋</div>
+          <div class="q-wd">Nomenclature</div>
+          <div class="q-hint">🖱️ cliquez pour le quiz</div>
+        </div>
+        <div class="quiz-face quiz-back">
+          <div class="q-back">↩︎ retour</div>
+          <div class="q-quest">Une nomenclature (BOM), c'est :</div>
+          <div class="q-opt">A. la liste des clients</div>
+          <div class="q-opt">B. le planning des machines</div>
+          <div class="q-opt">C. la liste des fournisseurs</div>
+          <div class="q-opt" data-ok="1">D. la liste hiérarchique des composants et quantités pour fabriquer un produit</div>
+          <div class="q-verdict"></div>
+          <div class="q-def">📋 Définition : arborescence structurée des composants nécessaires à la fabrication d'un produit (BOM) — base du calcul des besoins (MRP).</div>
+        </div>
+      </div>
+    </div>
+    <p class="quiz-foot anim d7">🖱️ Cliquez sur une carte pour lancer le quiz, puis choisissez la bonne réponse : <b>✅ correct</b> / <b>❌ à revoir</b>, la définition s'affiche ensuite.</p>
+  </section>
+
+  <!-- ============ SLIDE 30 : DÉFINITIONS (2) — QUIZ (transition zoom) ============ -->
+  <section class="slide slide30 t-zoom" data-i="29" data-t="Zoom">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Définitions (2) — Quiz : trouvez la bonne définition</h2>
+    <div class="quiz-grid">
+      <div class="quiz-item anim d1">
+        <div class="quiz-face quiz-front">
+          <div class="q-ico">🛠️</div>
+          <div class="q-wd">Gamme de fabrication</div>
+          <div class="q-hint">🖱️ cliquez pour le quiz</div>
+        </div>
+        <div class="quiz-face quiz-back">
+          <div class="q-back">↩︎ retour</div>
+          <div class="q-quest">Une gamme de fabrication, c'est :</div>
+          <div class="q-opt">A. la liste des produits à fabriquer</div>
+          <div class="q-opt" data-ok="1">B. la suite ordonnée des opérations avec les postes de travail et les temps</div>
+          <div class="q-opt">C. le calendrier des livraisons</div>
+          <div class="q-opt">D. la liste des matières premières</div>
+          <div class="q-verdict"></div>
+          <div class="q-def">🛠️ Définition : séquence ordonnée des opérations de fabrication, avec les machines/postes et les temps associés, pour transformer la matière.</div>
+        </div>
+      </div>
+      <div class="quiz-item anim d2">
+        <div class="quiz-face quiz-front">
+          <div class="q-ico">⏳</div>
+          <div class="q-wd">Délai de livraison / cycle de production</div>
+          <div class="q-hint">🖱️ cliquez pour le quiz</div>
+        </div>
+        <div class="quiz-face quiz-back">
+          <div class="q-back">↩︎ retour</div>
+          <div class="q-quest">Le cycle de production, c'est le temps entre…</div>
+          <div class="q-opt">A. la commande client et la livraison</div>
+          <div class="q-opt">B. le transport et la réception</div>
+          <div class="q-opt" data-ok="1">C. le lancement en fabrication et l'obtention du produit fini</div>
+          <div class="q-opt">D. deux changements de série</div>
+          <div class="q-verdict"></div>
+          <div class="q-def">⏳ Définition : cycle de production = lancement → produit fini ; délai de livraison = temps promis au client entre sa commande et la livraison.</div>
+        </div>
+      </div>
+      <div class="quiz-item anim d3">
+        <div class="quiz-face quiz-front">
+          <div class="q-ico">📦</div>
+          <div class="q-wd">Lot de production</div>
+          <div class="q-hint">🖱️ cliquez pour le quiz</div>
+        </div>
+        <div class="quiz-face quiz-back">
+          <div class="q-back">↩︎ retour</div>
+          <div class="q-quest">Un lot de production, c'est :</div>
+          <div class="q-opt">A. la production totale de l'année</div>
+          <div class="q-opt">B. un groupe de machines</div>
+          <div class="q-opt" data-ok="1">C. la quantité fabriquée lors d'un même lancement</div>
+          <div class="q-opt">D. un lot de commandes clients</div>
+          <div class="q-verdict"></div>
+          <div class="q-def">📦 Définition : ensemble d'articles produits au cours d'un même lancement de fabrication (la taille de lot résulte d'un arbitrage coût/perte de temps).</div>
+        </div>
+      </div>
+      <div class="quiz-item anim d4">
+        <div class="quiz-face quiz-front">
+          <div class="q-ico">🔧</div>
+          <div class="q-wd">Temps de reconfiguration</div>
+          <div class="q-hint">🖱️ cliquez pour le quiz</div>
+        </div>
+        <div class="quiz-face quiz-back">
+          <div class="q-back">↩︎ retour</div>
+          <div class="q-quest">Le temps de reconfiguration correspond à :</div>
+          <div class="q-opt">A. le temps de réparation d'une machine</div>
+          <div class="q-opt" data-ok="1">B. le temps pour adapter les moyens à la fabrication d'un autre produit (changement de série)</div>
+          <div class="q-opt">C. le temps de formation du personnel</div>
+          <div class="q-opt">D. le temps d'attente des commandes</div>
+          <div class="q-verdict"></div>
+          <div class="q-def">🔧 Définition : durée du changement de série pour passer d'un produit à un autre — l'objectif du SMED est de le réduire au maximum.</div>
+        </div>
+      </div>
+      <div class="quiz-item anim d5">
+        <div class="quiz-face quiz-front">
+          <div class="q-ico">📄</div>
+          <div class="q-wd">Ordre de Fabrication (OF)</div>
+          <div class="q-hint">🖱️ cliquez pour le quiz</div>
+        </div>
+        <div class="quiz-face quiz-back">
+          <div class="q-back">↩︎ retour</div>
+          <div class="q-quest">Un Ordre de Fabrication (OF), c'est :</div>
+          <div class="q-opt">A. une commande client</div>
+          <div class="q-opt">B. une facture fournisseur</div>
+          <div class="q-opt">C. un rapport de qualité</div>
+          <div class="q-opt" data-ok="1">D. le document qui autorise et lance la fabrication d'une quantité</div>
+          <div class="q-verdict"></div>
+          <div class="q-def">📄 Définition : ordre lancé par la planification (issu du MRP), précisant le produit, la quantité et les dates de fabrication.</div>
+        </div>
+      </div>
+      <div class="quiz-item anim d6">
+        <div class="quiz-face quiz-front">
+          <div class="q-ico">🏁</div>
+          <div class="q-wd">Bonus : le SMED</div>
+          <div class="q-hint">🖱️ cliquez pour le quiz</div>
+        </div>
+        <div class="quiz-face quiz-back">
+          <div class="q-back">↩︎ retour</div>
+          <div class="q-quest">Question bonus — le SMED vise à :</div>
+          <div class="q-opt">A. supprimer les stocks de matières</div>
+          <div class="q-opt">B. automatiser toute la production</div>
+          <div class="q-opt" data-ok="1">C. réduire drastiquement les temps de changement de série</div>
+          <div class="q-opt">D. augmenter la taille des lots</div>
+          <div class="q-verdict"></div>
+          <div class="q-def">🏁 Définition : « Single Minute Exchange of Die » — méthode pour réduire les temps de reconfiguration (changement d'outil/série) en moins de 10 minutes.</div>
+        </div>
+      </div>
+    </div>
+    <p class="quiz-foot anim d7">🖱️ Cliquez sur une carte, répondez, puis appuyez sur <b>↩︎ retour</b> pour la fermer et réessayer.</p>
+  </section>
+
+</div>
+
+<div class="counter"><b id="cur">1</b> / <span id="tot">30</span></div>
+<div class="dots" id="dots"></div>
+<div class="controls">
+  <button class="ctrl-btn" id="btnPrev" title="Précédent (←)">‹</button>
+  <button class="ctrl-btn" id="btnFullscreen" title="Plein écran (F)">⛶</button>
+  <button class="ctrl-btn" id="btnNext" title="Suivant (→)">›</button>
+</div>
+<div class="hint">Utilisez les flèches ← → de votre clavier pour naviguer</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+
+document.getElementById('tot').textContent = total;
+
+/* Dots */
+const dotsEl = document.getElementById('dots');
+slides.forEach((s,i)=>{
+  const d = document.createElement('div');
+  d.className = 'dot' + (i===0?' on':'');
+  d.onclick = ()=>go(i);
+  dotsEl.appendChild(d);
+});
+function updateDots(){
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on', i===current));
+}
+
+/* Label de transition (petit toast discret en haut à droite) */
+const tlabel = document.getElementById('tlabel');
+let tlabelTimer = null;
+function showTlabel(txt){
+  tlabel.textContent = '⟲ ' + txt;
+  tlabel.classList.add('show');
+  clearTimeout(tlabelTimer);
+  tlabelTimer = setTimeout(()=>tlabel.classList.remove('show'), 1400);
+}
+
+/* Révélation par étapes (slides avec .step, ex. 9 & 10) */
+function updateStepCue(){
+  const s = slides[current];
+  const cue = s.querySelector('.step-cue');
+  if(!cue) return;
+  const remaining = s.querySelectorAll('.step:not(.on)').length;
+  cue.style.display = remaining > 0 ? 'block' : 'none';
+}
+function revealNext(){
+  const steps = [...slides[current].querySelectorAll('.step')];
+  const pending = steps.filter(el=>!el.classList.contains('on'));
+  if(!pending.length) return false;
+  const group = pending[0].dataset.step || '';
+  steps.forEach(el=>{
+    if((el.dataset.step||'')===group){
+      el.classList.add('on');
+      /* dans un groupe : la flèche apparaît d'abord, la carte juste après */
+      el.style.transitionDelay = el.classList.contains('evo-arrow') ? '0s' : '.18s';
+    }
+  });
+  updateStepCue();
+  return true;
+}
+function resetSteps(s){
+  s.querySelectorAll('.step.on').forEach(el => {
+    el.style.transitionDelay = '';
+    el.classList.remove('on');
+  });
+}
+
+function next(){
+  if(revealNext()) return;
+  go(current+1);
+}
+function prevSlideNav(){
+  go(current-1);
+}
+
+/* Remise à zéro du quiz d'une slide (quand on la quitte / arrive) */
+function resetQuiz(s){
+  s.querySelectorAll('.quiz-item.flip').forEach(it=>it.classList.remove('flip'));
+  s.querySelectorAll('.q-opt').forEach(o=>o.classList.remove('good','bad','locked'));
+  s.querySelectorAll('.q-def.show').forEach(d=>d.classList.remove('show'));
+  s.querySelectorAll('.q-verdict').forEach(v=>v.textContent='');
+}
+
+function go(n){
+  n = ((n % total) + total) % total;
+  if(n===current) return;
+  const prev = slides[current];
+  const target = slides[n];
+  prev.classList.remove('active');
+  prev.classList.add('prev-slide');
+  resetSteps(prev);
+  resetQuiz(prev);
+  setTimeout(()=>prev.classList.remove('prev-slide'), 850);
+  target.classList.add('active');
+  resetSteps(target);
+  resetQuiz(target);
+  current = n;
+  document.getElementById('cur').textContent = current+1;
+  document.getElementById('progress').style.width = ((current+1)/total*100)+'%';
+  updateDots();
+  updateStepCue();
+  if(target.dataset.t) showTlabel(target.dataset.t);
+}
+
+slides[0].classList.add('active');
+document.getElementById('progress').style.width = (1/total*100)+'%';
+updateStepCue();
+
+document.getElementById('btnNext').onclick = next;
+document.getElementById('btnPrev').onclick = prevSlideNav;
+
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ') next();
+  if(e.key==='ArrowLeft'||e.key==='PageUp') prevSlideNav();
+  if(e.key==='f'||e.key==='F') toggleFullscreen();
+});
+
+function toggleFullscreen(){
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+document.getElementById('btnFullscreen').onclick = toggleFullscreen;
+
+/* Swipe mobile */
+let touchX = 0;
+document.addEventListener('touchstart', e=>touchX = e.touches[0].clientX);
+document.addEventListener('touchend', e=>{
+  const dx = e.changedTouches[0].clientX - touchX;
+  if(dx < -50) next();
+  if(dx > 50) prevSlideNav();
+});
+
+/* ---------- QUIZ (slides 29 & 30) ---------- */
+document.querySelectorAll('.quiz-item').forEach(item=>{
+  const front = item.querySelector('.quiz-front');
+  front.addEventListener('click', ()=>item.classList.add('flip'));
+  const backBtn = item.querySelector('.q-back');
+  backBtn.addEventListener('click', e=>{
+    e.stopPropagation();
+    item.classList.remove('flip');
+    item.querySelectorAll('.q-opt').forEach(o=>o.classList.remove('good','bad','locked'));
+    const d = item.querySelector('.q-def'); if(d) d.classList.remove('show');
+    const v = item.querySelector('.q-verdict'); if(v) v.textContent='';
+  });
+  item.querySelectorAll('.q-opt').forEach(opt=>{
+    opt.addEventListener('click', e=>{
+      e.stopPropagation();
+      if(opt.classList.contains('good')||opt.classList.contains('bad')) return;
+      if(opt.dataset.ok==='1'){
+        opt.classList.add('good');
+        item.querySelectorAll('.q-opt').forEach(o=>{ if(o!==opt) o.classList.add('locked'); });
+        item.querySelector('.q-def').classList.add('show');
+        item.querySelector('.q-verdict').textContent='✅ Correct !';
+      } else {
+        opt.classList.add('bad','locked');
+        item.querySelector('.q-verdict').textContent='❌ Essayez encore…';
+      }
+    });
+  });
+});
+
+/* Auto-play optionnel (commentez la ligne pour désactiver) */
+// setInterval(()=>go(current+1), 10000);
+</script>
+</body>
+</html>
