@@ -1776,6 +1776,13 @@ document.addEventListener('touchend', e=>{
   if(dx > 50) prevSlideNav();
 });
 
+/* Avance au clic n'importe où — sauf sur les éléments interactifs
+   (boutons, dots, cartes du quiz qui ont leur propre comportement) */
+document.addEventListener('click', e=>{
+  if(e.target.closest('.controls, .dots, .quiz-item, .tlabel')) return;
+  next();
+});
+
 /* ---------- QUIZ (slides 29 & 30) ---------- */
 document.querySelectorAll('.quiz-item').forEach(item=>{
   const front = item.querySelector('.quiz-front');
