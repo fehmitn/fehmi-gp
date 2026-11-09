@@ -707,6 +707,13 @@ html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans
 .ss-tree .trow { display:flex; gap:14%; }
 .ss-tree .trow .tbox { font-size:1.35vw; padding:.7% 2%; font-weight:700; }
 .ss-tree .tn { color:#f39c12; font-weight:900; margin-right:.5em; }
+
+/* ===== Correctifs lisibilite ===== */
+.ss-tbl { color:#eef2ff; }
+.ss-tbl th { color:#fff; }
+.ss-tbl td:first-child { color:#fff; }
+.ss-intro, .ss-note { color:#ecf0f1; font-size:1.45vw; }
+.ss-glabel, .ss-chcap, .ss-tree .tbox, .ss-mini, .ss-node { color:#eef2ff; }
 </style>
 </head>
 <body>
@@ -1987,19 +1994,9 @@ html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans
   <section class="slide slide43 t-rise" data-i="42" data-t="Ascension">
     <div class="ribbon anim"></div>
     <h2 class="anim">Plan de Charge (3)</h2>
-    <div class="ss-chart anim d1">
-      <span class="ss-chcap">Charge ↑</span>
-      <div class="ss-bar" style="height:72%"></div>
-      <div class="ss-bar" style="height:50%"></div>
-      <div class="ss-bar" style="height:74%"></div>
-      <div class="ss-bar ov" style="height:108%"></div>
-      <div class="ss-bar" style="height:90%"></div>
-      <div class="ss-bar" style="height:48%"></div>
-      <div class="ss-bar" style="height:70%"></div>
-      <div class="ss-capline" style="bottom:90%"><span class="ss-caplab">▬ Capacité</span></div>
+    <div class="end-wrap anim d1" style="height:80%;">
+      <div class="org-chart"><img src="assets/assets_ss_image13.png" alt="Charge et capacité par période"></div>
     </div>
-    <div class="ss-pcap anim d3">Période ➜</div>
-    <p class="ss-note anim d4">Une période peut dépasser la <b style="color:#f39c12;">capacité</b> — le plan de charge vise à la maîtriser</p>
   </section>
 
   <section class="slide slide44 t-up" data-i="43" data-t="Verticale">
@@ -2106,22 +2103,10 @@ html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans
   <section class="slide slide48 t-zoom" data-i="47" data-t="Zoom">
     <div class="ribbon anim"></div>
     <h2 class="anim">Diagramme de Gantt</h2>
-    <p class="ss-intro anim d1">📈 Représentation des opérations et des ressources par des <b style="color:#f39c12;">bâtonnets proportionnels</b> au temps d'occupation de la ressource par une opération.</p>
-    <div class="ss-gantt">
-      <div class="ss-grow anim d2">
-        <div class="ss-glabel">Ressource 3</div>
-        <div class="ss-gtrack"><div class="ss-gbar gb" style="left:50%; width:46%;">Produit B (20)</div></div>
-      </div>
-      <div class="ss-grow anim d3">
-        <div class="ss-glabel">Ressource 2</div>
-        <div class="ss-gtrack"><div class="ss-gbar gb" style="left:0%; width:37%;">Produit B (10)</div><div class="ss-gbar ga" style="left:40%; width:42%;">Produit A (20)</div></div>
-      </div>
-      <div class="ss-grow anim d4">
-        <div class="ss-glabel">Ressource 1</div>
-        <div class="ss-gtrack"><div class="ss-gbar ga" style="left:0%; width:37%;">Produit A (10)</div><div class="ss-gbar gc" style="left:37%; width:34%;">Produit C (30)</div></div>
-      </div>
+    <p class="ss-intro anim d1" style="margin-bottom:.4%;">Représentation des opérations et des ressources par des <b style="color:#f39c12;">bâtonnets proportionnels</b> au temps d'occupation de la ressource par une opération.</p>
+    <div class="end-wrap anim d2" style="height:66%;">
+      <div class="org-chart"><img src="assets/assets_ss_image18.png" alt="Diagramme de Gantt"></div>
     </div>
-    <div class="ss-axis anim d5">Période ➜</div>
   </section>
 
   <section class="slide slide49 t-insert" data-i="48" data-t="Insertion">
@@ -2314,19 +2299,14 @@ html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans
   <section class="slide slide59 t-push" data-i="58" data-t="Poussée">
     <div class="ribbon anim"></div>
     <h2 class="anim">Calcul des Besoins (exemple)</h2>
-    <div class="ss-tree">
-      <div class="tbox anim d1">👓 Lunettes</div>
-      <div class="tlinks anim d2"><span>×2 ↙</span><span>↘ ×1</span></div>
-      <div class="trow anim d2">
-        <div class="tbox">🔩 branche</div>
-        <div class="tbox">🔧 monture</div>
+    <div class="end-wrap anim d1" style="height:76%; gap:3%;">
+      <div class="org-chart"><img src="assets/assets_ss_image29.png" alt="Nomenclature de la lunette"></div>
+      <div style="flex:1; display:flex; flex-direction:column; gap:2.6%;">
+        <div class="def-item anim d2"><div class="d-ico">⏱️</div><div class="d-txt">Délai d'assemblage : <b style="color:#f39c12;">1 période</b></div></div>
+        <div class="def-item anim d3"><div class="d-ico">⏳</div><div class="d-txt">Délai de réalisation des branches : <b style="color:#f39c12;">2 périodes</b></div></div>
+        <div class="def-item anim d4"><div class="d-ico">📦</div><div class="d-txt">Lot de production lunettes : <b style="color:#f39c12;">100</b></div></div>
+        <div class="def-item anim d5"><div class="d-ico">📦</div><div class="d-txt">Lot de production branches : <b style="color:#f39c12;">200</b></div></div>
       </div>
-    </div>
-    <div class="def-grid" style="margin-top:1.5%;">
-      <div class="def-item anim d3"><div class="d-ico">⏱️</div><div class="d-txt">Délai d'assemblage : <b style="color:#f39c12;">1 période</b></div></div>
-      <div class="def-item anim d4"><div class="d-ico">⏱️</div><div class="d-txt">Délai de réalisation des branches : <b style="color:#f39c12;">2 périodes</b></div></div>
-      <div class="def-item anim d5"><div class="d-ico">📦</div><div class="d-txt">Lot de production lunettes : <b style="color:#f39c12;">100</b></div></div>
-      <div class="def-item anim d6"><div class="d-ico">📦</div><div class="d-txt">Lot de production branches : <b style="color:#f39c12;">200</b></div></div>
     </div>
   </section>
 
@@ -2395,18 +2375,9 @@ html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans
   <section class="slide slide63 t-insert" data-i="62" data-t="Insertion">
     <div class="ribbon anim"></div>
     <h2 class="anim">Principe du MRP2</h2>
-    <div class="ss-chain anim d1">
-      <div class="ss-node">🧮 Calcul des Besoins</div>
-      <div class="orphe">➜</div>
-      <div class="ss-node">📊 Plan de charge</div>
-      <div class="orphe">➜</div>
-      <div class="ss-node">⚙️ Ordonnancement</div>
-      <div class="orphe">➜</div>
-      <div class="ss-node">🚀 Lancement</div>
-      <div class="orphe">➜</div>
-      <div class="ss-node">🔍 Contrôle et suivi</div>
+    <div class="end-wrap anim d1" style="height:78%;">
+      <div class="org-chart"><img src="assets/assets_ss_image33.png" alt="Hiérarchie MRP2"></div>
     </div>
-    <p class="ss-note anim d3">Du plus global au plus fin : chaque niveau <b style="color:#f39c12;">étage la planification</b></p>
   </section>
 
   <section class="slide slide64 t-rise" data-i="63" data-t="Ascension">
@@ -2423,32 +2394,8 @@ html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans
   <section class="slide slide65 t-up" data-i="64" data-t="Verticale">
     <div class="ribbon anim"></div>
     <h2 class="anim">Cercles pervers</h2>
-    <p class="ss-intro anim d1">🌀 Deux enchaînements auto-entretenus :</p>
-    <div class="ss-chain anim d2">
-      <div class="ss-head">Cercle 1</div>
-      <div class="ss-node">📦 En-cours importants</div>
-      <div class="orphe">➜</div>
-      <div class="ss-node">👁️ Difficulté de suivi</div>
-      <div class="orphe">➜</div>
-      <div class="ss-node">❓ Incertitude sur les décalages</div>
-      <div class="orphe">➜</div>
-      <div class="ss-node">🗓️ Décalages de planification importants</div>
-      <div class="orphe">↺</div>
-    </div>
-    <div class="ss-chain anim d3">
-      <div class="ss-head">Cercle 2</div>
-      <div class="ss-node">📦 En-cours importants</div>
-      <div class="orphe">➜</div>
-      <div class="ss-node">🕰️ Cycles de fab. longs</div>
-      <div class="orphe">➜</div>
-      <div class="ss-node">🔮 Anticiper les ventes</div>
-      <div class="orphe">➜</div>
-      <div class="ss-node">📜 Prévisions lointaines</div>
-      <div class="orphe">➜</div>
-      <div class="ss-node">❓ Incertitude importante</div>
-      <div class="orphe">➜</div>
-      <div class="ss-node">📦 Lots de production importants</div>
-      <div class="orphe">↺</div>
+    <div class="end-wrap anim d1" style="height:78%;">
+      <div class="org-chart"><img src="assets/assets_ss_image35.png" alt="Cercles pervers"></div>
     </div>
   </section>
 
