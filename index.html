@@ -628,6 +628,35 @@ html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans
 .q-back:hover { color:#f39c12; }
 .quiz-foot { margin-top:1%; font-size:1vw; color:rgba(255,255,255,.55); font-weight:300; letter-spacing:1px; }
 .quiz-foot b { color:#f39c12; font-weight:600; }
+
+/* ---------- FONDS PHOTO (Wikimedia Commons, voir assets/IMAGES_CREDITS.md) ---------- */
+.slide1 { background: linear-gradient(rgba(11,18,37,.72), rgba(11,18,37,.84) 65%, rgba(11,18,37,.92)), url('assets/bg_assembly_hero.jpg') center/cover no-repeat; }
+.slide2 { background: linear-gradient(rgba(11,18,37,.80), rgba(11,18,37,.90)), url('assets/bg_warehouse_rack.jpg') center/cover no-repeat; }
+.slide3 { background: linear-gradient(rgba(11,18,37,.72), rgba(11,18,37,.88)), url('assets/bg_port_dusk.jpg') center/cover no-repeat; }
+.slide4 { background: linear-gradient(rgba(11,18,37,.78), rgba(11,18,37,.90)), url('assets/bg_factory_dusk.jpg') center/cover no-repeat; }
+.slide5, .slide6 { background: linear-gradient(rgba(11,18,37,.82), rgba(11,18,37,.92)), url('assets/bg_robots_yellow.jpg') center/cover no-repeat; }
+.slide7 { background: linear-gradient(rgba(11,18,37,.82), rgba(11,18,37,.92)), url('assets/bg_cnc_facility.jpg') center/cover no-repeat; }
+.slide8 { background: linear-gradient(rgba(11,18,37,.80), rgba(11,18,37,.90)), url('assets/bg_port_day.jpg') center/cover no-repeat; }
+.slide9 { background: linear-gradient(rgba(11,18,37,.82), rgba(11,18,37,.92)), url('assets/bg_night_dock.jpg') center/cover no-repeat; }
+.slide10, .slide20 { background: linear-gradient(rgba(11,18,37,.82), rgba(11,18,37,.92)), url('assets/bg_assembly_busy.jpg') center/cover no-repeat; }
+.slide11, .slide19 { background: linear-gradient(rgba(11,18,37,.82), rgba(11,18,37,.92)), url('assets/bg_assembly_2.jpg') center/cover no-repeat; }
+.slide12, .slide13, .slide27 { background: linear-gradient(rgba(11,18,37,.84), rgba(11,18,37,.92)), url('assets/bg_warehouse_dark.jpg') center/cover no-repeat; }
+.slide14, .slide15, .slide22 { background: linear-gradient(rgba(11,18,37,.82), rgba(11,18,37,.92)), url('assets/bg_container_load.jpg') center/cover no-repeat; }
+.slide16, .slide17 { background: linear-gradient(rgba(11,18,37,.84), rgba(11,18,37,.92)), url('assets/bg_palletizing.jpg') center/cover no-repeat; }
+.slide18 { background: linear-gradient(rgba(11,18,37,.80), rgba(11,18,37,.90)), url('assets/bg_assembly_hero.jpg') center/cover no-repeat; }
+.slide21 { background: linear-gradient(rgba(11,18,37,.84), rgba(11,18,37,.92)), url('assets/bg_warehouse_rack.jpg') center/cover no-repeat; }
+.slide23 { background: linear-gradient(rgba(11,18,37,.80), rgba(11,18,37,.90)), url('assets/bg_port_day.jpg') center/cover no-repeat; }
+.slide24 { background: linear-gradient(rgba(11,18,37,.80), rgba(11,18,37,.90)), url('assets/bg_factory_dusk.jpg') center/cover no-repeat; }
+.slide25 { background: linear-gradient(rgba(11,18,37,.84), rgba(11,18,37,.92)), url('assets/bg_robots_yellow.jpg') center/cover no-repeat; }
+.slide26 { background: linear-gradient(rgba(11,18,37,.84), rgba(11,18,37,.92)), url('assets/bg_cnc_facility.jpg') center/cover no-repeat; }
+.slide28 { background: linear-gradient(rgba(11,18,37,.78), rgba(11,18,37,.90)), url('assets/bg_port_dusk.jpg') center/cover no-repeat; }
+.slide29 { background: linear-gradient(rgba(11,18,37,.85), rgba(11,18,37,.93)), url('assets/bg_night_dock.jpg') center/cover no-repeat; }
+.slide30 { background: linear-gradient(rgba(11,18,37,.85), rgba(11,18,37,.93)), url('assets/bg_assembly_hero.jpg') center/cover no-repeat; }
+
+/* voile doré subtil derrière le contenu : la photo reste visible, le texte passe dessus */
+.slide1, .slide18 { isolation:isolate; }
+.slide1::after, .slide18::after { content:''; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:radial-gradient(ellipse at 50% 42%, rgba(243,156,18,.10), transparent 60%); }
 </style>
 </head>
 <body>
