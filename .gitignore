@@ -4,3 +4,7 @@ update/
 # Extractions temporaires de gp.pptx
 _extract_tmp/
 _tmp/
+_check/
+
+# Donnees OCR tesseract (fra.traineddata)
+tessdata/
