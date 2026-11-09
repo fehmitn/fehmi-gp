@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestion de Production — Présentation animée</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --primary:#1e2d50;
+  --accent:#f39c12;
+  --accent2:#e74c3c;
+  --light:#ecf0f1;
+  --dark:#1e2d50;
+}
+html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans-serif; background:#0b1225; }
+
+/* ---------- SLIDES ---------- */
+.deck { position:relative; width:100%; height:100%; }
+.slide {
+  position:absolute; inset:0; width:100%; height:100%;
+  display:none; align-items:center; justify-content:center;
+  padding:3% 5%;
+  opacity:0; transform:translateX(100px) scale(.98);
+  transition:opacity .8s ease, transform .8s ease;
+  overflow:hidden;
+}
+.slide.active { display:flex; opacity:1; transform:translateX(0) scale(1); z-index:2; }
+.slide.prev-slide { display:flex; opacity:0; transform:translateX(-100px) scale(.98); z-index:1; }
+
+/* ---------- ANIMATION d'entrée des éléments ---------- */
+.anim { opacity:0; transform:translateY(40px); }
+.slide.active .anim {
+  animation:slideInUp .8s cubic-bezier(.22,1,.36,1) forwards;
+}
+.slide.active .anim.d1 { animation-delay:.2s;}
+.slide.active .anim.d2 { animation-delay:.45s;}
+.slide.active .anim.d3 { animation-delay:.7s;}
+.slide.active .anim.d4 { animation-delay:.95s;}
+.slide.active .anim.d5 { animation-delay:1.2s;}
+.slide.active .anim.d6 { animation-delay:1.45s;}
+.slide.active .anim.d7 { animation-delay:1.7s;}
+@keyframes slideInUp {
+  to { opacity:1; transform:translateY(0); }
+}
+.slide.active .anim.zoom { animation:zoomIn .8s cubic-bezier(.22,1,.36,1) forwards; }
+@keyframes zoomIn {
+  from { opacity:0; transform:scale(.6);}
+  to { opacity:1; transform:scale(1);}
+}
+
+/* ---------- SLIDE 1 : Titre ---------- */
+.bgimg { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; }
+.slide1 .bgimg { filter:brightness(.55) saturate(1.1); }
+.slide1 .content { position:relative; z-index:2; text-align:center; width:100%; }
+.slide1 h1 {
+  font-size:5.5vw; font-weight:900; color:#fff;
+  letter-spacing:4px; text-transform:uppercase;
+  text-shadow:0 4px 30px rgba(0,0,0,.6);
+}
+.slide1 h1 span {
+  background:linear-gradient(90deg,#f39c12,#e74c3c);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.slide1 .subtitle {
+  margin-top:1.5%; font-size:2vw; font-weight:300; color:#ecf0f1; letter-spacing:6px;
+  text-transform:uppercase;
+}
+.slide1 .author {
+  margin-top:4%; display:inline-block; padding:.8% 2.5%;
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.3);
+  border-radius:60px; color:#fff; font-size:1.3vw; font-weight:600; letter-spacing:2px;
+  backdrop-filter:blur(10px);
+}
+.slide1 .line {
+  width:0; height:4px; margin:2.5% auto 0;
+  background:linear-gradient(90deg,#f39c12,#e74c3c);
+  border-radius:10px; animation:lineGrow 1s .6s cubic-bezier(.22,1,.36,1) forwards;
+}
+@keyframes lineGrow { to { width:18%; } }
+
+/* ---------- SLIDE 2 : Plan du cours ---------- */
+.slide2 { background:linear-gradient(135deg,#0f1b3d 0%,#1e2d50 60%,#24356b 100%); flex-direction:column; }
+.slide2 h2, .slide3 h2, .slide6 h2 {
+  font-size:3.2vw; color:#fff; font-weight:700; margin-bottom:.5%; align-self:flex-start;
+}
+.slide2 .ribbon, .slide3 .ribbon, .slide6 .ribbon {
+  width:8%; height:5px; background:linear-gradient(90deg,#f39c12,#e74c3c);
+  border-radius:5px; margin-bottom:3%; align-self:flex-start;
+}
+.slide2 .plan-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  grid-auto-flow:column; grid-template-rows:repeat(4,1fr);
+  gap:2.5% 4%; width:100%; height:70%; align-items:stretch;
+}
+.plan-item {
+  display:flex; align-items:center; gap:3%;
+  background:rgba(255,255,255,.06); border-left:5px solid #f39c12;
+  border-radius:10px; padding:1% 2.5%;
+  transition:all .35s ease;
+}
+.plan-item:nth-child(even) { border-left-color:#e74c3c; }
+.plan-item:hover { background:rgba(255,255,255,.14); transform:translateX(12px); box-shadow:0 8px 25px rgba(0,0,0,.35); }
+.plan-num {
+  font-size:2.5vw; font-weight:900; color:#f39c12; min-width:9%;
+  text-align:center; line-height:1;
+}
+.plan-item:nth-child(even) .plan-num { color:#e74c3c; }
+.plan-txt { font-size:1.55vw; color:#ecf0f1; font-weight:600; }
+
+/* ---------- SLIDE 3 : intercalaire ---------- */
+.slide3 { background:linear-gradient(135deg,#e74c3c 0%,#c0392b 55%,#8e2418 100%); flex-direction:column; }
+.slide3 h2 { font-size:4.5vw; font-weight:900; color:#fff; letter-spacing:2px; margin-bottom:0; align-self:flex-start; }
+.slide3 .confetti { position:absolute; z-index:1; opacity:.25; }
+.slide3 .picto {
+  font-size:10vw; position:absolute; right:6%; bottom:5%;
+  animation:floaty 3.5s ease-in-out infinite; opacity:.5;
+}
+@keyframes floaty { 0%,100% { transform:translateY(0);} 50% { transform:translateY(-20px);} }
+
+/* ---------- SLIDE 4 ---------- */
+.slide4 {
+  background:linear-gradient(120deg,#1e2d50 0%,#2c3e70 100%);
+  flex-direction:column;
+}
+.slide4 h2, .slide5 h2 { font-size:3vw; color:#fff; font-weight:700; align-self:flex-start; }
+.slide4 .ribbon, .slide5 .ribbon {
+  width:8%; height:5px; background:linear-gradient(90deg,#f39c12,#e74c3c);
+  border-radius:5px; margin:0.5% 0 2.5%; align-self:flex-start;
+}
+.equation {
+  display:flex; align-items:center; gap:2%; width:100%; height:34%;
+  margin-bottom:2%;
+}
+.eq-box {
+  flex:1; height:100%; border-radius:16px; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center; padding:1.5%;
+  transition:transform .3s ease, box-shadow .3s ease;
+  cursor:pointer;
+}
+.eq-box:hover { transform:translateY(-8px) scale(1.03); box-shadow:0 15px 40px rgba(0,0,0,.45); }
+.eq-box .ico { font-size:3.2vw; margin-bottom:.5%; }
+.eq-box .title-sm { font-size:1.35vw; font-weight:700; color:#fff; letter-spacing:1px; }
+.eq-box p { font-size:1.05vw; color:#e6ebff; font-weight:300; margin-top:.7%; line-height:1.5; }
+.eq-prod { background:linear-gradient(135deg,#f39c12,#e67e22); }
+.eq-def { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.2); }
+.operator { font-size:3.5vw; font-weight:900; color:#f39c12; }
+.twin {
+  display:flex; gap:2.5%; width:100%; height:44%;
+}
+.twin-card {
+  flex:1; border-radius:16px; padding:2%; position:relative; overflow:hidden;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.15);
+  transition:all .3s ease;
+}
+.twin-card:hover { background:rgba(255,255,255,.12); transform:translateY(-6px); }
+.twin-card h3 { font-size:1.5vw; color:#f39c12; font-weight:700; display:flex; align-items:center; gap:2.5%; }
+.twin-card ul { margin-top:1.2%; list-style:none; }
+.twin-card li {
+  font-size:1.1vw; color:#e6ebff; font-weight:300; padding:.5% 0 .5% 2%;
+  position:relative;
+}
+.twin-card li::before { content:'▸'; color:#e74c3c; position:absolute; left:0; }
+.twin-card .big-ico { position:absolute; right:-3%; bottom:-8%; font-size:7vw; opacity:.1; }
+
+/* ---------- SLIDE 5 ---------- */
+.slide5 { background:linear-gradient(120deg,#24356b 0%,#1e2d50 100%); flex-direction:column; }
+.flow {
+  display:flex; align-items:stretch; gap:1.5%; width:100%; height:52%;
+  margin-bottom:3%;
+}
+.flow-box {
+  flex:1; border-radius:18px; padding:1.8% 1.4%;
+  display:flex; flex-direction:column; justify-content:flex-start;
+  background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.18);
+  transition:all .3s ease; position:relative; overflow:hidden;
+}
+.flow-box:hover { transform:translateY(-10px); background:rgba(255,255,255,.13); box-shadow:0 18px 45px rgba(0,0,0,.4); }
+.flow-box .f-ico { font-size:2.6vw; margin-bottom:4%; }
+.flow-box h3 { font-size:1.4vw; color:#f39c12; font-weight:700; margin-bottom:1%; }
+.flow-box ul { list-style:none; }
+.flow-box li { font-size:1.05vw; color:#e6ebff; font-weight:300; padding:.35% 0 .35% 1.8%; position:relative; line-height:1.45;}
+.flow-box li::before { content:'•'; color:#e74c3c; position:absolute; left:0; }
+.flow-arrow {
+  display:flex; align-items:center; justify-content:center;
+  font-size:2.2vw; color:#f39c12; font-weight:900; min-width:2.5%;
+  animation:pulseArrow 2s infinite;
+}
+@keyframes pulseArrow { 0%,100% { transform:scaleX(1); opacity:.8;} 50% { transform:scaleX(1.25); opacity:1; } }
+
+/* ---------- SLIDE 6 : fin ---------- */
+.slide6 { background:linear-gradient(135deg,#0f1b3d,#1e2d50 70%); flex-direction:column; }
+.end-wrap { display:flex; align-items:center; gap:4%; width:100%; height:78%; }
+.end-chart { flex:1.4; display:flex; align-items:center; justify-content:center; height:100%; }
+.end-chart img { max-width:80%; max-height:80%; border-radius:14px; box-shadow:0 12px 40px rgba(0,0,0,.5); }
+.end-text { flex:1; }
+.end-text .big {
+  font-size:2.6vw; font-weight:700; color:#fff; line-height:1.35;
+}
+.end-text .big em { font-style:normal; color:#f39c12; }
+.end-tags { display:flex; flex-wrap:wrap; gap:2.5% 1.5%; margin-top:6%; }
+.tag {
+  padding:.55% 1.8%; border-radius:40px; font-size:1.1vw; font-weight:600;
+  color:#fff; background:linear-gradient(90deg,rgba(243,156,18,.25),rgba(231,76,60,.25));
+  border:1px solid rgba(255,255,255,.25);
+  transition:all .3s ease;
+}
+.tag:hover { background:linear-gradient(90deg,#f39c12,#e74c3c); transform:translateY(-4px) scale(1.05); }
+
+/* ---------- NAVIGATION UI ---------- */
+.progress {
+  position:fixed; top:0; left:0; height:5px; width:0%; z-index:50;
+  background:linear-gradient(90deg,#f39c12,#e74c3c);
+  transition:width .6s cubic-bezier(.22,1,.36,1);
+}
+.controls {
+  position:fixed; bottom:2.2%; right:2.5%; z-index:50;
+  display:flex; gap:12px; align-items:center;
+}
+.ctrl-btn {
+  width:52px; height:52px; border-radius:50%; border:1px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.1); color:#fff; font-size:22px;
+  cursor:pointer; backdrop-filter:blur(8px);
+  transition:all .25s ease; display:flex; align-items:center; justify-content:center;
+}
+.ctrl-btn:hover { background:#f39c12; transform:scale(1.15); border-color:transparent; }
+.counter {
+  position:fixed; bottom:2.8%; left:2.5%; z-index:50; color:#ecf0f1;
+  font-size:1vw; font-weight:600; letter-spacing:3px;
+}
+.counter b { color:#f39c12; font-size:1.4vw; }
+.dots { position:fixed; bottom:3%; left:50%; transform:translateX(-50%); z-index:50; display:flex; gap:10px; }
+.dot { width:11px; height:11px; border-radius:50%; background:rgba(255,255,255,.3); cursor:pointer; transition:all .3s; }
+.dot.on { background:#f39c12; width:32px; border-radius:6px; }
+.hint {
+  position:fixed; bottom:9%; left:50%; transform:translateX(-50%); z-index:50;
+  color:rgba(255,255,255,.55); font-size:.85vw; letter-spacing:1px;
+  animation:hintFade 1s 2.5s forwards;
+}
+@keyframes hintFade { to { opacity:0; visibility:hidden; } }
+.particles {
+  position:absolute; inset:0; z-index:1; overflow:hidden; pointer-events:none;
+}
+.particles span {
+  position:absolute; display:block; width:8px; height:8px; border-radius:50%;
+  background:rgba(243,156,18,.15); animation:float 9s linear infinite;
+}
+.particles span:nth-child(even) { background:rgba(231,76,60,.18); }
+@keyframes float {
+  0% { transform:translateY(110vh) scale(.5); opacity:0; }
+  15% { opacity:1; }
+  100% { transform:translateY(-12vh) scale(1); opacity:0; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="deck" id="deck">
+
+  <!-- ============ SLIDE 1 : TITRE ============ -->
+  <section class="slide slide1" data-i="0">
+    <img class="bgimg zoom" src="assets/assets_image15.png" alt="Fond usine">
+    <div class="content">
+      <h1 class="anim">Gestion de <span>Production</span></h1>
+      <div class="line"></div>
+      <p class="subtitle anim d2">Optimiser · Planifier · Produire</p>
+      <div class="author anim d3">👤 Fehmi ben njima</div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 2 : PLAN DU COURS ============ -->
+  <section class="slide slide2" data-i="1">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Plan du cours</h2>
+    <div class="plan-grid">
+      <div class="plan-item anim d1"><div class="plan-num">01</div><div class="plan-txt">Fonction production dans l'entreprise</div></div>
+      <div class="plan-item anim d2"><div class="plan-num">02</div><div class="plan-txt">Planification</div></div>
+      <div class="plan-item anim d3"><div class="plan-num">03</div><div class="plan-txt">MRP / MRP2</div></div>
+      <div class="plan-item anim d4"><div class="plan-num">04</div><div class="plan-txt">Données techniques, GPAO, ERP</div></div>
+      <div class="plan-item anim d5"><div class="plan-num">05</div><div class="plan-txt">Gestion des stocks</div></div>
+      <div class="plan-item anim d6"><div class="plan-num">06</div><div class="plan-txt">Prévisions</div></div>
+      <div class="plan-item anim d7"><div class="plan-num">07</div><div class="plan-txt">Logistique</div></div>
+      <div class="plan-item anim d7"><div class="plan-num">→</div><div class="plan-txt">Et bien plus…</div></div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 3 : INTERCALAIRE ============ -->
+  <section class="slide slide3" data-i="2">
+    <div class="particles">
+      <span style="left:8%; animation-delay:0s;"></span><span style="left:18%; animation-delay:1s;"></span>
+      <span style="left:30%; animation-delay:2s;"></span><span style="left:44%; animation-delay:3s;"></span>
+      <span style="left:58%; animation-delay:4s;"></span><span style="left:70%; animation-delay:5s;"></span>
+      <span style="left:82%; animation-delay:6s;"></span><span style="left:92%; animation-delay:7s;"></span>
+    </div>
+    <h2 class="anim" style="font-size:4.5vw;">Chapitre 1</h2>
+    <h2 class="anim d2" style="font-size:4.5vw; font-weight:900;">Fonction production dans l'entreprise</h2>
+    <div class="picto anim d3">🏭</div>
+  </section>
+
+  <!-- ============ SLIDE 4 : ENTREPRISE ============ -->
+  <section class="slide slide4" data-i="3">
+    <h2 class="anim">Entreprise = unité de production</h2>
+    <div class="ribbon anim d1"></div>
+    <div class="equation">
+      <div class="eq-box eq-prod anim d1">
+        <div class="ico">🏭</div>
+        <div class="title-sm">ENTREPRISE</div>
+        <p>Organisation combinant des hommes, des moyens financiers et matériels</p>
+      </div>
+      <div class="operator anim d2">+</div>
+      <div class="eq-box eq-def anim d2">
+        <div class="ico">🎯</div>
+        <div class="title-sm">OBJECTIF</div>
+        <p>Satisfaire les besoins (produits / services) des clients</p>
+      </div>
+      <div class="operator anim d3">=</div>
+      <div class="eq-box eq-prod anim d3">
+        <div class="ico">💰</div>
+        <div class="title-sm">PROFIT</div>
+        <p>Réaliser des produits et services en générant du profit</p>
+      </div>
+    </div>
+    <div class="twin">
+      <div class="twin-card anim d4">
+        <h3>💼 L'entreprise est aussi un centre de répartition des revenus</h3>
+        <ul>
+          <li>Salaires &amp; achats</li>
+          <li>Impôts &amp; charges sociales</li>
+          <li>Intérêts &amp; dividendes</li>
+          <li>Bénéfices non distribués</li>
+        </ul>
+        <div class="big-ico">💸</div>
+      </div>
+      <div class="twin-card anim d5">
+        <h3>👥 Un groupement humain</h3>
+        <ul>
+          <li>Personnes aux compétences diverses</li>
+          <li>Sources propres de motivation</li>
+          <li>Réalisations &amp; satisfaction</li>
+        </ul>
+        <div class="big-ico">🤝</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 5 : FONCTION PRODUCTION ============ -->
+  <section class="slide slide5" data-i="4">
+    <h2 class="anim">Fonction production</h2>
+    <div class="ribbon anim d1"></div>
+    <div class="flow">
+      <div class="flow-box anim d1">
+        <div class="f-ico">📦</div>
+        <h3>ENTRÉE</h3>
+        <ul><li>Matières premières</li><li>Composants</li><li>Énergie</li></ul>
+      </div>
+      <div class="flow-arrow anim d2">➜</div>
+      <div class="flow-box anim d2" style="border-color:#f39c12; background:rgba(243,156,18,.15);">
+        <div class="f-ico">⚙️</div>
+        <h3 style="color:#fff;">PROCESSUS</h3>
+        <ul>
+          <li><b style="color:#f39c12;">Moyens</b> : humains, techniques, organisationnels</li>
+          <li><b style="color:#f39c12;">Décisions</b> de production : liées aux commandes (fermes ou prévues)</li>
+          <li>Objectif : réaliser des produits / services</li>
+        </ul>
+      </div>
+      <div class="flow-arrow anim d3">➜</div>
+      <div class="flow-box anim d3">
+        <div class="f-ico">🚚</div>
+        <h3 style="color:#e74c3c;">SORTIE</h3>
+        <ul><li>Produits finis</li><li>Services rendus</li><li>Satisfaction client</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 6 : CONCLUSION ============ -->
+  <section class="slide slide6" data-i="5">
+    <div class="ribbon anim"></div>
+    <h2 class="anim">Fonction production (2) — En résumé</h2>
+    <div class="end-wrap">
+      <div class="end-chart anim d1"><img src="assets/assets_image15.png" alt="Schéma"></div>
+      <div class="end-text">
+        <p class="big anim d2">La fonction production transforme des <em>entrées</em> en <em>sorties</em> de valeur, grâce aux hommes, aux moyens techniques et à l'organisation.</p>
+        <div class="end-tags">
+          <span class="tag anim d3">🏭 Production</span>
+          <span class="tag anim d4">📅 Planification</span>
+          <span class="tag anim d5">📦 Stocks</span>
+          <span class="tag anim d6">🚚 Logistique</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="counter"><b id="cur">1</b> / <span id="tot">6</span></div>
+<div class="dots" id="dots"></div>
+<div class="controls">
+  <button class="ctrl-btn" id="btnFullscreen" title="Plein écran (F)">⛶</button>
+  <button class="ctrl-btn" id="btnNext" title="Suivant (→)">›</button>
+</div>
+<div class="hint">Utilisez les flèches ← → de votre clavier pour naviguer</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+
+document.getElementById('tot').textContent = total;
+
+/* Dots */
+const dotsEl = document.getElementById('dots');
+slides.forEach((s,i)=>{
+  const d = document.createElement('div');
+  d.className = 'dot' + (i===0?' on':'');
+  d.onclick = ()=>go(i);
+  dotsEl.appendChild(d);
+});
+function updateDots(){
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on', i===current));
+}
+
+function go(n){
+  if(n===current) return;
+  const next = n % total < 0 ? n-1 : n;
+  const prev = slides[current];
+  const target = slides[n];
+  prev.classList.remove('active');
+  prev.classList.add('prev-slide');
+  setTimeout(()=>prev.classList.remove('prev-slide'), 800);
+  target.classList.add('active');
+  current = n;
+  document.getElementById('cur').textContent = current+1;
+  document.getElementById('progress').style.width = ((current+1)/total*100)+'%';
+  updateDots();
+}
+
+slides[0].classList.add('active');
+document.getElementById('progress').style.width = (1/total*100)+'%';
+
+document.getElementById('btnNext').onclick = ()=>go((current+1)%total);
+
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ') go((current+1)%total);
+  if(e.key==='ArrowLeft'||e.key==='PageUp') go((current-1+total)%total);
+  if(e.key==='f'||e.key==='F') toggleFullscreen();
+});
+
+function toggleFullscreen(){
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+document.getElementById('btnFullscreen').onclick = toggleFullscreen;
+
+/* Swipe mobile */
+let touchX = 0;
+document.addEventListener('touchstart', e=>touchX = e.touches[0].clientX);
+document.addEventListener('touchend', e=>{
+  const dx = e.changedTouches[0].clientX - touchX;
+  if(dx < -50) go((current+1)%total);
+  if(dx > 50) go((current-1+total)%total);
+});
+
+/* Auto-play optionnel (commentez la ligne pour désactiver) */
+// setInterval(()=>go((current+1)%total), 10000);
+</script>
+</body>
+</html>

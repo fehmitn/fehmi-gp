@@ -1,0 +1,6 @@
+# Dossier de synchronisation (travail venant du PC secondaire)
+update/
+
+# Extractions temporaires de gp.pptx
+_extract_tmp/
+_tmp/
