@@ -20,10 +20,10 @@ jour du HTML, publication sur GitHub, push).
 
 | Élément | Emplacement / valeur |
 |---|---|
-| Version courante du diaporama | **`Presentation-Gestion-de-Production.v10.html`** (30 slides) — ajout des fonds photo `bg_*.jpg` sur les 30 slides (sync du dossier `update`, 09/11/2026) |
-| Anciennes versions | `.v7.html`, `.v8.html`, `.v9.html` (gardées, chemins `assets/` à jour ; la v9 n'a PAS les fonds photo) |
-| Médias du diaporama | **`C:\ppt\assets\`** → `assets_image15.png` … `assets_image24.png` |
-| Copie de travail Git | **`C:\ppt\fehmi-gp\`** (`index.html` = copie de la v9) |
+| Version courante du diaporama | **`C:\ppt\index.html`** (racine du dépôt, 30 slides) — fonds photo `bg_*.jpg` sur les 30 slides (sync du dossier `update`, 09/11/2026) |
+| Anciennes versions | `.v7.html`, `.v8.html`, `.v9.html` gardées à la racine (la v9 n'a PAS les fonds photo ; après une regénération, numéroter la version remplacée en `.v10.html`, `.v11.html`…) |
+| Médias du diaporama | **`C:\ppt\assets\`** → `assets_image15.png` … `assets_image24.png` + fonds `bg_*.jpg` + `IMAGES_CREDITS.md` |
+| Copie de travail Git | **`C:\ppt` lui-même** (le dossier est un dépôt git ; `fehmi-gp\` supprimé) |
 | Dépôt GitHub | **https://github.com/fehmitn/fehmi-gp** (compte `fehmitn`) |
 | Site en ligne (GitHub Pages) | **https://fehmitn.github.io/fehmi-gp/** (branche `main`, racine) |
 | Source PowerPoint | `C:\ppt\gp.pptx` (30 slides ; slide 1 : video `media1.mp4` non utilisée, fond = `image15.png`) |
@@ -50,8 +50,8 @@ Copier dans **`C:\ppt\assets\`** tout nouveau média avec le préfixe `assets_`
 les écraser.
 
 ### Étape 3 — Mettre à jour le diaporama HTML
-Le diaporama actuel : **`Presentation-Gestion-de-Production.v10.html`**
-(fichier unique, auto-suffisant), 30 slides comme `gp.pptx`.
+Le diaporama actuel : **`C:\ppt\index.html`** (fichier unique, auto-suffisant),
+30 slides comme `gp.pptx`. C'est ce fichier qui est servi par GitHub Pages.
 
 Faire une **mise à jour ciblée** avec l'outil édition (edit) sur ce fichier :
 - Remplacer le contenu textuel de chaque `<section class="slide">`
@@ -64,14 +64,14 @@ Faire une **mise à jour ciblée** avec l'outil édition (edit) sur ce fichier :
 
 ⚠️ Si le contenu change trop profondément (nouveaux types de slides, graphiques
 SmartArt, tableaux), régénérer plutôt le fichier HTML complet en conservant le
-même design (voir ci-dessous) et l'enregistrer comme nouvelle version
-(`.v10.html`, `.v11.html`…) en gardant les versions précédentes.
+même design (voir ci-dessous). Avant de remplacer `index.html`, renommer
+l'ancienne version actuelle en `.vNN.html` (numéro suivant : v10, v11…) afin de
+garder un historique numéroté, et `index.html` reste toujours le nom de la
+version courante.
 
-### Étape 4 — Publier sur GitHub (dépôt `fehmitn/fehmi-gp`)
+### Étape 4 — Publier sur GitHub (dépôt `fehmitn/fehmi-gp`, racine = `C:\ppt`)
 ```powershell
-Copy-Item "C:\ppt\Presentation-Gestion-de-Production.v10.html" "C:\ppt\fehmi-gp\index.html" -Force
-# + copier dans C:\ppt\fehmi-gp\assets\ toute nouvelle image
-Set-Location C:\ppt\fehmi-gp
+Set-Location C:\ppt
 git add .
 git -c user.name="fehmitn" -c user.email="fehmitn@users.noreply.github.com" commit -m "update depuis gp.pptx"
 git push
@@ -82,8 +82,7 @@ Vérifier le statut du build si besoin :
 gh api repos/fehmitn/fehmi-gp/pages/builds | ConvertFrom-Json |
   Select-Object status, commit | Format-List
 ```
-(Ne pas oublier aussi de commiter la v-modifiée dans `C:\ppt` lui-même n'est
-pas un dépôt git — seule la copie `fehmi-gp` est versionnée.)
+(`update\`, `_extract_tmp\` sont exclus du dépôt via `.gitignore`.)
 
 ### Étape 5 — Nettoyer
 Supprimer les médias `assets\*` devenus inutilisés après vérification,
