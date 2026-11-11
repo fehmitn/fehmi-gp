@@ -149,6 +149,8 @@ Fonds rouges d'intercalaires corrigés (S31, S50, S69). Rien n'a été publié s
 - `update/ocr_texts/slide_NNN.txt` — texte OCR brut (jamais refaire)
 - `update/_tools/` — `ocr_slides.py` (OCR réutilisable), `export_view.py`
   (export PNG pour lecture visuelle), `crop_slide.py` (recadrage image),
+  `crop_region.py` (recadrage zone nommée, p.ex. formules), `profile_dark.py` /
+  `profile_dark_x.py` (profils de pixels sombres pour cadrage fin),
   `shot_slides.py` (capture rendu HTML via Chrome headless → `_check/render/`),
   `build_batch1/2/3/4.py`, `check_batch4.py` (vérif structurelle) — batch4 = dernier
 - `_check/` (gitignoré) — extraction pptx (slide N = `imageN.bin`, via `_rels`) + aperçus PNG dans `_check/view/`
@@ -158,16 +160,28 @@ Fonds rouges d'intercalaires corrigés (S31, S50, S69). Rien n'a été publié s
 
 ### Pour continuer plus tard (agent OpenCode) — intégration des slides 131–210
 
+**Reprise au point :** tranche 4 terminée (slides 101–130, commit `c0bdabd`) +
+correctif formules Wilson 116/117 (commit `c7e60fa`). **Prochaine étape = tranche 5** :
+source 101–140 → slides 131–170, puis tranche 6 : source 141–180 → slides 171–210.
+
+Dernier correctif (tranche 4) : slides 116/117 — les formules de dérivation et
+les résultats encadrés (n* = √(SuT/2a), q* = √(2aS/Tu)) sont des **images
+originales recadrées** (`assets_ss_fx_dn/n/dq/q.png`) via `.fx-imgs`, plus de
+formules HTML. La ligne `Z = ...` reste en texte.
+
 1. OCR **terminé** pour tout le pptx : lire `update/ocr_texts/slide_101.txt` … `slide_180.txt`
    et classer : texte / schéma / tableau / intercalaire
 2. Tranches restantes à intégrer dans index.html :
    source 101–140 → slides 131–170, source 141–180 → slides 171–210
 3. Mise en page def-grid / roles / flow / `ss-*` (design system de `INSTRUCTIONS-UPDATE.md`) ;
-   schémas complexes → `export_view.py N` puis `crop_slide.py N l t r b` → `assets/assets_ss_imageNN.png` + `.ss-img`
+   schémas complexes → `export_view.py N` puis `crop_slide.py N l t r b` (ou
+   `crop_region.py N nom l t r b` pour une zone nommée ; cadrage fin via
+   `profile_dark.py` / `profile_dark_x.py`) → `assets/assets_ss_imageNN.png` + `.ss-img`
 4. Script `build_batch5.py` sur le modèle de `build_batch4.py`
    (insertion après la dernière `<section data-i="129">`, classes slide131…, counter 130→170,
    transitions : reprendre le cycle à la suite de la slide 130 = `t-rotate`,
-   i.e. cycle redémarré à l'intercalaire 98 : rise/up/push/blur/rotate/zoom/insert)
+   i.e. cycle redémarré à l'intercalaire 98 : rise/up/push/blur/rotate/zoom/insert
+   → slide 131 = `t-zoom`)
 5. Vérifier visuellement : `python update/_tools/shot_slides.py 131 … 170` puis lire les PNG
 6. Publier sur GitHub quand toutes les slides sont intégrées (renommage `.vNN.html` avant remplacement).
 
