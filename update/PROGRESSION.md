@@ -103,7 +103,7 @@ Fonds rouges d'intercalaires corrigés (S31, S50, S69). Rien n'a été publié s
 
 ## 💾 État sauvegardé (pour reprendre)
 
-- `update/_ocr_state.json` — progression : **70/180 OCR-fait**, prochaine = **71**
+- `update/_ocr_state.json` — progression : **180/180 OCR-fait**, prochaine = **aucune** (OCR terminé)
 - `update/ocr_texts/slide_NNN.txt` — texte OCR brut (jamais refaire)
 - `update/_tools/` — `ocr_slides.py` (OCR réutilisable), `export_view.py`
   (export PNG pour lecture visuelle), `crop_slide.py` (recadrage image),
@@ -113,10 +113,12 @@ Fonds rouges d'intercalaires corrigés (S31, S50, S69). Rien n'a été publié s
 - Vérifier les slides douteuses **visuellement** : convertir le .bin en PNG, puis lire
   l'image (tableaux/graphes : OCR insuffisant), comme pour le batch 2.
 
-### Pour continuer plus tard (agent OpenCode)
+### Pour continuer plus tard (agent OpenCode) — intégration des slides 101–180
 
-1. OCR de la tranche suivante : `python update\_tools\ocr_slides.py 71 100`
-2. Lire `update/ocr_texts/slide_071.txt` … et classer : texte / schéma / tableau / intercalaire
+1. OCR **terminé** pour tout le pptx : lire `update/ocr_texts/slide_071.txt` … `slide_180.txt`
+   et classer : texte / schéma / tableau / intercalaire
+2. Tranches restantes à intégrer dans index.html :
+   source 71–100 → slides 101–130, source 101–140 → slides 131–170, source 141–180 → slides 171–210
 3. Mise en page def-grid / roles / flow / `ss-*` (design system de `INSTRUCTIONS-UPDATE.md`) ;
    schémas complexes → `export_view.py N` puis `crop_slide.py N l t r b` → `assets/assets_ss_imageNN.png` + `.ss-img`
 4. Script `build_batch4.py` sur le modèle de `build_batch3.py`
