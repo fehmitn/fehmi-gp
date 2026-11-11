@@ -8,6 +8,48 @@ Ajouter les **180 slides** de `slidsahre-file.pptx` (chaque slide = une image PN
 texte récupéré par OCR) **à la suite** de la présentation actuelle
 (`index.html`, 30 slides issues de `gp.pptx`).
 
+## ✅ Terminé — Tranche 4 : slides source 71 → 100 (slides 101–130)
+
+| Slide source | Slide présentation | Contenu | Mise en page |
+|---|---|---|---|
+| 71 | 101 | Augmenter les stocks ? | roles 2 cartes + note (4 aléas masqués) |
+| 72 | 102 | Classification des stocks | roles 2 cartes + note Pareto 20/80 |
+| 73 | 103 | Méthodologie ABC | **steps CSS** 5 étapes (`.ss-steps`) |
+| 74 | 104 | Magasinage | roles 2 cartes (mono/multi-magasin) + note emplacements |
+| 75 | 105 | Opérations de gestion : entrées/sorties | roles 2 cartes (réception/délivrance) |
+| 76 | 106 | Les inventaires | intro + def-grid 3 (permanent/intermittent/tournant) |
+| 77 | 107 | Valorisation des stocks | intro + def-grid 3 coûts |
+| 78 | 108 | Coût d'acquisition | roles 2 cartes (commande ext. 15→150 € / lancement OF) |
+| 79 | 109 | Coût de possession | def-grid 4 + note **25-40 %/an** |
+| 80 | 110 | Coût de rupture | roles 2 cartes (domaines critiques / conséquences) |
+| 81 | 111 | Quantités économiques | roles 2 cartes (objectif / contradiction) |
+| 82 | 112 | Formule de Wilson | roles 2 cartes (objectif / 4 hypothèses) |
+| 83 | 113 | Wilson (2) évolution du stock | **scie CSS** 0→Q + pointillé Q/2 (`.ss-saw`) |
+| 84 | 114 | Wilson (3) graphiques | **image originale** (`assets_ss_image84.png`, 2 courbes q*/n*) |
+| 85 | 115 | Wilson (4) variables | def-grid 7 (S/U/T/a/q/n/Z) |
+| 86 | 116 | Wilson (5) optimisation n | **formules HTML** Z → dZ/dn=0 → **n* = √(SUT/2a)** |
+| 87 | 117 | Wilson (6) optimisation q | **formules HTML** Z → dZ/dq=0 → **q* = √(2aS/UT)** |
+| 88 | 118 | Wilson (7) sensibilité | def-grid 3 (restrictif/robuste 40%-6%/arrondi 0,5 %) |
+| 89 | 119 | Quantités économiques avec remise | intro + roles 2 cartes (rabais uniformes/incrémentaux) |
+| 90 | 120 | Seuil de rabais unique (1) | **steps CSS** algorithme 5 étapes (Q<R→U1…) |
+| 91 | 121 | Seuil de rabais unique (2) | def-grid 2 (optimum = 1 des 3 solutions) |
+| 92 | 122 | Seuil de rabais unique (3) exemple | def-grid 4 chiffré (q1*=20 → CT 10 500 €, q2*=22 non admissible, CT(R)=8 706 €, optimum R=50) |
+| 93 | 123 | Politiques de gestion des stocks | **table HTML 2×2** (période × quantité) + note |
+| 94 | 124 | Méthode à point de commande | intro + **image originale** (`assets_ss_image94.png`) + formule **Pc = Délai × conso** |
+| 95 | 125 | Méthode de recomplètement | roles 2 cartes + formule **Qi = R − qi + Délai × conso** |
+| 96 | 126 | Comparaison des 2 méthodes | roles 2 cartes (point de commande / recomplètement) |
+| 97 | 127 | Aléas et stock de sécurité | roles 2 cartes (aléas / contradiction-objectif) |
+| 98 | 128 | Calcul du stock de sécurité | roles 2 cartes (hypothèses / période D) + formule **SS = k × σ × √D** |
+| 99 | 129 | K selon taux de service | **table HTML** (90 %→1,28 / 95 %→1,65 / 99 %→2,23) |
+| 100 | 130 | Exemple de calcul stock de sécurité | def-grid 3 chiffré (**SS = 1,65×20×√15 = 128 pièces** ; recompl. 1500+128 = 1628) |
+
+Compteur : **130 slides**. Nouveaux blocs CSS : `.ss-fx` (formules encadrées) et
+`.ss-saw` (scie du stock 0→Q) + correctif titres `.slide101…130` — voir le bloc
+`/* ===== Slides 101-130 (slideshare OCR) =====` dans index.html. Compactage
+spécifique de la slide 124 (contenu dense). Vérification **visuelle** des 30
+slides via `update/_tools/shot_slides.py` (copie index + saut `#N` + Chrome
+headless → `_check/render/slideNN.png`). Rien n'a été publié sur GitHub.
+
 ## ✅ Terminé — Tranche 3 : slides source 41 → 70 (slides 71–100)
 
 | Slide source | Slide présentation | Contenu | Mise en page |
@@ -107,23 +149,27 @@ Fonds rouges d'intercalaires corrigés (S31, S50, S69). Rien n'a été publié s
 - `update/ocr_texts/slide_NNN.txt` — texte OCR brut (jamais refaire)
 - `update/_tools/` — `ocr_slides.py` (OCR réutilisable), `export_view.py`
   (export PNG pour lecture visuelle), `crop_slide.py` (recadrage image),
-  `build_batch1/2/3.py` — modèles d'insertion (batch3 = dernier)
+  `shot_slides.py` (capture rendu HTML via Chrome headless → `_check/render/`),
+  `build_batch1/2/3/4.py`, `check_batch4.py` (vérif structurelle) — batch4 = dernier
 - `_check/` (gitignoré) — extraction pptx (slide N = `imageN.bin`, via `_rels`) + aperçus PNG dans `_check/view/`
 - `C:\ppt\tessdata\` (gitignoré) — pack `fra.traineddata`
 - Vérifier les slides douteuses **visuellement** : convertir le .bin en PNG, puis lire
   l'image (tableaux/graphes : OCR insuffisant), comme pour le batch 2.
 
-### Pour continuer plus tard (agent OpenCode) — intégration des slides 101–180
+### Pour continuer plus tard (agent OpenCode) — intégration des slides 131–210
 
-1. OCR **terminé** pour tout le pptx : lire `update/ocr_texts/slide_071.txt` … `slide_180.txt`
+1. OCR **terminé** pour tout le pptx : lire `update/ocr_texts/slide_101.txt` … `slide_180.txt`
    et classer : texte / schéma / tableau / intercalaire
 2. Tranches restantes à intégrer dans index.html :
-   source 71–100 → slides 101–130, source 101–140 → slides 131–170, source 141–180 → slides 171–210
+   source 101–140 → slides 131–170, source 141–180 → slides 171–210
 3. Mise en page def-grid / roles / flow / `ss-*` (design system de `INSTRUCTIONS-UPDATE.md`) ;
    schémas complexes → `export_view.py N` puis `crop_slide.py N l t r b` → `assets/assets_ss_imageNN.png` + `.ss-img`
-4. Script `build_batch4.py` sur le modèle de `build_batch3.py`
-   (insertion après la dernière `<section data-i="99">`, classes slide101…, counter, transitions)
-5. Publier sur GitHub quand toutes les slides sont intégrées (renommage `.vNN.html` avant remplacement).
+4. Script `build_batch5.py` sur le modèle de `build_batch4.py`
+   (insertion après la dernière `<section data-i="129">`, classes slide131…, counter 130→170,
+   transitions : reprendre le cycle à la suite de la slide 130 = `t-rotate`,
+   i.e. cycle redémarré à l'intercalaire 98 : rise/up/push/blur/rotate/zoom/insert)
+5. Vérifier visuellement : `python update/_tools/shot_slides.py 131 … 170` puis lire les PNG
+6. Publier sur GitHub quand toutes les slides sont intégrées (renommage `.vNN.html` avant remplacement).
 
 ## ⚠️ Points d'attention
 
