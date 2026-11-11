@@ -779,6 +779,8 @@ html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans
 /* ===== Slides 101-130 (slideshare OCR) ===== */
 .ss-fx { color:#eef2ff; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.2); border-left:4px solid #f39c12; border-radius:12px; padding:1.1% 2.2%; font-size:1.5vw; font-weight:700; width:max-content; max-width:92%; margin:.7% auto; }
 .ss-fx b { color:#f39c12; }
+.fx-imgs { display:flex; align-items:center; justify-content:center; gap:2.5%; width:100%; height:44%; margin-top:1.5%; }
+.fx-imgs img { max-height:100%; max-width:46%; border-radius:10px; background:rgba(255,255,255,.95); padding:.8%; box-shadow:0 8px 24px rgba(0,0,0,.35); }
 .ss-saw { position:relative; width:76%; height:52%; margin:.6% auto; }
 .ss-saw .saw-teeth { position:absolute; inset:0; display:flex; gap:1.4%; }
 .ss-saw .saw-teeth i { flex:1; clip-path:polygon(0 0, 100% 100%, 0 100%); background:linear-gradient(180deg, rgba(243,156,18,.5), rgba(231,76,60,.16)); }
@@ -3510,8 +3512,10 @@ html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans
     <h2 class="anim">Formule de Wilson (5) — optimisation du nombre de commandes</h2>
     <div class="ss-fx anim d1">Z = a·n + S·U·T / 2n</div>
     <p class="ss-intro anim d2">On <b style="color:#f39c12;">dérive par rapport à n</b> (nombre de commandes) — le minimum est atteint pour la <b style="color:#f39c12;">dérivée nulle</b>&nbsp;:</p>
-    <div class="ss-fx anim d3">dZ/dn = a − S·U·T / (2n²) = 0</div>
-    <div class="ss-fx anim d4" style="border-left-color:#e74c3c;"><b>n* = √( S·U·T / 2a )</b></div>
+    <div class="fx-imgs anim d3">
+      <img src="assets/assets_ss_fx_dn.png" alt="dZ/dn = d/dn( a·n + S·U·T / 2n ) = a − S·U·T / (2n²) = 0">
+      <img src="assets/assets_ss_fx_n.png" alt="n* = √( S·U·T / 2a )">
+    </div>
   </section>
 
   <section class="slide slide117 t-zoom" data-i="116" data-t="Zoom">
@@ -3519,8 +3523,10 @@ html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans
     <h2 class="anim">Formule de Wilson (6) — optimisation de la quantité à commander</h2>
     <div class="ss-fx anim d1">Z = a·S/q + q·U·T / 2</div>
     <p class="ss-intro anim d2">On <b style="color:#f39c12;">dérive par rapport à q</b> (quantité par commande) — le minimum est atteint pour la <b style="color:#f39c12;">dérivée nulle</b>&nbsp;:</p>
-    <div class="ss-fx anim d3">dZ/dq = −a·S/q² + U·T / 2 = 0</div>
-    <div class="ss-fx anim d4" style="border-left-color:#e74c3c;"><b>q* = √( 2a·S / U·T )</b></div>
+    <div class="fx-imgs anim d3">
+      <img src="assets/assets_ss_fx_dq.png" alt="dZ/dq = d/dq( a·S/q + q·U·T / 2 ) = −a·S/q² + U·T / 2 = 0">
+      <img src="assets/assets_ss_fx_q.png" alt="q* = √( 2a·S / U·T )">
+    </div>
   </section>
 
   <section class="slide slide118 t-insert" data-i="117" data-t="Insertion">

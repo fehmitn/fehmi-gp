@@ -27,8 +27,8 @@ texte récupéré par OCR) **à la suite** de la présentation actuelle
 | 83 | 113 | Wilson (2) évolution du stock | **scie CSS** 0→Q + pointillé Q/2 (`.ss-saw`) |
 | 84 | 114 | Wilson (3) graphiques | **image originale** (`assets_ss_image84.png`, 2 courbes q*/n*) |
 | 85 | 115 | Wilson (4) variables | def-grid 7 (S/U/T/a/q/n/Z) |
-| 86 | 116 | Wilson (5) optimisation n | **formules HTML** Z → dZ/dn=0 → **n* = √(SUT/2a)** |
-| 87 | 117 | Wilson (6) optimisation q | **formules HTML** Z → dZ/dq=0 → **q* = √(2aS/UT)** |
+| 86 | 116 | Wilson (5) optimisation n | Z en texte + **dérivée et n\* = √(SuT/2a) en images originales recadrées** (`assets_ss_fx_dn/n.png`) |
+| 87 | 117 | Wilson (6) optimisation q | Z en texte + **dérivée et q\* = √(2aS/Tu) en images originales recadrées** (`assets_ss_fx_dq/q.png`) |
 | 88 | 118 | Wilson (7) sensibilité | def-grid 3 (restrictif/robuste 40%-6%/arrondi 0,5 %) |
 | 89 | 119 | Quantités économiques avec remise | intro + roles 2 cartes (rabais uniformes/incrémentaux) |
 | 90 | 120 | Seuil de rabais unique (1) | **steps CSS** algorithme 5 étapes (Q<R→U1…) |
