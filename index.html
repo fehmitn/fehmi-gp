@@ -485,6 +485,19 @@ html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans
   font-size:1vw; font-weight:600; letter-spacing:3px;
 }
 .counter b { color:#f39c12; font-size:1.4vw; }
+.jump { margin-left:1.2vw; display:inline-flex; align-items:center; gap:.4vw; vertical-align:middle; }
+.jump input {
+  width:4vw; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.35);
+  border-radius:8px; color:#fff; font-size:1vw; font-weight:600; padding:.22vw .45vw; outline:none;
+  transition:all .25s ease; letter-spacing:1px;
+}
+.jump input:focus { border-color:#f39c12; background:rgba(243,156,18,.18); box-shadow:0 0 12px rgba(243,156,18,.35); }
+.jump button {
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.35); color:#fff;
+  border-radius:8px; font-size:.95vw; padding:.3vw .65vw; cursor:pointer;
+  transition:all .25s ease; letter-spacing:1px;
+}
+.jump button:hover { background:#f39c12; color:#16130a; border-color:transparent; }
 .dots { position:fixed; bottom:3%; left:50%; transform:translateX(-50%); z-index:50; display:flex; gap:10px; }
 .dot { width:11px; height:11px; border-radius:50%; background:rgba(255,255,255,.3); cursor:pointer; transition:all .3s; }
 .dot.on { background:#f39c12; width:32px; border-radius:6px; }
@@ -3148,7 +3161,9 @@ html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans
 
 </div>
 
-<div class="counter"><b id="cur">1</b> / <span id="tot">100</span></div>
+<div class="counter"><b id="cur">1</b> / <span id="tot">100</span>
+  <span class="jump"><input id="jumpNum" type="number" min="1" step="1" placeholder="n°" aria-label="Numéro de slide"><button id="btnJump" title="Aller à la slide (Entrée)">⏎</button></span>
+</div>
 <div class="dots" id="dots"></div>
 <div class="controls">
   <button class="ctrl-btn" id="btnPrev" title="Précédent (←)">‹</button>
@@ -3253,6 +3268,25 @@ document.addEventListener('keydown', e=>{
   if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ') next();
   if(e.key==='ArrowLeft'||e.key==='PageUp') prevSlideNav();
   if(e.key==='f'||e.key==='F') toggleFullscreen();
+  /* G : placer le curseur dans la zone jump (puis Entrée pour aller à la slide) */
+  if((e.key==='g'||e.key==='G') && document.activeElement!==jumpInput){
+    e.preventDefault(); jumpInput.focus(); jumpInput.select();
+  }
+});
+
+/* ---------- JUMP direct vers un numéro de slide ---------- */
+const jumpInput = document.getElementById('jumpNum');
+function jumpTo(val){
+  const n = parseInt(val, 10);
+  if(!isNaN(n)) go(n - 1);
+  jumpInput.value = '';
+  jumpInput.blur();
+}
+document.getElementById('btnJump').onclick = ()=>jumpTo(jumpInput.value);
+jumpInput.addEventListener('keydown', e=>{
+  e.stopPropagation();          /* ←/→/Espace ne changent pas de slide pendant la saisie */
+  if(e.key==='Enter') jumpTo(jumpInput.value);
+  if(e.key==='Escape'){ jumpInput.value=''; jumpInput.blur(); }
 });
 
 function toggleFullscreen(){
@@ -3273,7 +3307,7 @@ document.addEventListener('touchend', e=>{
 /* Avance au clic n'importe où — sauf sur les éléments interactifs
    (boutons, dots, cartes du quiz qui ont leur propre comportement) */
 document.addEventListener('click', e=>{
-  if(e.target.closest('.controls, .dots, .quiz-item')) return;
+  if(e.target.closest('.controls, .dots, .quiz-item, .counter, .jump')) return;
   next();
 });
 
