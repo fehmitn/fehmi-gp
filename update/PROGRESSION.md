@@ -1,12 +1,114 @@
 # 📍 État du chantier — Ajout des 180 slides slideshare
 
-**Mis à jour :** 2026-11-11
+**Mis à jour :** 2026-11-23
 
 ## Objectif global
 
 Ajouter les **180 slides** de `slidsahre-file.pptx` (chaque slide = une image PNG,
 texte récupéré par OCR) **à la suite** de la présentation actuelle
 (`index.html`, 30 slides issues de `gp.pptx`).
+
+## ✅ Terminé — Tranche 6 : slides source 141 → 180 (slides 171–210)
+
+| Slide source | Slide présentation | Contenu | Mise en page |
+|---|---|---|---|
+| 141 | 171 | SMED — objectif et principe | roles 2 cartes (🎯 objectif / ⚙️ principe) |
+| 142 | 172 | SMED (2) — démarche | def-grid 6 |
+| 143 | 173 | SMED (3) — exemples | roles 2 cartes (alésage 8 h→3 min / moulage 2 h→15 min) |
+| 144 | 174 | Maintenance — disponibilité des RT | roles 2 cartes |
+| 145 | 175 | Types de maintenance | def-grid 3 (curative / préventive systématique / prédictive) |
+| 146 | 176 | Politique de maintenance | intro + def-grid 3 (AMDEC) |
+| 147 | 177 | Approvisionnements — fournisseurs | def-grid 3 |
+| 148 | 178 | Conclusion Juste à Temps | def-grid 3 (5 zéros, RH, résultats) |
+| 149 | 179 | Chapitre 7 — Logistique | intercalaire rouge + particules + picto 🚚 |
+| 150 | 180 | Distribution physique | roles 2 cartes |
+| 151 | 181 | Distribution physique (2) — niveaux | roles 2 cartes (opérationnel / structurel) |
+| 152 | 182 | Gestion de l'entrepôt — raisons | def-grid 3 |
+| 153 | 183 | Gestion de l'entrepôt (2) — circuit | **steps CSS** 8 étapes (`.ss-steps`) |
+| 154 | 184 | Gestion de l'entrepôt (3) — stockage | def-grid 3 (affecté / banalisé / mixte) |
+| 155 | 185 | Réseaux de distribution — structure | **image originale** (`assets_ss_image155.png`, schéma usines→clients) |
+| 156 | 186 | Réseaux de distribution (2) | def-grid 3 (direct / 1 étage / 2 étages) |
+| 157 | 187 | Évolution des réseaux (1) | def-grid 3 |
+| 158 | 188 | Évolution des réseaux (2) | def-grid 2 |
+| 159 | 189 | DRP | intro + note (calcul des besoins nets) |
+| 160 | 190 | Affectation usines → dépôts | intro + def-grid 2 (stepping stone / PL) |
+| 161 | 191 | Supply Chain Management (SCM) | def-grid 3 |
+| 162 | 192 | Logistique — définition | note citation + def-grid 2 |
+| 163 | 193 | Supply Chain | intro + def-grid 2 |
+| 164 | 194 | Coût de la supply chain | formule encadrée + def-grid 4 + note (≈10 % du CA) |
+| 165 | 195 | Concepts de la supply chain | def-grid 5 |
+| 166 | 196 | Vision globale — entreprise élargie | **image originale** (`assets_ss_image166.png`, chaîne d'usines) |
+| 167 | 197 | Segmentation de la clientèle | def-grid 7 |
+| 168 | 198 | Adaptation au besoin | def-grid 4 |
+| 169 | 199 | Partenariat fournisseurs/producteurs/distributeurs | def-grid 5 |
+| 170 | 200 | Flux d'informations | def-grid 4 (ERP, APS…) |
+| 171 | 201 | Différenciation retardée | def-grid 2 |
+| 172 | 202 | Transports | roles 2 cartes |
+| 173 | 203 | Modes de transport | roles 2 cartes (Europe / import-export) |
+| 174 | 204 | La route | def-grid 4 |
+| 175 | 205 | Le fer | def-grid 4 |
+| 176 | 206 | Voie navigable | def-grid 3 |
+| 177 | 207 | Transport maritime | def-grid 3 |
+| 178 | 208 | Transport aérien | def-grid 4 |
+| 179 | 209 | Choix du mode de transport | intro + def-grid 2 (mode / produit) |
+| 180 | 210 | Choix du mode (2) — tableau | **table HTML** 3 lignes × 4 colonnes (national / international) |
+
+Compteur : **210 slides**. 2 recadrages ajoutés (`assets_ss_image155.png`,
+`assets_ss_image166.png` — ce dernier en crop PIL direct, le bbox auto de
+`crop_slide.py` masquait l'usine en bas à droite). Compactages spécifiques
+slides 183 (8 étapes) et 210 (tableau). Correctif titres `.slide171…210` — voir
+le bloc `/* ===== Slides 171-210 (slideshare OCR) =====` dans index.html.
+Vérification **visuelle** des 40 slides. Rien n'a été publié sur GitHub.
+
+## ✅ Terminé — Tranche 5 : slides source 101 → 140 (slides 131–170)
+
+| Slide source | Slide présentation | Contenu | Mise en page |
+|---|---|---|---|
+| 101 | 131 | Valorisation du stock | roles 2 cartes |
+| 102 | 132 | Méthodes de valorisation | def-grid |
+| 103 | 133 | FIFO | schéma CSS flux entrées/sorties |
+| 104 | 134 | LIFO | schéma CSS flux entrées/sorties |
+| 105 | 135 | Conclusion gestion des stocks | def-grid |
+| 106 | 136 | Chapitre 4 — Prévisions | intercalaire rouge + picto 📈 |
+| 107 | 137 | Prévisions — objectif | roles 2 cartes |
+| 108 | 138 | Types de prévisions | def-grid |
+| 109 | 139 | Prévisions et objectifs | **image originale** (`assets_ss_image109.png`) |
+| 110 | 140 | Prévisions et objectifs (2) — exemple | **image originale** (`assets_ss_image110.png`) |
+| 111 | 141 | Qui prévoit ? | comparaison 2 colonnes |
+| 112 | 142 | Méthode de prévision | **steps CSS** (`.ss-steps`) |
+| 113 | 143 | Données initiales | roles 2 cartes |
+| 114 | 144 | Évolutions courantes — constante/tendance | **2 images originales** (`image114a/b`) |
+| 115 | 145 | Évolutions courantes (2) — saisonnière/saut | **2 images originales** (`image115a/b`) |
+| 116 | 146 | Moyenne mobile | **2 graphes recadrés** (`fx_mm_odd/even`) |
+| 117 | 147 | Lissage exponentiel | **graphe recadré** (`fx_liss_exp`) |
+| 118 | 148 | Tendance linéaire | **2 graphes recadrés** (`fx_reg_a/b`) |
+| 119 | 149 | Exemple de prévision par tendance | **image originale** (`assets_ss_image119.png`) |
+| 120 | 150 | Évolution saisonnière | **steps CSS** |
+| 121 | 151 | Exemple de prévision saisonnière | **image originale** (`assets_ss_image121.png`) |
+| 122 | 152 | Conclusion sur les prévisions | def-grid |
+| 123 | 153 | Chapitre 5 — Kanban | intercalaire rouge + picto 🏷️ |
+| 124 | 154 | Kanban — historique et objectifs | roles 2 cartes |
+| 125 | 155 | Kanban — flux tiré | roles 2 cartes |
+| 126 | 156 | Kanban — principe (2) | **image originale** (`assets_ss_image126.png`) |
+| 127 | 157 | Kanban — fonctionnement | **steps CSS** |
+| 128 | 158 | Kanban — fonctionnement (2) | **image originale** (`assets_ss_image128.png`) |
+| 129 | 159 | Kanban — fonctionnement (3) | **image originale** (`assets_ss_image129.png`) |
+| 130 | 160 | Calcul du nombre de Kanbans | **steps CSS** |
+| 131 | 161 | Calcul du nombre de Kanbans (2) | def-grid |
+| 132 | 162 | Calcul (3) — application | def-grid |
+| 133 | 163 | Kanban — conditions nécessaires | def-grid |
+| 134 | 164 | Kanban — conséquences | def-grid |
+| 135 | 165 | Conclusion sur le Kanban | def-grid |
+| 136 | 166 | Chapitre 6 — Juste à Temps | intercalaire rouge + picto ⏱️ |
+| 137 | 167 | Juste à Temps — objectifs | roles 2 cartes |
+| 138 | 168 | Juste à Temps — les moyens | def-grid |
+| 139 | 169 | Rationalisation de l'implantation | **image originale** (`assets_ss_image139.png`) |
+| 140 | 170 | Rationalisation (2) — démarche | **steps CSS** |
+
+Compteur : **170 slides**. 17 recadrages ajoutés (`image109/110/114a/114b/115a/115b/119/121/126/128/129/139`,
+formules/graphes `fx_liss_exp`, `fx_mm_odd/even`, `fx_reg_a/b`). Correctif titres
+`.slide131…170` — voir le bloc `/* ===== Slides 131-170 (slideshare OCR) =====`.
+Vérification **visuelle** des 40 slides. Rien n'a été publié sur GitHub.
 
 ## ✅ Terminé — Tranche 4 : slides source 71 → 100 (slides 101–130)
 
@@ -152,38 +254,30 @@ Fonds rouges d'intercalaires corrigés (S31, S50, S69). Rien n'a été publié s
   `crop_region.py` (recadrage zone nommée, p.ex. formules), `profile_dark.py` /
   `profile_dark_x.py` (profils de pixels sombres pour cadrage fin),
   `shot_slides.py` (capture rendu HTML via Chrome headless → `_check/render/`),
-  `build_batch1/2/3/4.py`, `check_batch4.py` (vérif structurelle) — batch4 = dernier
+  `build_batch1/2/3/4/5/6.py`, `check_batch4/5/6.py` (vérif structurelle),
+  `export_view.py 101 140` par paquets (export PNG des sources) — batch6 = dernier
 - `_check/` (gitignoré) — extraction pptx (slide N = `imageN.bin`, via `_rels`) + aperçus PNG dans `_check/view/`
 - `C:\ppt\tessdata\` (gitignoré) — pack `fra.traineddata`
 - Vérifier les slides douteuses **visuellement** : convertir le .bin en PNG, puis lire
   l'image (tableaux/graphes : OCR insuffisant), comme pour le batch 2.
 
-### Pour continuer plus tard (agent OpenCode) — intégration des slides 131–210
+### Pour continuer plus tard (agent OpenCode) — publication des slides 131–210
 
-**Reprise au point :** tranche 4 terminée (slides 101–130, commit `c0bdabd`) +
-correctif formules Wilson 116/117 (commit `c7e60fa`). **Prochaine étape = tranche 5** :
-source 101–140 → slides 131–170, puis tranche 6 : source 141–180 → slides 171–210.
+**Reprise au point : TOUT EST INTÉGRÉ** — les 180 slides slideshare sont dans
+`index.html` (30 d'origine + 180 = **210 slides**, compteur 210). Derniers commits
+locaux : `b8f6de8` (tranche 5, slides 131–170), `a9f5ea6` (tranche 6, slides 171–210).
+**Aucun push n'a été fait** : la publication GitHub est en attente de demande explicite.
 
-Dernier correctif (tranche 4) : slides 116/117 — les formules de dérivation et
-les résultats encadrés (n* = √(SuT/2a), q* = √(2aS/Tu)) sont des **images
-originales recadrées** (`assets_ss_fx_dn/n/dq/q.png`) via `.fx-imgs`, plus de
-formules HTML. La ligne `Z = ...` reste en texte.
+Dernier correctif (tranche 6) : slide 196 — le crop `assets_ss_image166.png` est un
+crop PIL direct (8 %, 23 %, 100 %, 99 % de la source), car le bbox automatique de
+`crop_slide.py` laissait un bloc blanc sur l'usine en bas à droite.
 
-1. OCR **terminé** pour tout le pptx : lire `update/ocr_texts/slide_101.txt` … `slide_180.txt`
-   et classer : texte / schéma / tableau / intercalaire
-2. Tranches restantes à intégrer dans index.html :
-   source 101–140 → slides 131–170, source 141–180 → slides 171–210
-3. Mise en page def-grid / roles / flow / `ss-*` (design system de `INSTRUCTIONS-UPDATE.md`) ;
-   schémas complexes → `export_view.py N` puis `crop_slide.py N l t r b` (ou
-   `crop_region.py N nom l t r b` pour une zone nommée ; cadrage fin via
-   `profile_dark.py` / `profile_dark_x.py`) → `assets/assets_ss_imageNN.png` + `.ss-img`
-4. Script `build_batch5.py` sur le modèle de `build_batch4.py`
-   (insertion après la dernière `<section data-i="129">`, classes slide131…, counter 130→170,
-   transitions : reprendre le cycle à la suite de la slide 130 = `t-rotate`,
-   i.e. cycle redémarré à l'intercalaire 98 : rise/up/push/blur/rotate/zoom/insert
-   → slide 131 = `t-zoom`)
-5. Vérifier visuellement : `python update/_tools/shot_slides.py 131 … 170` puis lire les PNG
-6. Publier sur GitHub quand toutes les slides sont intégrées (renommage `.vNN.html` avant remplacement).
+1. OCR **terminé** pour tout le pptx (`update/_ocr_state.json` : 180/180).
+2. Intégration **terminée** : sources 1–180 → slides 31–210.
+3. Vérification **visuelle terminée** pour les 180 slides (`shot_slides.py` → `_check/render/`).
+4. Publier sur GitHub **quand l'utilisateur le demande** : suivre la procédure de
+   `INSTRUCTIONS-UPDATE.md` (renommage de l'ancienne version en `.vNN.html` avant
+   remplacement). Ne pas pousser sans demande explicite.
 
 ## ⚠️ Points d'attention
 
