@@ -46,6 +46,21 @@ CHAPTERS = [
 POSITIONS = ["center 50%", "left 45%", "right 55%", "center 35%", "center 65%"]
 OVERLAYS = [(.86, .91), (.87, .92), (.88, .93), (.86, .92)]
 
+# Intercalaires de chapitre (et slide 11 restée en rouge par erreur) : plus de
+# degrade rouge uni, un vrai fond photo avec voile sombre. flex-direction:column
+# est conserve car il porte la mise en page de ces slides.
+SEPARATORS = [
+    (11, "bg_robots_yellow.jpg", "center 50%", .82, .92),
+    (31, "bg_planning_online.jpg", "center 45%", .80, .90),
+    (50, "bg_planning_online_b.jpg", "center 50%", .80, .90),
+    (69, "bg_erp_online.jpg", "center 45%", .80, .90),
+    (98, "bg_stock_online.jpg", "center 45%", .80, .90),
+    (136, "bg_forecast_online.jpg", "center 45%", .86, .94),
+    (153, "bg_kanban_online.jpg", "center 50%", .80, .90),
+    (166, "bg_lean_online.jpg", "center 50%", .80, .90),
+    (179, "bg_port_dusk.jpg", "center 50%", .80, .90),
+]
+
 
 def build_css():
     out = [MARK, "/* Un thème visuel par chapitre, avec de légères variations d'image,",
@@ -61,6 +76,21 @@ def build_css():
                 ".slide%d { background: linear-gradient(rgba(11,18,37,%.2f), rgba(11,18,37,%.2f)), "
                 "url('assets/%s') %s/cover no-repeat; }" % (n, a, b, img, pos)
             )
+    out.append("")
+    out.append("/* Intercalaires de chapitre : fond photo a la place du rouge uni */")
+    for n, img, pos, a, b in SEPARATORS:
+        pad = "13vh" if n == 11 else "28vh"
+        out.append(
+            ".slide%d { flex-direction:column; justify-content:flex-start; padding-top:%s; "
+            "background: linear-gradient(rgba(11,18,37,%.2f), "
+            "rgba(11,18,37,%.2f)), url('assets/%s') %s/cover no-repeat; }" % (n, pad, a, b, img, pos)
+        )
+    pictos = ", ".join(".slide%d .picto" % n for n, _, _, _, _ in SEPARATORS if n != 11)
+    out.append("/* picto des intercalaires : grand, en bas a droite, comme la slide 3 */")
+    out.append(
+        pictos + " { font-size:10vw; position:absolute; right:6%; bottom:5%; opacity:.45; "
+        "animation:floaty 3.5s ease-in-out infinite; }"
+    )
     return "\n".join(out) + "\n"
 
 
@@ -82,11 +112,15 @@ def main():
 
     total = sum(len(c[1]) for c in CHAPTERS)
     print("OK : fonds appliques a %d slides (7 chapitres)" % total)
+    print("OK : %d intercalaires passes du rouge uni au fond photo" % len(SEPARATORS))
     missing = set()
     for _, _, images in CHAPTERS:
         for img in images:
             if not os.path.exists(os.path.join(r"C:\ppt\assets", img)):
                 missing.add(img)
+    for _, img, _, _, _ in SEPARATORS:
+        if not os.path.exists(os.path.join(r"C:\ppt\assets", img)):
+            missing.add(img)
     if missing:
         print("!! images manquantes : " + ", ".join(sorted(missing)))
     else:

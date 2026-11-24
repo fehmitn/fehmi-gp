@@ -17,7 +17,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="repla
 PATH = r"C:\ppt\index.html"
 MARK = "/* ===== Alignement vertical des titres ===== */"
 
-SKIP = {1, 3, 11, 31, 50, 69, 98, 136, 153, 166, 179}
+SKIP = {1, 3, 31, 50, 69, 98, 136, 153, 166, 179}
 nums = [n for n in range(1, 211) if n not in SKIP]
 
 selectors = ",\n".join(f".slide{n}" for n in nums)

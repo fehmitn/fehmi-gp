@@ -6,7 +6,13 @@
 
 Chaque chapitre a désormais **un thème visuel de fond**, appliqué uniquement aux
 slides qui n'avaient pas d'image (les slides 1–30 gardent leurs photos
-d'origine, les intercalaires rouges restent rouges).
+d'origine).
+
+**Les intercalaires de chapitre n'ont plus de dégradé rouge uni** : ils
+utilisent le fond photo de leur chapitre, avec un voile sombre, le titre placé
+en haut (28 vh) et le picto en grand en bas à droite (31, 50, 69, 98, 136, 153,
+166, 179). La slide 11 (restée rouge par erreur) est passée en fond photo et
+alignée comme les autres slides de contenu.
 
 | Chapitre | Slides | Images |
 |---|---|---|
@@ -17,6 +23,9 @@ d'origine, les intercalaires rouges restent rouges).
 | Ch5 — Kanban | 154–165 | `bg_kanban_online.jpg` / `_b` (murs de post-its) |
 | Ch6 — JAT / lean | 167–178 | `bg_lean_online.jpg` / `_b` (lignes de robots) |
 | Ch7 — Logistique | 180–210 | photos existantes (port, conteneurs, quais, entrepôt) |
+
+Intercalaires (3, 11, 31, 50, 69, 98, 136, 153, 166, 179) : fond photo à la
+place du rouge uni, avec le picto du chapitre agrandi en bas à droite.
 
 - **Variations intra-chapitre** : alternance des 2 variantes toutes les 2 slides,
   cadrage cyclé (center / left / right / haut / bas) et voile sombre modulé
