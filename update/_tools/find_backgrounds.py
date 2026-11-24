@@ -76,6 +76,21 @@ THEMES = {
         "task board office",
         "note cards board",
     ],
+    "lean3": [
+        "lean manufacturing",
+        "lean manufacturing assembly line",
+        "lean production workshop",
+        "just in time manufacturing",
+        "factory assembly line workers",
+        "industrial production line",
+    ],
+    "lean4": [
+        "automotive assembly line robots",
+        "car factory welding robots",
+        "robotic arm production line",
+        "industrial robot welding",
+        "factory conveyor belt production",
+    ],
 }
 
 

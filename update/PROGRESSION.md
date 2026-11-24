@@ -1,6 +1,51 @@
 # 📍 État du chantier — Ajout des 180 slides slideshare
 
-**Mis à jour :** 2026-11-23
+**Mis à jour :** 2026-11-24
+
+## ✅ Terminé — Fonds photo par chapitre (slides 32–210)
+
+Chaque chapitre a désormais **un thème visuel de fond**, appliqué uniquement aux
+slides qui n'avaient pas d'image (les slides 1–30 gardent leurs photos
+d'origine, les intercalaires rouges restent rouges).
+
+| Chapitre | Slides | Images |
+|---|---|---|
+| Ch2 — Planification | 32–49, 51–68 | `bg_planning_online.jpg` / `_b` (salles de contrôle, NASA) |
+| Ch3 — ERP / GPAO | 70–97 | `bg_erp_online.jpg` / `_b` (data centers) |
+| Ch3 — Stocks | 99–135 | `bg_stock_online.jpg` / `_b` (entrepôts, palettes) |
+| Ch4 — Prévisions | 137–152 | `bg_forecast_online.jpg` / `_b` (Bourse, NYSE) |
+| Ch5 — Kanban | 154–165 | `bg_kanban_online.jpg` / `_b` (murs de post-its) |
+| Ch6 — JAT / lean | 167–178 | `bg_lean_online.jpg` / `_b` (lignes de robots) |
+| Ch7 — Logistique | 180–210 | photos existantes (port, conteneurs, quais, entrepôt) |
+
+- **Variations intra-chapitre** : alternance des 2 variantes toutes les 2 slides,
+  cadrage cyclé (center / left / right / haut / bas) et voile sombre modulé
+  (0,86 → 0,93) — la photo reste perceptible sans nuire à la lisibilité.
+- Script idempotent : `update/_tools/build_backgrounds.py` (bloc
+  `/* ===== FONDS PHOTO PAR CHAPITRE ===== */` inséré avant `</style>`).
+- Photos libres de droits (Wikimedia Commons), recadrées 1920×1080, légèrement
+  floutées + assombries. Crédits complets : `assets/BACKGROUNDS-CREDITS.md`.
+- Outils : `find_backgrounds.py` (recherche + planches-contact),
+  `rebuild_dirs.py` (resynchronise vignettes ↔ `candidates.json`),
+  `download_chosen.py` (téléchargement + retraitement, reprise sans doublon),
+  `match_bg.py` (retrouve l'origine d'un fond par empreinte dHash),
+  `fix_credits.py`, `final_sheet.py` (planche de contrôle).
+- Vérification **visuelle** : slides 32, 45, 60, 70, 95, 100, 130, 137, 150,
+  154, 165, 167, 178, 180, 194, 210 + contrôle que 1, 20 et les intercalaires
+  31 / 136 / 153 / 166 / 179 sont inchangés.
+
+> Génération d'images par IA (MiniMax H3, Grok Imagine) **indisponible** :
+> « Insufficient balance » sur le compte OpenCode Models. Toutes les images
+> sont donc des photos libres téléchargées (suffixe `_online`).
+
+## ✅ Terminé — Alignement vertical des titres
+
+Le contenu était centré verticalement (`justify-content:center`) : les slides
+peu remplies affichaient un grand vide en haut et un titre trop bas.
+`update/_tools/build_title_align.py` passe 199 slides en
+`justify-content:flex-start; padding-top:13vh` (exclusion slide 1 + intercalaires
+3, 11, 31, 50, 69, 98, 136, 153, 166, 179), avec compactage spécifique de la
+slide 194 pour que la note reste au-dessus du compteur.
 
 ## Objectif global
 
