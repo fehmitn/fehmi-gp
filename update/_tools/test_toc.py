@@ -19,7 +19,7 @@ INJECT = r"""
       if(typeof openToc!=='function') return;
       openToc();
       var items=document.querySelectorAll('.toc-item');
-      items[5].click();  /* 6e entree -> slide 153 */
+      items[5].click();  /* 6e entree -> slide 161 */
       clearInterval(iv);
       var r=document.createElement('div'); r.id='TESTRESULT';
       r.textContent='CUR='+document.getElementById('cur').textContent
@@ -45,7 +45,7 @@ def main():
     m = re.search(r"CUR=(\d+) OPEN=(true|false) ITEMS=(\d+)", p.stdout)
     print("RESULTAT:", m.group(0) if m else "introuvable")
     if m:
-        print("OK" if (m.group(1) == "153" and m.group(2) == "false" and m.group(3) == "8") else "ECHEC")
+        print("OK" if (m.group(1) == "161" and m.group(2) == "false" and m.group(3) == "8") else "ECHEC")
 
 
 if __name__ == "__main__":

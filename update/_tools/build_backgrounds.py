@@ -3,12 +3,12 @@
 
 Chapitres concernes (les intercalaires rouges sont exclus) :
   Ch2 Planification : 32-49, 51-70   -> bg_planning_online(.jpg/_b.jpg)
-  Ch3 ERP/GPAO      : 72-99          -> bg_erp_online(.jpg/_b.jpg)
-  Ch3 Stocks        : 101-137        -> bg_stock_online(.jpg/_b.jpg)
-  Ch4 Previsions    : 139-154        -> bg_forecast_online(.jpg/_b.jpg)
-  Ch5 Kanban        : 156-167        -> bg_kanban_online(.jpg/_b.jpg)
-  Ch6 JAT / lean    : 169-180        -> bg_lean_online(.jpg/_b.jpg)
-  Ch7 Logistique    : 182-212        -> photos existantes (port, conteneurs, quais)
+  Ch3 ERP/GPAO      : 72-101         -> bg_erp_online(.jpg/_b.jpg)
+  Ch3 Stocks        : 103-141        -> bg_stock_online(.jpg/_b.jpg)
+  Ch4 Previsions    : 143-160        -> bg_forecast_online(.jpg/_b.jpg)
+  Ch5 Kanban        : 162-175        -> bg_kanban_online(.jpg/_b.jpg)
+  Ch6 JAT / lean    : 177-190        -> bg_lean_online(.jpg/_b.jpg)
+  Ch7 Logistique    : 192-224        -> photos existantes (port, conteneurs, quais)
 
 Petites variations dans un chapitre : alternance des 2 variantes d'image, cadrage
 decale (center / left / right / haut / bas) et voile sombre legerement module.
@@ -27,17 +27,17 @@ MARK = "/* ===== FONDS PHOTO PAR CHAPITRE ===== */"
 CHAPTERS = [
     ("Chapitre 2 — Planification", list(range(32, 50)) + list(range(51, 71)),
      ["bg_planning_online.jpg", "bg_planning_online_b.jpg"]),
-    ("Chapitre 3 — ERP / GPAO", list(range(72, 100)),
+    ("Chapitre 3 — ERP / GPAO", list(range(72, 102)),
      ["bg_erp_online.jpg", "bg_erp_online_b.jpg"]),
-    ("Chapitre 3 — Gestion des stocks", list(range(101, 138)),
+    ("Chapitre 3 — Gestion des stocks", list(range(103, 142)),
      ["bg_stock_online.jpg", "bg_stock_online_b.jpg"]),
-    ("Chapitre 4 — Prévisions", list(range(139, 155)),
+    ("Chapitre 4 — Prévisions", list(range(143, 161)),
      ["bg_forecast_online.jpg", "bg_forecast_online_b.jpg"]),
-    ("Chapitre 5 — Kanban", list(range(156, 168)),
+    ("Chapitre 5 — Kanban", list(range(162, 176)),
      ["bg_kanban_online.jpg", "bg_kanban_online_b.jpg"]),
-    ("Chapitre 6 — Juste-à-temps / lean", list(range(169, 181)),
+    ("Chapitre 6 — Juste-à-temps / lean", list(range(177, 191)),
      ["bg_lean_online.jpg", "bg_lean_online_b.jpg"]),
-    ("Chapitre 7 — Logistique", list(range(182, 213)),
+    ("Chapitre 7 — Logistique", list(range(192, 225)),
      ["bg_port_day.jpg", "bg_container_load.jpg", "bg_night_dock.jpg",
       "bg_palletizing.jpg", "bg_warehouse_dark.jpg", "bg_port_dusk.jpg",
       "bg_warehouse_rack.jpg"]),
@@ -54,11 +54,11 @@ SEPARATORS = [
     (31, "bg_planning_online.jpg", "center 45%", .80, .90),
     (50, "bg_planning_online_b.jpg", "center 50%", .80, .90),
     (71, "bg_erp_online.jpg", "center 45%", .80, .90),
-    (100, "bg_stock_online.jpg", "center 45%", .80, .90),
-    (138, "bg_forecast_online.jpg", "center 45%", .86, .94),
-    (155, "bg_kanban_online.jpg", "center 50%", .80, .90),
-    (168, "bg_lean_online.jpg", "center 50%", .80, .90),
-    (181, "bg_port_dusk.jpg", "center 50%", .80, .90),
+    (102, "bg_stock_online.jpg", "center 45%", .80, .90),
+    (142, "bg_forecast_online.jpg", "center 45%", .86, .94),
+    (161, "bg_kanban_online.jpg", "center 50%", .80, .90),
+    (176, "bg_lean_online.jpg", "center 50%", .80, .90),
+    (191, "bg_port_dusk.jpg", "center 50%", .80, .90),
 ]
 
 

@@ -34,7 +34,7 @@ INJECT = r"""
       var def=it.querySelector('.q-def').classList.contains('show');
 
       var toc=document.querySelectorAll('.toc-item');
-      toc[2].click();            /* chapitre 3 -> slide 71 */
+      toc[2].click();            /* chapitre 3 -> slide 71 (inchange) */
       var cur=document.getElementById('cur').textContent;
 
       var r=document.createElement('div'); r.id='TESTRESULT';

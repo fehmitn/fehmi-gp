@@ -2,7 +2,24 @@
 
 **Mis à jour :** 2026-11-25
 
-## ✅ Terminé — Gamification : 2 quiz à la fin du chapitre 2
+## ✅ Terminé — Gamification : 2 quiz par chapitre (2 à 7)
+
+Au total **14 slides de quiz / 84 questions** : slides 29–30 (chapitre 1,
+préexistantes), 69–70 (chapitre 2), 100–101 (ERP/GPAO), 140–141 (stocks),
+159–160 (prévisions), 174–175 (kanban), 189–190 (JAT/lean), 223–224 (logistique).
+Même modèle interactif partout : carte à retourner, 4 réponses, ✅/❌ puis
+définition. Les 12 nouvelles utilisent la classe `.quiz-compact` pour que les
+définitions longues restent visibles.
+
+Le script `update/_tools/add_remaining_quiz.py` a inséré les 12 slides et
+décalé les anciennes 69–212 : la présentation compte désormais **224 slides**.
+Fonds photo, alignement des titres, table des matières et scripts de contrôle
+ont été recalculés en conséquence.
+
+Vérifié : planche-contact des 6 quiz, verso des cartes longues (100/4, 159/6),
+`check_batch6.py` (224 sections, `data-i` 0–223, transitions OK).
+
+### Détail — quiz du chapitre 2 (historique de l'étape précédente)
 
 Deux nouvelles slides de quiz insérées après l'ancienne slide 68, sur le modèle
 des slides 29–30 (cartes à retourner, 4 réponses, ✅/❌ puis définition) :
@@ -14,9 +31,9 @@ des slides 29–30 (cartes à retourner, 4 réponses, ✅/❌ puis définition) 
 
 Chaque slide contient **6 questions** (12 au total), une bonne réponse et une
 définition par carte. Le script `update/_tools/add_ch2_quiz.py` a décalé les
-slides 69–210 en 71–212 : la présentation compte désormais **212 slides**.
-Les fond photo, l'alignement des titres, la Table des matières et les scripts
-de contrôle ont été recalculés en conséquence.
+slides 69–210 en 71–212, puis en 71–224 lors de l'ajout des quiz des autres
+chapitres. Les fonds photo, l'alignement des titres, la Table des matières et
+les scripts de contrôle ont été recalculés en conséquence.
 
 Vérifié : rendu des slides 69 et 70, test interactif (`test_ch2_quiz.py` :
 retournement carte, mauvaise puis bonne réponse, verdict, définition, TOC → 71).
@@ -33,16 +50,16 @@ un clic saute directement au début du chapitre. Raccourci clavier **T**
 | 3 | Chapitre 1 — Fonction production dans l'entreprise |
 | 31 | Chapitre 2 — Planification |
 | 71 | Chapitre 3 — Données techniques & GPAO / ERP |
-| 100 | Chapitre 3 — Gestion des stocks |
-| 138 | Chapitre 4 — Prévisions |
-| 155 | Chapitre 5 — Kanban |
-| 168 | Chapitre 6 — Juste à Temps |
-| 181 | Chapitre 7 — Logistique |
+| 102 | Chapitre 3 — Gestion des stocks |
+| 142 | Chapitre 4 — Prévisions |
+| 161 | Chapitre 5 — Kanban |
+| 176 | Chapitre 6 — Juste à Temps |
+| 191 | Chapitre 7 — Logistique |
 
 Vérifié : rendu du panneau (`shot_toc.py`), bouton visible (`shot_counter.py`),
-test fonctionnel (`test_toc.py` : 8 entrées, clic → slide 155, panneau refermé).
+test fonctionnel (`test_toc.py` : 8 entrées, clic → slide 161, panneau refermé).
 
-## ✅ Terminé — Fonds photo par chapitre (slides 32–212)
+## ✅ Terminé — Fonds photo par chapitre (slides 32–224)
 
 Chaque chapitre a désormais **un thème visuel de fond**, appliqué uniquement aux
 slides qui n'avaient pas d'image (les slides 1–30 gardent leurs photos
@@ -50,21 +67,21 @@ d'origine).
 
 **Les intercalaires de chapitre n'ont plus de dégradé rouge uni** : ils
 utilisent le fond photo de leur chapitre, avec un voile sombre, le titre placé
-en haut (28 vh) et le picto en grand en bas à droite (31, 50, 71, 100, 138, 155,
-168, 181). La slide 11 (restée rouge par erreur) est passée en fond photo et
+en haut (28 vh) et le picto en grand en bas à droite (31, 50, 71, 102, 142, 161,
+176, 191). La slide 11 (restée rouge par erreur) est passée en fond photo et
 alignée comme les autres slides de contenu.
 
 | Chapitre | Slides | Images |
 |---|---|---|
 | Ch2 — Planification | 32–49, 51–70 | `bg_planning_online.jpg` / `_b` (salles de contrôle, NASA) |
-| Ch3 — ERP / GPAO | 72–99 | `bg_erp_online.jpg` / `_b` (data centers) |
-| Ch3 — Stocks | 101–137 | `bg_stock_online.jpg` / `_b` (entrepôts, palettes) |
-| Ch4 — Prévisions | 139–154 | `bg_forecast_online.jpg` / `_b` (Bourse, NYSE) |
-| Ch5 — Kanban | 156–167 | `bg_kanban_online.jpg` / `_b` (murs de post-its) |
-| Ch6 — JAT / lean | 169–180 | `bg_lean_online.jpg` / `_b` (lignes de robots) |
-| Ch7 — Logistique | 182–212 | photos existantes (port, conteneurs, quais, entrepôt) |
+| Ch3 — ERP / GPAO | 72–101 | `bg_erp_online.jpg` / `_b` (data centers) |
+| Ch3 — Stocks | 103–141 | `bg_stock_online.jpg` / `_b` (entrepôts, palettes) |
+| Ch4 — Prévisions | 143–160 | `bg_forecast_online.jpg` / `_b` (Bourse, NYSE) |
+| Ch5 — Kanban | 162–175 | `bg_kanban_online.jpg` / `_b` (murs de post-its) |
+| Ch6 — JAT / lean | 177–190 | `bg_lean_online.jpg` / `_b` (lignes de robots) |
+| Ch7 — Logistique | 192–224 | photos existantes (port, conteneurs, quais, entrepôt) |
 
-Intercalaires (3, 11, 31, 50, 71, 100, 138, 155, 168, 181) : fond photo à la
+Intercalaires (3, 11, 31, 50, 71, 102, 142, 161, 176, 191) : fond photo à la
 place du rouge uni, avec le picto du chapitre agrandi en bas à droite.
 
 - **Variations intra-chapitre** : alternance des 2 variantes toutes les 2 slides,
@@ -80,8 +97,8 @@ place du rouge uni, avec le picto du chapitre agrandi en bas à droite.
   `match_bg.py` (retrouve l'origine d'un fond par empreinte dHash),
   `fix_credits.py`, `final_sheet.py` (planche de contrôle).
 - Vérification **visuelle** : slides 32, 45, 60, 70, 95, 100, 130, 137, 150,
-  154, 165, 167, 178, 180, 196, 212 + contrôle que 1, 20 et les intercalaires
-  31 / 138 / 155 / 168 / 181 sont inchangés.
+  154, 165, 167, 178, 180, 206, 224 + contrôle que 1, 20 et les intercalaires
+  31 / 142 / 161 / 176 / 191 sont inchangés.
 
 > Génération d'images par IA (MiniMax H3, Grok Imagine) **indisponible** :
 > « Insufficient balance » sur le compte OpenCode Models. Toutes les images
@@ -91,15 +108,17 @@ place du rouge uni, avec le picto du chapitre agrandi en bas à droite.
 
 Le contenu était centré verticalement (`justify-content:center`) : les slides
 peu remplies affichaient un grand vide en haut et un titre trop bas.
-`update/_tools/build_title_align.py` passe 202 slides en
+`update/_tools/build_title_align.py` passe 214 slides en
 `justify-content:flex-start; padding-top:13vh` (exclusion slide 1 + intercalaires
-3, 31, 50, 71, 100, 138, 155, 168, 181), avec compactage spécifique de la
-slide 196 pour que la note reste au-dessus du compteur.
+3, 31, 50, 71, 102, 142, 161, 176, 191), avec compactage spécifique de la
+slide 206 pour que la note reste au-dessus du compteur.
 
 ## Objectif global
 
 > Les tableaux historiques des tranches ci-dessous utilisent l'ancienne
-> numérotation (avant l'ajout des 2 quiz) : ajouter +2 aux numéros ≥ 69.
+> numérotation (avant l'ajout des quiz) : ajouter +2 aux numéros 69–212 pour
+> l'étape quiz du chapitre 2, puis +2 supplémentaires après chaque nouveau
+> point d'insertion (99, 137, 154, 167, 180, 212).
 
 Ajouter les **180 slides** de `slidsahre-file.pptx` (chaque slide = une image PNG,
 texte récupéré par OCR) **à la suite** de la présentation actuelle
