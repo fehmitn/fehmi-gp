@@ -2,6 +2,25 @@
 
 **Mis à jour :** 2026-11-25
 
+## ✅ Terminé — Gamification : 2 quiz à la fin du chapitre 2
+
+Deux nouvelles slides de quiz insérées après l'ancienne slide 68, sur le modèle
+des slides 29–30 (cartes à retourner, 4 réponses, ✅/❌ puis définition) :
+
+| Slide | Titre | Thèmes |
+|---|---|---|
+| 69 | Chapitre 2 — Quiz : la planification | PIC, PDP, calcul des besoins, plan de charge, ordonnancement, Gantt |
+| 70 | Chapitre 2 — Quiz : MRP / MRP2 et exploitation | besoins indépendants/dépendants, MRP2, conditions d'implantation, cercle pervers, cycle court, capacité |
+
+Chaque slide contient **6 questions** (12 au total), une bonne réponse et une
+définition par carte. Le script `update/_tools/add_ch2_quiz.py` a décalé les
+slides 69–210 en 71–212 : la présentation compte désormais **212 slides**.
+Les fond photo, l'alignement des titres, la Table des matières et les scripts
+de contrôle ont été recalculés en conséquence.
+
+Vérifié : rendu des slides 69 et 70, test interactif (`test_ch2_quiz.py` :
+retournement carte, mauvaise puis bonne réponse, verdict, définition, TOC → 71).
+
 ## ✅ Terminé — Table des matières (jump rapide par chapitre)
 
 Un petit bouton **☰** est placé à côté du champ de jump du numéro de slide.
@@ -13,17 +32,17 @@ un clic saute directement au début du chapitre. Raccourci clavier **T**
 |---|---|
 | 3 | Chapitre 1 — Fonction production dans l'entreprise |
 | 31 | Chapitre 2 — Planification |
-| 69 | Chapitre 3 — Données techniques & GPAO / ERP |
-| 98 | Chapitre 3 — Gestion des stocks |
-| 136 | Chapitre 4 — Prévisions |
-| 153 | Chapitre 5 — Kanban |
-| 166 | Chapitre 6 — Juste à Temps |
-| 179 | Chapitre 7 — Logistique |
+| 71 | Chapitre 3 — Données techniques & GPAO / ERP |
+| 100 | Chapitre 3 — Gestion des stocks |
+| 138 | Chapitre 4 — Prévisions |
+| 155 | Chapitre 5 — Kanban |
+| 168 | Chapitre 6 — Juste à Temps |
+| 181 | Chapitre 7 — Logistique |
 
 Vérifié : rendu du panneau (`shot_toc.py`), bouton visible (`shot_counter.py`),
-test fonctionnel (`test_toc.py` : 8 entrées, clic → slide 153, panneau refermé).
+test fonctionnel (`test_toc.py` : 8 entrées, clic → slide 155, panneau refermé).
 
-## ✅ Terminé — Fonds photo par chapitre (slides 32–210)
+## ✅ Terminé — Fonds photo par chapitre (slides 32–212)
 
 Chaque chapitre a désormais **un thème visuel de fond**, appliqué uniquement aux
 slides qui n'avaient pas d'image (les slides 1–30 gardent leurs photos
@@ -31,21 +50,21 @@ d'origine).
 
 **Les intercalaires de chapitre n'ont plus de dégradé rouge uni** : ils
 utilisent le fond photo de leur chapitre, avec un voile sombre, le titre placé
-en haut (28 vh) et le picto en grand en bas à droite (31, 50, 69, 98, 136, 153,
-166, 179). La slide 11 (restée rouge par erreur) est passée en fond photo et
+en haut (28 vh) et le picto en grand en bas à droite (31, 50, 71, 100, 138, 155,
+168, 181). La slide 11 (restée rouge par erreur) est passée en fond photo et
 alignée comme les autres slides de contenu.
 
 | Chapitre | Slides | Images |
 |---|---|---|
-| Ch2 — Planification | 32–49, 51–68 | `bg_planning_online.jpg` / `_b` (salles de contrôle, NASA) |
-| Ch3 — ERP / GPAO | 70–97 | `bg_erp_online.jpg` / `_b` (data centers) |
-| Ch3 — Stocks | 99–135 | `bg_stock_online.jpg` / `_b` (entrepôts, palettes) |
-| Ch4 — Prévisions | 137–152 | `bg_forecast_online.jpg` / `_b` (Bourse, NYSE) |
-| Ch5 — Kanban | 154–165 | `bg_kanban_online.jpg` / `_b` (murs de post-its) |
-| Ch6 — JAT / lean | 167–178 | `bg_lean_online.jpg` / `_b` (lignes de robots) |
-| Ch7 — Logistique | 180–210 | photos existantes (port, conteneurs, quais, entrepôt) |
+| Ch2 — Planification | 32–49, 51–70 | `bg_planning_online.jpg` / `_b` (salles de contrôle, NASA) |
+| Ch3 — ERP / GPAO | 72–99 | `bg_erp_online.jpg` / `_b` (data centers) |
+| Ch3 — Stocks | 101–137 | `bg_stock_online.jpg` / `_b` (entrepôts, palettes) |
+| Ch4 — Prévisions | 139–154 | `bg_forecast_online.jpg` / `_b` (Bourse, NYSE) |
+| Ch5 — Kanban | 156–167 | `bg_kanban_online.jpg` / `_b` (murs de post-its) |
+| Ch6 — JAT / lean | 169–180 | `bg_lean_online.jpg` / `_b` (lignes de robots) |
+| Ch7 — Logistique | 182–212 | photos existantes (port, conteneurs, quais, entrepôt) |
 
-Intercalaires (3, 11, 31, 50, 69, 98, 136, 153, 166, 179) : fond photo à la
+Intercalaires (3, 11, 31, 50, 71, 100, 138, 155, 168, 181) : fond photo à la
 place du rouge uni, avec le picto du chapitre agrandi en bas à droite.
 
 - **Variations intra-chapitre** : alternance des 2 variantes toutes les 2 slides,
@@ -61,8 +80,8 @@ place du rouge uni, avec le picto du chapitre agrandi en bas à droite.
   `match_bg.py` (retrouve l'origine d'un fond par empreinte dHash),
   `fix_credits.py`, `final_sheet.py` (planche de contrôle).
 - Vérification **visuelle** : slides 32, 45, 60, 70, 95, 100, 130, 137, 150,
-  154, 165, 167, 178, 180, 194, 210 + contrôle que 1, 20 et les intercalaires
-  31 / 136 / 153 / 166 / 179 sont inchangés.
+  154, 165, 167, 178, 180, 196, 212 + contrôle que 1, 20 et les intercalaires
+  31 / 138 / 155 / 168 / 181 sont inchangés.
 
 > Génération d'images par IA (MiniMax H3, Grok Imagine) **indisponible** :
 > « Insufficient balance » sur le compte OpenCode Models. Toutes les images
@@ -72,12 +91,15 @@ place du rouge uni, avec le picto du chapitre agrandi en bas à droite.
 
 Le contenu était centré verticalement (`justify-content:center`) : les slides
 peu remplies affichaient un grand vide en haut et un titre trop bas.
-`update/_tools/build_title_align.py` passe 199 slides en
+`update/_tools/build_title_align.py` passe 202 slides en
 `justify-content:flex-start; padding-top:13vh` (exclusion slide 1 + intercalaires
-3, 11, 31, 50, 69, 98, 136, 153, 166, 179), avec compactage spécifique de la
-slide 194 pour que la note reste au-dessus du compteur.
+3, 31, 50, 71, 100, 138, 155, 168, 181), avec compactage spécifique de la
+slide 196 pour que la note reste au-dessus du compteur.
 
 ## Objectif global
+
+> Les tableaux historiques des tranches ci-dessous utilisent l'ancienne
+> numérotation (avant l'ajout des 2 quiz) : ajouter +2 aux numéros ≥ 69.
 
 Ajouter les **180 slides** de `slidsahre-file.pptx` (chaque slide = une image PNG,
 texte récupéré par OCR) **à la suite** de la présentation actuelle

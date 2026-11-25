@@ -2,13 +2,13 @@
 """Ajoute un fond photo thematique par chapitre aux slides qui n'en ont pas.
 
 Chapitres concernes (les intercalaires rouges sont exclus) :
-  Ch2 Planification : 32-49, 51-68   -> bg_planning_online(.jpg/_b.jpg)
-  Ch3 ERP/GPAO      : 70-97          -> bg_erp_online(.jpg/_b.jpg)
-  Ch3 Stocks        : 99-135         -> bg_stock_online(.jpg/_b.jpg)
-  Ch4 Previsions    : 137-152        -> bg_forecast_online(.jpg/_b.jpg)
-  Ch5 Kanban        : 154-165        -> bg_kanban_online(.jpg/_b.jpg)
-  Ch6 JAT / lean    : 167-178        -> bg_lean_online(.jpg/_b.jpg)
-  Ch7 Logistique    : 180-210        -> photos existantes (port, conteneurs, quais)
+  Ch2 Planification : 32-49, 51-70   -> bg_planning_online(.jpg/_b.jpg)
+  Ch3 ERP/GPAO      : 72-99          -> bg_erp_online(.jpg/_b.jpg)
+  Ch3 Stocks        : 101-137        -> bg_stock_online(.jpg/_b.jpg)
+  Ch4 Previsions    : 139-154        -> bg_forecast_online(.jpg/_b.jpg)
+  Ch5 Kanban        : 156-167        -> bg_kanban_online(.jpg/_b.jpg)
+  Ch6 JAT / lean    : 169-180        -> bg_lean_online(.jpg/_b.jpg)
+  Ch7 Logistique    : 182-212        -> photos existantes (port, conteneurs, quais)
 
 Petites variations dans un chapitre : alternance des 2 variantes d'image, cadrage
 decale (center / left / right / haut / bas) et voile sombre legerement module.
@@ -25,19 +25,19 @@ PATH = r"C:\ppt\index.html"
 MARK = "/* ===== FONDS PHOTO PAR CHAPITRE ===== */"
 
 CHAPTERS = [
-    ("Chapitre 2 — Planification", list(range(32, 50)) + list(range(51, 69)),
+    ("Chapitre 2 — Planification", list(range(32, 50)) + list(range(51, 71)),
      ["bg_planning_online.jpg", "bg_planning_online_b.jpg"]),
-    ("Chapitre 3 — ERP / GPAO", list(range(70, 98)),
+    ("Chapitre 3 — ERP / GPAO", list(range(72, 100)),
      ["bg_erp_online.jpg", "bg_erp_online_b.jpg"]),
-    ("Chapitre 3 — Gestion des stocks", list(range(99, 136)),
+    ("Chapitre 3 — Gestion des stocks", list(range(101, 138)),
      ["bg_stock_online.jpg", "bg_stock_online_b.jpg"]),
-    ("Chapitre 4 — Prévisions", list(range(137, 153)),
+    ("Chapitre 4 — Prévisions", list(range(139, 155)),
      ["bg_forecast_online.jpg", "bg_forecast_online_b.jpg"]),
-    ("Chapitre 5 — Kanban", list(range(154, 166)),
+    ("Chapitre 5 — Kanban", list(range(156, 168)),
      ["bg_kanban_online.jpg", "bg_kanban_online_b.jpg"]),
-    ("Chapitre 6 — Juste-à-temps / lean", list(range(167, 179)),
+    ("Chapitre 6 — Juste-à-temps / lean", list(range(169, 181)),
      ["bg_lean_online.jpg", "bg_lean_online_b.jpg"]),
-    ("Chapitre 7 — Logistique", list(range(180, 211)),
+    ("Chapitre 7 — Logistique", list(range(182, 213)),
      ["bg_port_day.jpg", "bg_container_load.jpg", "bg_night_dock.jpg",
       "bg_palletizing.jpg", "bg_warehouse_dark.jpg", "bg_port_dusk.jpg",
       "bg_warehouse_rack.jpg"]),
@@ -53,12 +53,12 @@ SEPARATORS = [
     (11, "bg_robots_yellow.jpg", "center 50%", .82, .92),
     (31, "bg_planning_online.jpg", "center 45%", .80, .90),
     (50, "bg_planning_online_b.jpg", "center 50%", .80, .90),
-    (69, "bg_erp_online.jpg", "center 45%", .80, .90),
-    (98, "bg_stock_online.jpg", "center 45%", .80, .90),
-    (136, "bg_forecast_online.jpg", "center 45%", .86, .94),
-    (153, "bg_kanban_online.jpg", "center 50%", .80, .90),
-    (166, "bg_lean_online.jpg", "center 50%", .80, .90),
-    (179, "bg_port_dusk.jpg", "center 50%", .80, .90),
+    (71, "bg_erp_online.jpg", "center 45%", .80, .90),
+    (100, "bg_stock_online.jpg", "center 45%", .80, .90),
+    (138, "bg_forecast_online.jpg", "center 45%", .86, .94),
+    (155, "bg_kanban_online.jpg", "center 50%", .80, .90),
+    (168, "bg_lean_online.jpg", "center 50%", .80, .90),
+    (181, "bg_port_dusk.jpg", "center 50%", .80, .90),
 ]
 
 

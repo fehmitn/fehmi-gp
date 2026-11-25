@@ -6,7 +6,7 @@ peu remplies avaient un grand vide en haut et un titre trop bas. On passe en
 justify-content:flex-start avec un padding-top constant (13%), ce qui aligne
 tous les titres a la meme hauteur et laisse le vide en bas.
 
-Exclus : slide 1 (titre), intercalaires 3, 11, 31, 50, 69, 98, 136, 153, 166, 179.
+Exclus : slide 1 (titre), intercalaires 3, 31, 50, 71, 100, 138, 155, 168, 181.
 """
 import io
 import re
@@ -17,8 +17,8 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="repla
 PATH = r"C:\ppt\index.html"
 MARK = "/* ===== Alignement vertical des titres ===== */"
 
-SKIP = {1, 3, 31, 50, 69, 98, 136, 153, 166, 179}
-nums = [n for n in range(1, 211) if n not in SKIP]
+SKIP = {1, 3, 31, 50, 71, 100, 138, 155, 168, 181}
+nums = [n for n in range(1, 213) if n not in SKIP]
 
 selectors = ",\n".join(f".slide{n}" for n in nums)
 CSS = (
@@ -27,9 +27,9 @@ CSS = (
     + selectors
     + " {\n  justify-content:flex-start;\n  padding-top:13vh;\n}\n"
     "/* Slides denses : grille reduite pour garder la note au-dessus du compteur */\n"
-    ".slide194 .def-grid { height:54%; gap:1.6% 2%; margin-top:.6%; }\n"
-    ".slide194 .ss-fx { margin:.4% auto; }\n"
-    ".slide194 .ss-note { font-size:1.25vw; margin-top:.3%; }\n"
+    ".slide196 .def-grid { height:54%; gap:1.6% 2%; margin-top:.6%; }\n"
+    ".slide196 .ss-fx { margin:.4% auto; }\n"
+    ".slide196 .ss-note { font-size:1.25vw; margin-top:.3%; }\n"
 )
 
 with open(PATH, encoding="utf-8") as f:
