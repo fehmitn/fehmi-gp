@@ -1,6 +1,27 @@
 # 📍 État du chantier — Ajout des 180 slides slideshare
 
-**Mis à jour :** 2026-11-24
+**Mis à jour :** 2026-11-25
+
+## ✅ Terminé — Table des matières (jump rapide par chapitre)
+
+Un petit bouton **☰** est placé à côté du champ de jump du numéro de slide.
+Il ouvre un panneau « Table des matières » listant les 8 entrées de chapitre ;
+un clic saute directement au début du chapitre. Raccourci clavier **T**
+(panneau fermé par **Échap** ou clic hors de la fenêtre).
+
+| Slide | Chapitre |
+|---|---|
+| 3 | Chapitre 1 — Fonction production dans l'entreprise |
+| 31 | Chapitre 2 — Planification |
+| 69 | Chapitre 3 — Données techniques & GPAO / ERP |
+| 98 | Chapitre 3 — Gestion des stocks |
+| 136 | Chapitre 4 — Prévisions |
+| 153 | Chapitre 5 — Kanban |
+| 166 | Chapitre 6 — Juste à Temps |
+| 179 | Chapitre 7 — Logistique |
+
+Vérifié : rendu du panneau (`shot_toc.py`), bouton visible (`shot_counter.py`),
+test fonctionnel (`test_toc.py` : 8 entrées, clic → slide 153, panneau refermé).
 
 ## ✅ Terminé — Fonds photo par chapitre (slides 32–210)
 

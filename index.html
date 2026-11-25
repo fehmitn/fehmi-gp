@@ -498,6 +498,36 @@ html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans
   transition:all .25s ease; letter-spacing:1px;
 }
 .jump button:hover { background:#f39c12; color:#16130a; border-color:transparent; }
+
+/* ---------- Table des matières ---------- */
+.toc-panel {
+  position:fixed; inset:0; z-index:90; background:rgba(8,12,24,.82);
+  display:none; align-items:center; justify-content:center; backdrop-filter:blur(4px);
+}
+.toc-panel.open { display:flex; }
+.toc-card {
+  background:linear-gradient(150deg,#16233f,#0d1526);
+  border:1px solid rgba(243,156,18,.45); border-radius:16px;
+  padding:2.4vh 2vw; width:min(46vw,640px); max-height:82vh; overflow:auto;
+  box-shadow:0 24px 70px rgba(0,0,0,.6);
+}
+.toc-card h3 { margin:0 0 1.6vh; color:#f39c12; font-size:1.8vw; letter-spacing:2px; }
+.toc-list { display:flex; flex-direction:column; gap:.6vh; }
+.toc-item {
+  display:flex; align-items:center; gap:1vw; text-align:left; width:100%;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+  border-radius:10px; color:#ecf0f1; font-size:1.15vw; padding:1vh 1vw; cursor:pointer;
+  transition:all .2s ease;
+}
+.toc-item:hover { background:rgba(243,156,18,.18); border-color:#f39c12; }
+.toc-item .n { color:#f39c12; font-weight:800; font-size:1.3vw; min-width:2.4vw; }
+.toc-item .num { margin-left:auto; opacity:.6; font-size:.9vw; }
+.toc-close {
+  display:block; margin:1.6vh 0 0 auto; background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.3); border-radius:8px; color:#fff;
+  padding:.4vw 1vw; font-size:1vw; cursor:pointer;
+}
+.toc-close:hover { background:#f39c12; color:#16130a; }
 .dots { position:fixed; bottom:3%; left:50%; transform:translateX(-50%); z-index:50; display:flex; gap:10px; }
 .dot { width:11px; height:11px; border-radius:50%; background:rgba(255,255,255,.3); cursor:pointer; transition:all .3s; }
 .dot.on { background:#f39c12; width:32px; border-radius:6px; }
@@ -5341,7 +5371,14 @@ html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans
 </div>
 
 <div class="counter"><b id="cur">1</b> / <span id="tot">210</span>
-  <span class="jump"><input id="jumpNum" type="number" min="1" step="1" placeholder="n°" aria-label="Numéro de slide"><button id="btnJump" title="Aller à la slide (Entrée)">⏎</button></span>
+  <span class="jump"><input id="jumpNum" type="number" min="1" step="1" placeholder="n°" aria-label="Numéro de slide"><button id="btnJump" title="Aller à la slide (Entrée)">⏎</button><button id="btnToc" title="Table des matières (T)">☰</button></span>
+</div>
+<div class="toc-panel" id="tocPanel">
+  <div class="toc-card">
+    <h3>Table des matières</h3>
+    <div class="toc-list" id="tocList"></div>
+    <button class="toc-close" id="tocClose">Fermer</button>
+  </div>
 </div>
 <div class="dots" id="dots"></div>
 <div class="controls">
@@ -5349,7 +5386,7 @@ html,body { width:100%; height:100%; overflow:hidden; font-family:'Poppins',sans
   <button class="ctrl-btn" id="btnFullscreen" title="Plein écran (F)">⛶</button>
   <button class="ctrl-btn" id="btnNext" title="Suivant (→)">›</button>
 </div>
-<div class="hint">Utilisez les flèches ← → de votre clavier pour naviguer</div>
+<div class="hint">← → pour naviguer · G : aller à une slide · T : table des matières</div>
 
 <script>
 const slides = document.querySelectorAll('.slide');
@@ -5444,12 +5481,20 @@ document.getElementById('btnNext').onclick = next;
 document.getElementById('btnPrev').onclick = prevSlideNav;
 
 document.addEventListener('keydown', e=>{
+  /* Panneau TOC ouvert : Échap ferme, les autres touches ne naviguent pas */
+  if(typeof tocPanel!=='undefined' && tocPanel.classList.contains('open')){
+    if(e.key==='Escape'){ e.preventDefault(); closeToc(); }
+    return;
+  }
   if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ') next();
   if(e.key==='ArrowLeft'||e.key==='PageUp') prevSlideNav();
   if(e.key==='f'||e.key==='F') toggleFullscreen();
   /* G : placer le curseur dans la zone jump (puis Entrée pour aller à la slide) */
   if((e.key==='g'||e.key==='G') && document.activeElement!==jumpInput){
     e.preventDefault(); jumpInput.focus(); jumpInput.select();
+  }
+  if((e.key==='t'||e.key==='T') && document.activeElement!==jumpInput){
+    e.preventDefault(); toggleToc();
   }
 });
 
@@ -5467,6 +5512,39 @@ jumpInput.addEventListener('keydown', e=>{
   if(e.key==='Enter') jumpTo(jumpInput.value);
   if(e.key==='Escape'){ jumpInput.value=''; jumpInput.blur(); }
 });
+
+/* ---------- TABLE DES MATIÈRES : jump vers le début d'un chapitre ---------- */
+const TOC = [
+  [3,   "Chapitre 1 — Fonction production dans l'entreprise"],
+  [31,  "Chapitre 2 — Planification"],
+  [69,  "Chapitre 3 — Données techniques & GPAO / ERP"],
+  [98,  "Chapitre 3 — Gestion des stocks"],
+  [136, "Chapitre 4 — Prévisions"],
+  [153, "Chapitre 5 — Kanban"],
+  [166, "Chapitre 6 — Juste à Temps"],
+  [179, "Chapitre 7 — Logistique"]
+];
+const tocPanel = document.getElementById('tocPanel');
+const tocList = document.getElementById('tocList');
+TOC.forEach(function(entry){
+  const n = entry[0];
+  const b = document.createElement('button');
+  b.className = 'toc-item';
+  const num = document.createElement('span'); num.className = 'n';
+  num.textContent = String(n).padStart(2,'0');
+  const label = document.createElement('span'); label.textContent = entry[1];
+  const slide = document.createElement('span'); slide.className = 'num';
+  slide.textContent = 'slide ' + n;
+  b.appendChild(num); b.appendChild(label); b.appendChild(slide);
+  b.onclick = function(){ closeToc(); go(n - 1); };
+  tocList.appendChild(b);
+});
+function openToc(){ tocPanel.classList.add('open'); }
+function closeToc(){ tocPanel.classList.remove('open'); }
+function toggleToc(){ tocPanel.classList.contains('open') ? closeToc() : openToc(); }
+document.getElementById('btnToc').onclick = toggleToc;
+document.getElementById('tocClose').onclick = closeToc;
+tocPanel.addEventListener('click', function(e){ if(e.target===tocPanel) closeToc(); });
 
 function toggleFullscreen(){
   if(!document.fullscreenElement) document.documentElement.requestFullscreen();
@@ -5486,7 +5564,7 @@ document.addEventListener('touchend', e=>{
 /* Avance au clic n'importe où — sauf sur les éléments interactifs
    (boutons, dots, cartes du quiz qui ont leur propre comportement) */
 document.addEventListener('click', e=>{
-  if(e.target.closest('.controls, .dots, .quiz-item, .counter, .jump')) return;
+  if(e.target.closest('.controls, .dots, .quiz-item, .counter, .jump, .toc-panel')) return;
   next();
 });
 
